@@ -11,24 +11,24 @@
 <style>
 :root {
   --bg: #f7f8f7;
-  --surface: #f7f8f7;
+  --surface: #ffffff;
   --fg: #0a0a0a;
   --muted: #737373;
-  --border: #e9eae9;
+  --border: #e5e5e5;
   --accent: #0f5132;
   --accent-bg: color-mix(in srgb, var(--accent) 12%, transparent);
-  --accent-border: #507861;
+  --accent-border: color-mix(in srgb, var(--accent) 50%, white);
   --accent-secondary: #f97316;
-  --success: #52c41a;
-  --success-bg: #f6ffed;
-  --warning: #faad14;
-  --warning-bg: #fffbe6;
-  --error: #ff4d4f;
-  --error-bg: #fff2f0;
+  --success: #16a34a;
+  --success-bg: color-mix(in srgb, var(--success) 10%, transparent);
+  --warning: #f97316;
+  --warning-bg: color-mix(in srgb, var(--warning) 15%, transparent);
+  --error: #b91c1c;
+  --error-bg: color-mix(in srgb, var(--error) 10%, transparent);
   --font-display: 'Cairo', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --font-body: 'Cairo', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --font-mono: ui-monospace, 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
-  --radius-sm: 9px;
+  --radius-sm: 14px;
   --radius: 14px;
   --radius-lg: 24px;
   --radius-xl: 28px;
@@ -402,13 +402,6 @@ nav .container {
 /* FAQ — simple fade-up for the whole container */
 .faq-list.reveal-child { animation-delay: .08s; }
 
-/* Float animation for phone mockup */
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-10px); }
-}
-.phone-frame { animation: float 6s ease-in-out infinite; }
-
 /* ---- Motion system (per-section orchestrated) ---- */
 
 /* 1. Hero entrance — cascading from top to bottom */
@@ -481,14 +474,12 @@ nav .container {
   .reveal-child,
   .reveal-child.in-view { opacity: 1 !important; transform: none !important; }
   .anim-fade-up, .anim-fade-down, .anim-scale-in { animation: none; opacity: 1; }
-  .phone-frame { animation: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .reveal-child,
   .reveal-child.in-view { opacity: 1; transform: none; transition: none !important; }
   .anim-fade-up, .anim-fade-down, .anim-scale-in { animation: none; opacity: 1; }
-  .phone-frame { animation: none; }
 }
 .section-label {
   display: block;
@@ -677,10 +668,12 @@ nav .container {
 .pricing-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--space-4);
+  gap: var(--space-5);
   align-items: start;
+  max-width: 1120px;
+  margin: 0 auto;
 }
-@media (min-width: 700px) {
+@media (min-width: 768px) {
   .pricing-grid { grid-template-columns: repeat(3, 1fr); }
 }
 
@@ -690,12 +683,12 @@ nav .container {
   align-items: center;
   justify-content: center;
   gap: var(--space-4);
-  margin-bottom: var(--space-6);
-  padding: var(--space-3) var(--space-5);
+  margin-bottom: var(--space-7);
+  padding: var(--space-2) var(--space-5);
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  max-width: 360px;
+  border-radius: 9999px;
+  max-width: 320px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -704,19 +697,22 @@ nav .container {
   font-weight: 500;
   color: var(--muted);
   white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
 }
 .pricing-toggle-label.active {
   color: var(--fg);
 }
 .pricing-toggle-switch {
   position: relative;
-  width: 56px;
-  height: 30px;
+  width: 48px;
+  height: 26px;
   background: var(--border);
   border-radius: 9999px;
   border: none;
   cursor: pointer;
-  transition: background .2s;
+  transition: background .25s;
+  flex-shrink: 0;
 }
 .pricing-toggle-switch.active {
   background: var(--accent);
@@ -725,301 +721,205 @@ nav .container {
   content: '';
   position: absolute;
   top: 2px;
-  right: 2px;
-  width: 26px;
-  height: 26px;
+  left: 2px;
+  width: 22px;
+  height: 22px;
   background: #fff;
   border-radius: 50%;
   box-shadow: 0 2px 6px rgba(0,0,0,0.12);
-  transition: transform .2s cubic-bezier(.2, 1, .36, 1);
+  transition: transform .25s cubic-bezier(.2, 1, .36, 1);
 }
 .pricing-toggle-switch.active::after {
-  transform: translateX(-26px);
+  transform: translateX(22px);
 }
 .pricing-toggle-save {
-  font-size: 12px;
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
   font-weight: 700;
   color: var(--accent);
   background: color-mix(in srgb, var(--accent) 10%, transparent);
-  padding: 2px 8px;
+  padding: 1px 7px;
   border-radius: 20px;
   white-space: nowrap;
+  letter-spacing: 0.02em;
 }
 
-/* Pricing cards enhanced */
-  .pricing-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: var(--space-6);
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-5);
-    transition: box-shadow .2s, border-color .2s, transform .2s;
-  }
-  .pricing-card:hover { 
-    box-shadow: 0 8px 28px -12px rgba(0,0,0,0.08);
-    transform: translateY(-2px);
-  }
-  .pricing-card.popular {
-    border-width: 2px;
-    border-color: var(--accent);
-    box-shadow: 0 12px 32px var(--accent-bg);
-  }
-  .pricing-card.popular:hover {
-    box-shadow: 0 16px 40px var(--accent-bg);
-    transform: translateY(-2px);
-  }
-  .pricing-name {
-    font-family: var(--font-display);
-    font-size: 13px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--muted);
-  }
-  .pricing-price {
-    display: flex;
-    align-items: baseline;
-    gap: 4px;
-  }
-  .pricing-amount {
-    font-family: var(--font-display);
-    font-size: 44px;
-    font-weight: 700;
-    line-height: 1;
-    color: var(--fg);
-    letter-spacing: -0.03em;
-  }
-  .pricing-currency {
-    font-family: var(--font-body);
-    font-size: 18px;
-    font-weight: 600;
-    color: var(--muted);
-  }
-  .pricing-period {
-    font-size: 14px;
-    color: var(--muted);
-    margin-top: 2px;
-  }
-  .pricing-annual-save {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--accent);
-    background: color-mix(in srgb, var(--accent) 10%, transparent);
-    padding: 2px 8px;
-    border-radius: 20px;
-    margin-top: 4px;
-  }
-  .pricing-desc {
-    font-size: 14px;
-    color: var(--muted);
-    line-height: 1.6;
-    margin: 0;
-  }
-  .pricing-divider {
-    height: 1px;
-    background: var(--border);
-    border: none;
-    margin: 0;
-  }
-
-  /* Feature categories */
-  .pricing-features {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-4);
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    flex: 1;
-  }
-  .pricing-feature-category {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-  }
-  .pricing-feature-category-title {
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--muted);
-    padding-right: 22px;
-  }
-  .pricing-features li {
-    display: flex;
-    align-items: flex-start;
-    gap: var(--space-2);
-    font-size: 14px;
-    color: var(--fg);
-    line-height: 1.5;
-  }
-  .pricing-features li svg {
-    width: 18px;
-    height: 18px;
-    stroke: var(--success);
-    stroke-width: 2.5;
-    fill: none;
-    flex-shrink: 0;
-    margin-top: 1.5px;
-  }
-  .pricing-features li.muted {
-    color: color-mix(in srgb, var(--muted) 55%, transparent);
-  }
-  .pricing-features li.muted svg {
-    stroke: var(--border);
-  }
-  .pricing-features li.accent-secondary svg {
-    stroke: var(--accent-secondary);
-  }
-  .pricing-card .btn {
-    margin-top: auto;
-    width: 100%;
-  }
-
-  /* Trust badges under pricing */
-  .pricing-trust {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: var(--space-3);
-    margin-top: var(--space-7);
-    padding-top: var(--space-6);
-    border-top: 1px solid var(--border);
-  }
-  .pricing-trust-item {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 13px;
-    color: var(--muted);
-    background: var(--surface);
-    border: 1px solid var(--border);
-    padding: 8px 14px;
-    border-radius: var(--radius-sm);
-  }
-  .pricing-trust-item svg {
-    width: 16px;
-    height: 16px;
-    stroke: var(--accent);
-    stroke-width: 2;
-    fill: none;
-  }
-
-  /* Comparison table (desktop only) */
-  .pricing-comparison {
-    display: none;
-    overflow-x: auto;
-    margin-top: var(--space-7);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    background: var(--surface);
-  }
-@media (min-width: 1024px) {
-  .pricing-comparison { display: block; }
-}
-.comparison-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 14px;
-}
-.comparison-table th,
-.comparison-table td {
-  padding: var(--space-4) var(--space-5);
-  text-align: right;
-  border-bottom: 1px solid var(--border);
-}
-.comparison-table th:first-child,
-.comparison-table td:first-child {
-  position: sticky;
-  right: 0;
+/* Pricing cards */
+.pricing-card {
   background: var(--surface);
-  z-index: 1;
-  font-weight: 500;
-  color: var(--fg);
-  width: 220px;
-}
-.comparison-table th {
-  background: color-mix(in srgb, var(--bg) 60%, transparent);
-  font-weight: 600;
-  font-size: 13px;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--muted);
-}
-.comparison-table tr:last-child td { border-bottom: none; }
-.comparison-table td {
-  color: var(--muted);
-}
-.comparison-table td.included {
-  color: var(--success);
-}
-.comparison-table td.included::before {
-  content: '';
-  display: inline-block;
-  width: 18px;
-  height: 18px;
-  margin-left: 6px;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2352c41a' stroke-width='2.5'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E") center/contain no-repeat;
-  flex-shrink: 0;
-}
-.comparison-table td.excluded::before {
-  content: '';
-  display: inline-block;
-  width: 18px;
-  height: 18px;
-  margin-left: 6px;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e9eae9' stroke-width='2'%3E%3Cpath d='M18 6L6 18M6 6l12 12'/%3E%3C/svg%3E") center/contain no-repeat;
-  flex-shrink: 0;
-}
-.comparison-table .plan-header {
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: var(--space-6);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  padding-top: var(--space-5) !important;
-  padding-bottom: var(--space-5) !important;
+  gap: var(--space-5);
+  transition: box-shadow .25s, transform .25s;
+  position: relative;
 }
-.comparison-table .plan-name {
+.pricing-card:hover {
+  box-shadow: 0 12px 32px -12px rgba(0,0,0,0.08);
+  transform: translateY(-3px);
+}
+.pricing-card--popular {
+  border: 2px solid var(--accent);
+  box-shadow: 0 8px 28px -8px color-mix(in srgb, var(--accent) 20%, transparent);
+}
+.pricing-card--popular:hover {
+  box-shadow: 0 16px 40px -12px color-mix(in srgb, var(--accent) 25%, transparent);
+}
+.pricing-card__badge {
+  position: absolute;
+  top: -13px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  background: var(--accent);
+  padding: 4px 16px;
+  border-radius: 9999px;
+  white-space: nowrap;
+  letter-spacing: 0.03em;
+}
+.pricing-card__plan {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+.pricing-card__name {
   font-family: var(--font-display);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-.comparison-table .plan-price {
-  font-family: var(--font-display);
-  font-size: 28px;
-  font-weight: 700;
-  color: var(--fg);
-}
-.comparison-table .plan-period {
-  font-size: 12px;
+  letter-spacing: 0.08em;
   color: var(--muted);
 }
-.comparison-table .plan-popular {
-  background: var(--accent) !important;
-  color: #fff !important;
+.pricing-card__price {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+  flex-wrap: wrap;
 }
-.comparison-table .plan-popular .plan-name,
-.comparison-table .plan-popular .plan-price,
-.comparison-table .plan-popular .plan-period {
-  color: #fff !important;
+.pricing-card__amount {
+  display: flex;
+  align-items: baseline;
+  gap: 3px;
 }
-.comparison-table .category-row td {
-  background: color-mix(in srgb, var(--bg) 50%, transparent);
+.pricing-amount {
+  font-family: var(--font-display);
+  font-size: 40px;
   font-weight: 700;
+  line-height: 1.1;
+  color: var(--fg);
+  letter-spacing: -0.03em;
+}
+.pricing-card--popular .pricing-amount {
+  font-size: 44px;
+}
+.pricing-currency {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--muted);
+}
+.pricing-period {
+  font-size: 13px;
+  color: var(--muted);
+  width: 100%;
+}
+.pricing-card__annual-save {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   font-size: 12px;
+  font-weight: 600;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+.pricing-desc {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Feature groups inside cards */
+.pricing-card__features {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  flex: 1;
+}
+.pricing-card__feature-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.pricing-card__feature-group-label {
+  font-size: 11px;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: var(--muted);
-  padding: var(--space-3) var(--space-5);
+  color: color-mix(in srgb, var(--muted) 70%, transparent);
 }
-.comparison-table .category-row:first-child td { border-top: none; }
+.pricing-card__feature-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.pricing-card__feature-list li {
+  position: relative;
+  padding-right: 20px;
+  font-size: 14px;
+  color: var(--fg);
+  line-height: 1.5;
+}
+.pricing-card__feature-list li::before {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 6px;
+  width: 12px;
+  height: 12px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230f5132' stroke-width='3'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E") center/contain no-repeat;
+}
+.pricing-card .btn {
+  margin-top: auto;
+  width: 100%;
+}
+
+/* Trust badges */
+.pricing-trust {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+}
+.pricing-trust-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.pricing-trust-item svg {
+  width: 16px;
+  height: 16px;
+  stroke: var(--accent);
+  stroke-width: 2;
+  fill: none;
+  flex-shrink: 0;
+}
 /* FAQ */
 .faq-list { display:flex; flex-direction:column; gap:var(--space-3); max-width:760px; margin:0 auto; }
 .faq-item { border:1px solid var(--border); border-radius:var(--radius-lg); overflow:hidden; background:var(--surface); transition:box-shadow .2s; }
@@ -1051,26 +951,6 @@ nav .container {
   padding: clamp(56px, 8vw, 88px) 0;
   position: relative;
   overflow: hidden;
-}
-.cta-band::before {
-  content: '';
-  position: absolute;
-  top: -120px;
-  right: -80px;
-  width: 300px;
-  height: 300px;
-  border-radius: 50%;
-  background: color-mix(in srgb, #fff 6%, transparent);
-}
-.cta-band::after {
-  content: '';
-  position: absolute;
-  bottom: -100px;
-  left: -60px;
-  width: 240px;
-  height: 240px;
-  border-radius: 50%;
-  background: color-mix(in srgb, #000 8%, transparent);
 }
 .cta-band .container { position: relative; }
 .cta-band h2 {
@@ -1407,223 +1287,123 @@ footer {
 
     <!-- Pricing cards -->
     <div class="pricing-grid reveal-group" data-reveal-group>
-      
-      <!-- Starter Plan -->
-      <article class="pricing-card reveal-child" data-plan="starter">
-        <div class="pricing-name">مجاني</div>
-        <div class="pricing-price">
-          <span class="pricing-currency">ج.م</span>
-          <span class="pricing-amount" data-monthly="0" data-annual="0">0</span>
+
+      <!-- Starter -->
+      <article class="pricing-card reveal-child">
+        <div class="pricing-card__plan">
+          <span class="pricing-card__name">المبتدئ</span>
         </div>
-        <p class="pricing-period">/ شهر</p>
+        <div class="pricing-card__price">
+          <span class="pricing-card__amount">
+            <span class="pricing-currency">ج.م</span>
+            <span class="pricing-amount" data-monthly="0" data-annual="0">0</span>
+          </span>
+          <span class="pricing-period">/ شهر</span>
+        </div>
         <p class="pricing-desc">مثالي للتجار الجدد والمخازن الصغيرة</p>
-        <hr class="pricing-divider" />
-        
-        <ul class="pricing-features">
-          <li class="pricing-feature-category-title">المخزون والمنتجات</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> إدارة منتجات غير محدودة</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> فئات وتصنيفات مخصصة</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> تنبيهات المخزون المنخفض</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> باركود و QR Scanner</li>
-          <li class="muted"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> تعديلات مخزون متقدمة</li>
-          
-          <li class="pricing-feature-category-title">الفواتير والمبيعات</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> إنشاء فواتير بيع وشراء</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> خصومات ومرونة في الدفع</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> سجل الفواتير الكامل</li>
-          <li class="muted"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> فواتير متكررة / مجدولة</li>
-          <li class="muted"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> نقاط بيع (POS) متقدمة</li>
-          
-          <li class="pricing-feature-category-title">العملاء والديون</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> ملفات العملاء والموردين</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> تتبع الديون والمدفوعات</li>
-          <li class="muted"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> تقارير أرصدة العملاء</li>
-          <li class="muted"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> تذكيرات ديون آلية</li>
-          
-          <li class="pricing-feature-category-title">التقارير والفريق</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> تقارير مبيعات يومية/شهرية</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> تصدير Excel للتقارير</li>
-          <li class="muted"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> تحليلات متقدمة وربحية</li>
-          <li class="muted"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> صلاحيات فريق مرنة</li>
-          <li class="muted"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> شركات متعددة (Multi-company)</li>
-        </ul>
+        <div class="pricing-card__features">
+          <div class="pricing-card__feature-group">
+            <span class="pricing-card__feature-group-label">المخزون والمبيعات</span>
+            <ul class="pricing-card__feature-list">
+              <li>منتجات وفئات غير محدودة</li>
+              <li>فواتير بيع وشراء مع خصومات</li>
+              <li>باركود و QR Scanner</li>
+            </ul>
+          </div>
+          <div class="pricing-card__feature-group">
+            <span class="pricing-card__feature-group-label">العملاء والتقارير</span>
+            <ul class="pricing-card__feature-list">
+              <li>إدارة العملاء والديون</li>
+              <li>تقارير مبيعات + تصدير Excel</li>
+            </ul>
+          </div>
+        </div>
         <button class="btn btn-secondary" type="button">ابدأ مجاناً</button>
       </article>
 
-      <!-- Business Plan - Popular -->
-      <article class="pricing-card popular reveal-child" data-plan="business">
-        <div style="display:flex;justify-content:space-between;align-items:center;gap:var(--space-3);margin-bottom:var(--space-2);">
-          <div class="pricing-name">الأعمال</div>
-          <span style="display:inline-flex;align-items:center;height:var(--space-5);padding:0 var(--space-3);font-family:var(--font-body);font-size:var(--font-size-sm);line-height:1;color:var(--accent);background:var(--accent-bg);border:1px solid var(--accent-border);border-radius:var(--radius-sm);font-weight:600;">الأكثر شيوعاً</span>
+      <!-- Business (Popular) -->
+      <article class="pricing-card pricing-card--popular reveal-child">
+        <div class="pricing-card__badge">الأكثر شيوعاً</div>
+        <div class="pricing-card__plan">
+          <span class="pricing-card__name">الأعمال</span>
         </div>
-        <div class="pricing-price">
-          <span class="pricing-currency">ج.م</span>
-          <span class="pricing-amount" data-monthly="599" data-annual="5750">599</span>
+        <div class="pricing-card__price">
+          <span class="pricing-card__amount">
+            <span class="pricing-currency">ج.م</span>
+            <span class="pricing-amount" data-monthly="599" data-annual="5750">599</span>
+          </span>
+          <span class="pricing-period">/ شهر</span>
+          <span class="pricing-card__annual-save" id="business-save" style="display:none;">وفر 1,198 ج.م سنوياً</span>
         </div>
-        <p class="pricing-period">/ شهر</p>
-        <p class="pricing-annual-save" id="business-save" style="display:none;">وفر 1,198 ج.م سنوياً</p>
         <p class="pricing-desc">للمحلات النامية والفرق الصغيرة</p>
-        <hr class="pricing-divider" />
-        
-        <ul class="pricing-features">
-          <li class="pricing-feature-category-title">المخزون والمنتجات</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> إدارة منتجات غير محدودة</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> فئات وتصنيفات مخصصة</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> تنبيهات المخزون المنخفض</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> باركود و QR Scanner</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> تعديلات مخزون متقدمة</li>
-          
-          <li class="pricing-feature-category-title">الفواتير والمبيعات</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> إنشاء فواتير بيع وشراء</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> خصومات ومرونة في الدفع</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> سجل الفواتير الكامل</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> فواتير متكررة / مجدولة</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> نقاط بيع (POS) متقدمة</li>
-          
-          <li class="pricing-feature-category-title">العملاء والديون</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> ملفات العملاء والموردين</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> تتبع الديون والمدفوعات</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> تقارير أرصدة العملاء</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> تذكيرات ديون آلية</li>
-          
-          <li class="pricing-feature-category-title">التقارير والفريق</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> تقارير مبيعات يومية/شهرية</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> تصدير Excel للتقارير</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> تحليلات متقدمة وربحية</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> صلاحيات فريق مرنة (JSON)</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> شركات متعددة (Multi-company)</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> API وصول</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> دعم فني أولوية</li>
-        </ul>
+        <div class="pricing-card__features">
+          <div class="pricing-card__feature-group">
+            <span class="pricing-card__feature-group-label">المخزون والمبيعات</span>
+            <ul class="pricing-card__feature-list">
+              <li>كل ما في المجاني + تعديلات متقدمة</li>
+              <li>فواتير متكررة ومجدولة</li>
+              <li>نقاط بيع (POS) متقدمة</li>
+            </ul>
+          </div>
+          <div class="pricing-card__feature-group">
+            <span class="pricing-card__feature-group-label">العملاء والفريق</span>
+            <ul class="pricing-card__feature-list">
+              <li>تذكيرات ديون آلية + تقارير أرصدة</li>
+              <li>صلاحيات فريق مرنة (JSON)</li>
+              <li>شركات متعددة + API وصول</li>
+            </ul>
+          </div>
+        </div>
         <button class="btn btn-primary" type="button">جرب 14 يوم مجاناً</button>
       </article>
 
-      <!-- Enterprise Plan -->
-      <article class="pricing-card reveal-child" data-plan="enterprise">
-        <div class="pricing-name">المؤسسات</div>
-        <div class="pricing-price">
-          <span class="pricing-currency">ج.م</span>
-          <span class="pricing-amount" data-monthly="1499" data-annual="14390">1,499</span>
+      <!-- Enterprise -->
+      <article class="pricing-card reveal-child">
+        <div class="pricing-card__plan">
+          <span class="pricing-card__name">المؤسسات</span>
         </div>
-        <p class="pricing-period">/ شهر</p>
-        <p class="pricing-annual-save" id="enterprise-save" style="display:none;">وفر 2,998 ج.م سنوياً</p>
+        <div class="pricing-card__price">
+          <span class="pricing-card__amount">
+            <span class="pricing-currency">ج.م</span>
+            <span class="pricing-amount" data-monthly="1499" data-annual="14390">1,499</span>
+          </span>
+          <span class="pricing-period">/ شهر</span>
+          <span class="pricing-card__annual-save" id="enterprise-save" style="display:none;">وفر 2,998 ج.م سنوياً</span>
+        </div>
         <p class="pricing-desc">للموزعين والسلاسل الكبيرة</p>
-        <hr class="pricing-divider" />
-        
-        <ul class="pricing-features">
-          <li class="pricing-feature-category-title">المخزون والمنتجات</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> إدارة منتجات غير محدودة</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> فئات وتصنيفات مخصصة</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> تنبيهات المخزون المنخفض</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> باركود و QR Scanner</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> تعديلات مخزون متقدمة</li>
-          
-          <li class="pricing-feature-category-title">الفواتير والمبيعات</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> إنشاء فواتير بيع وشراء</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> خصومات ومرونة في الدفع</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> سجل الفواتير الكامل</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> فواتير متكررة / مجدولة</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> نقاط بيع (POS) متقدمة</li>
-          
-          <li class="pricing-feature-category-title">العملاء والديون</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> ملفات العملاء والموردين</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> تتبع الديون والمدفوعات</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> تقارير أرصدة العملاء</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> تذكيرات ديون آلية</li>
-          
-          <li class="pricing-feature-category-title">التقارير والفريق</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> تقارير مبيعات يومية/شهرية</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> تصدير Excel للتقارير</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> تحليلات متقدمة وربحية</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> صلاحيات فريق مرنة (JSON)</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> شركات غير محدودة</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> API وصول كامل</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> دعم فني مخصص</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> مدير حساب شخصي</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> SLA مضمون</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> تدريب الفريق</li>
-        </ul>
+        <div class="pricing-card__features">
+          <div class="pricing-card__feature-group">
+            <span class="pricing-card__feature-group-label">كل ميزات الأعمال</span>
+            <ul class="pricing-card__feature-list">
+              <li>شركات غير محدودة + API كامل</li>
+              <li>مدير حساب شخصي + دعم مخصص</li>
+              <li>SLA مضمون + تدريب فريق</li>
+            </ul>
+          </div>
+        </div>
         <button class="btn btn-secondary" type="button">تواصل مع المبيعات</button>
       </article>
     </div>
 
+
     <!-- Trust badges -->
     <div class="pricing-trust">
-      <div class="pricing-trust-item">
+      <span class="pricing-trust-item">
         <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
-        لا بطاقة ائتمان مطلوبة
-      </div>
-      <div class="pricing-trust-item">
+        لا بطاقة ائتمان
+      </span>
+      <span class="pricing-trust-item">
         <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
         إلغاء في أي وقت
-      </div>
-      <div class="pricing-trust-item">
+      </span>
+      <span class="pricing-trust-item">
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
         تجربة مجانية 14 يوم
-      </div>
-      <div class="pricing-trust-item">
+      </span>
+      <span class="pricing-trust-item">
         <svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-        ضمان استعادة المال 30 يوم
-      </div>
-    </div>
-
-    <!-- Comparison table (desktop only) -->
-    <div class="pricing-comparison" aria-label="جدول مقارنة تفصيلي للباقات">
-      <table class="comparison-table">
-        <thead>
-          <tr>
-            <th scope="col">الميزة</th>
-            <th scope="col" class="plan-header">
-              <span class="plan-name">مجاني</span>
-              <span class="plan-price"><span class="plan-currency">ج.م</span><span data-monthly="0" data-annual="0">0</span></span>
-              <span class="plan-period">/ شهر</span>
-            </th>
-            <th scope="col" class="plan-header plan-popular">
-              <span class="plan-name">الأعمال</span>
-              <span class="plan-price"><span class="plan-currency">ج.م</span><span data-monthly="599" data-annual="5750">599</span></span>
-              <span class="plan-period">/ شهر</span>
-            </th>
-            <th scope="col" class="plan-header">
-              <span class="plan-name">المؤسسات</span>
-              <span class="plan-price"><span class="plan-currency">ج.م</span><span data-monthly="1499" data-annual="14390">1,499</span></span>
-              <span class="plan-period">/ شهر</span>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="category-row"><td colspan="4">المخزون والمنتجات</td></tr>
-          <tr><th>إدارة منتجات غير محدودة</th><td class="included"></td><td class="included"></td><td class="included"></td></tr>
-          <tr><th>فئات وتصنيفات مخصصة</th><td class="included"></td><td class="included"></td><td class="included"></td></tr>
-          <tr><th>تنبيهات المخزون المنخفض</th><td class="included"></td><td class="included"></td><td class="included"></td></tr>
-          <tr><th>باركود و QR Scanner</th><td class="included"></td><td class="included"></td><td class="included"></td></tr>
-          <tr><th>تعديلات مخزون متقدمة</th><td class="excluded"></td><td class="included"></td><td class="included"></td></tr>
-          
-          <tr class="category-row"><td colspan="4">الفواتير والمبيعات</td></tr>
-          <tr><th>إنشاء فواتير بيع وشراء</th><td class="included"></td><td class="included"></td><td class="included"></td></tr>
-          <tr><th>خصومات ومرونة في الدفع</th><td class="included"></td><td class="included"></td><td class="included"></td></tr>
-          <tr><th>سجل الفواتير الكامل</th><td class="included"></td><td class="included"></td><td class="included"></td></tr>
-          <tr><th>فواتير متكررة / مجدولة</th><td class="excluded"></td><td class="included"></td><td class="included"></td></tr>
-          <tr><th>نقاط بيع (POS) متقدمة</th><td class="excluded"></td><td class="included"></td><td class="included"></td></tr>
-          
-          <tr class="category-row"><td colspan="4">العملاء والديون</td></tr>
-          <tr><th>ملفات العملاء والموردين</th><td class="included"></td><td class="included"></td><td class="included"></td></tr>
-          <tr><th>تتبع الديون والمدفوعات</th><td class="included"></td><td class="included"></td><td class="included"></td></tr>
-          <tr><th>تقارير أرصدة العملاء</th><td class="excluded"></td><td class="included"></td><td class="included"></td></tr>
-          <tr><th>تذكيرات ديون آلية</th><td class="excluded"></td><td class="included"></td><td class="included"></td></tr>
-          
-          <tr class="category-row"><td colspan="4">التقارير والفريق</td></tr>
-          <tr><th>تقارير مبيعات يومية/شهرية</th><td class="included"></td><td class="included"></td><td class="included"></td></tr>
-          <tr><th>تصدير Excel للتقارير</th><td class="included"></td><td class="included"></td><td class="included"></td></tr>
-          <tr><th>تحليلات متقدمة وربحية</th><td class="excluded"></td><td class="included"></td><td class="included"></td></tr>
-          <tr><th>صلاحيات فريق مرنة (JSON)</th><td class="excluded"></td><td class="included"></td><td class="included"></td></tr>
-          <tr><th>شركات متعددة</th><td class="excluded"></td><td class="included"></td><td class="included"></td></tr>
-          <tr><th>شركات غير محدودة</th><td class="excluded"></td><td class="excluded"></td><td class="included"></td></tr>
-          <tr><th>API وصول</th><td class="excluded"></td><td class="included"></td><td class="included"></td></tr>
-          <tr><th>دعم فني أولوية</th><td class="excluded"></td><td class="included"></td><td class="excluded"></td></tr>
-          <tr><th>دعم فني مخصص / مدير حساب</th><td class="excluded"></td><td class="excluded"></td><td class="included"></td></tr>
-          <tr><th>SLA مضمون / تدريب الفريق</th><td class="excluded"></td><td class="excluded"></td><td class="included"></td></tr>
-        </tbody>
-      </table>
+        ضمان 30 يوم
+      </span>
     </div>
   </div>
 </section>
@@ -1728,9 +1508,7 @@ footer {
   const businessSave = document.getElementById('business-save');
   const enterpriseSave = document.getElementById('enterprise-save');
   const amounts = document.querySelectorAll('.pricing-amount[data-monthly]');
-  const planPrices = document.querySelectorAll('.comparison-table .plan-price [data-monthly]');
   const periods = document.querySelectorAll('.pricing-period');
-  const planPeriods = document.querySelectorAll('.comparison-table .plan-period');
 
   let isAnnual = false;
 
@@ -1748,16 +1526,11 @@ footer {
       el.textContent = annual ? el.dataset.annual : el.dataset.monthly;
     });
     
-    planPrices.forEach(el => {
-      el.textContent = annual ? el.dataset.annual : el.dataset.monthly;
-    });
-
     if (businessSave) businessSave.style.display = annual ? 'inline-flex' : 'none';
     if (enterpriseSave) enterpriseSave.style.display = annual ? 'inline-flex' : 'none';
 
     const periodText = annual ? '/ سنة (تُفوتر سنوياً)' : '/ شهر';
     periods.forEach(el => { el.textContent = periodText; });
-    planPeriods.forEach(el => { el.textContent = periodText; });
   }
 
   toggle.addEventListener('click', () => updatePricing(!isAnnual));
@@ -1783,6 +1556,7 @@ footer {
       btn.parentElement.classList.toggle('open');
     });
   });
+
 })();
 </script>
 </body>
