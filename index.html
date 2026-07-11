@@ -1,0 +1,987 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>StockFlow — نظام إدارة المخازن والتوزيع للمحلات والسوبر ماركت</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" />
+<style>
+:root {
+  --bg: #f7f8f7;
+  --surface: #ffffff;
+  --fg: #0a0a0a;
+  --muted: #737373;
+  --border: #e5e5e5;
+  --accent: #0f5132;
+  --accent-secondary: #f97316;
+  --status-paid: #16a34a;
+  --status-partial: #f97316;
+  --status-debt: #b91c1c;
+  --font-display: 'Cairo', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'Cairo', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: ui-monospace, 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+  --radius-sm: 9px;
+  --radius: 14px;
+  --radius-lg: 24px;
+  --radius-xl: 28px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--fg);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+.container { max-width: 1120px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 40px); }
+
+/* Nav */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+}
+nav .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  gap: var(--space-5);
+}
+.nav-links {
+  display: flex;
+  gap: var(--space-5);
+  align-items: center;
+}
+.nav-links a {
+  color: var(--muted);
+  font-weight: 500;
+  transition: color .15s;
+  font-size: 15px;
+}
+.nav-links a:hover { color: var(--fg); }
+@media (max-width: 700px) { .nav-links { display: none; } }
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 20px;
+  color: var(--fg);
+  letter-spacing: -0.01em;
+}
+.logo img { height: 32px; width: auto; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 56px;
+  padding: 0 var(--space-5);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all .15s ease;
+  white-space: nowrap;
+}
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+  box-shadow: 0 2px 0 color-mix(in srgb, var(--accent) 85%, transparent);
+}
+.btn-primary:hover { filter: brightness(1.12); }
+.btn-secondary {
+  background: transparent;
+  color: var(--fg);
+  border-color: var(--border);
+}
+.btn-secondary:hover { border-color: var(--muted); background: color-mix(in srgb, var(--bg) 50%, transparent); }
+.btn-sm {
+  height: 36px;
+  padding: 0 var(--space-4);
+  font-size: 14px;
+  border-radius: var(--radius-sm);
+}
+.btn-primary-sm {
+  background: var(--accent);
+  color: #fff;
+  border: 1px solid var(--accent);
+  height: 36px;
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all .15s ease;
+  white-space: nowrap;
+}
+.btn-primary-sm:hover { filter: brightness(1.12); }
+.btn-outline-sm {
+  background: transparent;
+  border: 1px solid var(--border);
+  height: 36px;
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all .15s ease;
+  white-space: nowrap;
+  color: var(--muted);
+}
+.btn-outline-sm:hover { border-color: var(--muted); color: var(--fg); }
+
+/* Hero */
+.hero {
+  text-align: center;
+  padding: clamp(64px, 10vw, 120px) 0 clamp(24px, 4vw, 48px);
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+  padding: 0 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+  border-radius: 20px;
+  margin-bottom: var(--space-5);
+}
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 5.2vw, 58px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin: 0 auto var(--space-4);
+  max-width: 16ch;
+}
+.hero p {
+  font-size: clamp(17px, 2vw, 20px);
+  color: var(--muted);
+  max-width: 60ch;
+  margin: 0 auto var(--space-6);
+  line-height: 1.6;
+}
+.hero-actions {
+  display: flex;
+  gap: var(--space-3);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.hero-footnote {
+  margin-top: var(--space-4);
+  font-size: 14px;
+  color: var(--muted);
+}
+
+/* Trust strip */
+.trust-strip {
+  padding: var(--space-7) 0 var(--space-5);
+  text-align: center;
+}
+.trust-strip .label {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  margin-bottom: var(--space-5);
+}
+.trust-grid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(20px, 4vw, 48px);
+  flex-wrap: wrap;
+}
+.trust-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.trust-item .ar {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--fg);
+}
+.trust-item .en {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* Section */
+.section {
+  padding: clamp(56px, 8vw, 96px) 0;
+}
+.section-head {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto var(--space-7);
+}
+.section-kicker {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  margin-bottom: var(--space-3);
+}
+.section-head h2 {
+  font-family: var(--font-display);
+  font-size: clamp(26px, 3.4vw, 38px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  margin: 0 0 var(--space-3);
+}
+.section-head p {
+  font-size: 17px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* Feature cards */
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-4);
+}
+.feature-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  transition: box-shadow .2s;
+}
+.feature-card:hover { box-shadow: 0 8px 28px -12px rgba(0,0,0,0.08); }
+.feature-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  flex-shrink: 0;
+}
+.feature-icon svg { width: 24px; height: 24px; stroke: currentColor; stroke-width: 1.8; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.feature-card h3 {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.3;
+  margin: 0;
+}
+.feature-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* App mockup */
+.mockup-section {
+  background: var(--accent);
+  color: #fff;
+  overflow: hidden;
+  position: relative;
+}
+.mockup-section .container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-7);
+  align-items: center;
+  padding-top: clamp(48px, 7vw, 80px);
+  padding-bottom: clamp(48px, 7vw, 80px);
+}
+@media (max-width: 840px) {
+  .mockup-section .container { grid-template-columns: 1fr; text-align: center; }
+}
+.mockup-content h2 {
+  font-family: var(--font-display);
+  font-size: clamp(26px, 3.4vw, 36px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  margin: 0 0 var(--space-4);
+}
+.mockup-content p {
+  font-size: 17px;
+  line-height: 1.6;
+  opacity: 0.88;
+  margin: 0 0 var(--space-5);
+  max-width: 48ch;
+}
+.mockup-content .btn {
+  background: #fff;
+  color: var(--accent);
+  border: none;
+  box-shadow: none;
+}
+.mockup-content .btn:hover { background: color-mix(in srgb, #fff 92%, transparent); }
+.mockup-phone {
+  display: flex;
+  justify-content: center;
+}
+.phone-frame {
+  width: 280px;
+  height: 560px;
+  background: var(--surface);
+  border-radius: 36px;
+  padding: 12px;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.25);
+  position: relative;
+}
+.phone-frame::before {
+  content: '';
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 28px;
+  background: var(--fg);
+  border-radius: 0 0 16px 16px;
+  z-index: 2;
+}
+.phone-screen {
+  width: 100%;
+  height: 100%;
+  background: var(--bg);
+  border-radius: 28px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.phone-status {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 16px 4px;
+  font-size: 11px;
+  color: var(--fg);
+  font-weight: 600;
+  font-family: var(--font-mono);
+  direction: ltr;
+}
+.phone-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px 12px;
+}
+.phone-header svg { width: 28px; height: 28px; }
+.phone-header span {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 17px;
+  color: var(--accent);
+}
+.phone-cards {
+  padding: 0 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+.phone-card {
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.phone-card-dot {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+}
+.phone-card-content {
+  flex: 1;
+  min-width: 0;
+}
+.phone-card-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--fg);
+  line-height: 1.3;
+}
+.phone-card-sub {
+  font-size: 11px;
+  color: var(--muted);
+}
+.phone-card-amount {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--status-paid);
+  direction: ltr;
+}
+.phone-nav {
+  display: flex;
+  justify-content: space-around;
+  padding: 8px 12px 10px;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+}
+.phone-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  font-size: 10px;
+  color: var(--muted);
+}
+.phone-nav-item.active { color: var(--accent); }
+.phone-nav-item svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 1.8; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+
+/* Stats band */
+.stats-band {
+  padding: clamp(40px, 6vw, 64px) 0;
+  text-align: center;
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: var(--space-6);
+  max-width: 720px;
+  margin: 0 auto;
+}
+.stat-value {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 3.6vw, 42px);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--fg);
+  letter-spacing: -0.02em;
+  margin-bottom: var(--space-2);
+}
+.stat-label {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+/* Process */
+.process-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(20px, 3vw, 40px);
+}
+@media (max-width: 700px) { .process-grid { grid-template-columns: 1fr; } }
+.process-step {
+  text-align: center;
+}
+.process-num {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 16px;
+  margin: 0 auto var(--space-4);
+}
+.process-step h3 {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 0 var(--space-2);
+}
+.process-step p {
+  font-size: 15px;
+  color: var(--muted);
+  max-width: 32ch;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+.process-icon {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto var(--space-4);
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.process-icon svg { width: 32px; height: 32px; stroke: var(--accent); stroke-width: 1.6; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+
+/* CTA band */
+.cta-band {
+  background: var(--accent);
+  color: #fff;
+  text-align: center;
+  padding: clamp(56px, 8vw, 88px) 0;
+  position: relative;
+  overflow: hidden;
+}
+.cta-band::before {
+  content: '';
+  position: absolute;
+  top: -120px;
+  right: -80px;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: color-mix(in srgb, #fff 6%, transparent);
+}
+.cta-band::after {
+  content: '';
+  position: absolute;
+  bottom: -100px;
+  left: -60px;
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  background: color-mix(in srgb, #000 8%, transparent);
+}
+.cta-band .container { position: relative; }
+.cta-band h2 {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin: 0 auto var(--space-4);
+  max-width: 18ch;
+}
+.cta-band p {
+  font-size: 17px;
+  opacity: 0.88;
+  max-width: 520px;
+  margin: 0 auto var(--space-6);
+  line-height: 1.6;
+}
+.cta-band .btn {
+  background: #fff;
+  color: var(--accent);
+  border: none;
+  box-shadow: none;
+}
+.cta-band .btn:hover { background: color-mix(in srgb, #fff 92%, transparent); }
+
+/* Footer */
+footer {
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  padding: clamp(40px, 6vw, 64px) 0 32px;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: var(--space-6);
+}
+@media (max-width: 760px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+.footer-brand p {
+  font-size: 14px;
+  color: var(--muted);
+  max-width: 36ch;
+  margin: var(--space-3) 0 0;
+  line-height: 1.6;
+}
+.footer-col-title {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-bottom: var(--space-4);
+}
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.footer-links a {
+  font-size: 14px;
+  color: var(--muted);
+  transition: color .15s;
+}
+.footer-links a:hover { color: var(--fg); }
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  margin-top: var(--space-7);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--muted);
+}
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav>
+  <div class="container">
+    <a href="/" class="logo">
+      <img src="logos/stockflow-logo.png" alt="StockFlow" />
+    </a>
+    <div class="nav-links">
+      <a href="#features">المميزات</a>
+      <a href="#how">طريقة العمل</a>
+      <a href="#pricing">الباقات</a>
+      <a href="#faq">الأسئلة</a>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <button class="btn-outline-sm">تسجيل الدخول</button>
+      <button class="btn-primary-sm">ابدأ مجاناً</button>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-badge">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 6 7 .9-5 4.7 1.3 6.9L12 18l-6.3 3.5L7 14.6 2 9.9 9 9z"/></svg>
+      إدارة المخازن والتوزيع بالكامل من جوالك
+    </div>
+    <h1>حوّل جوالك إلى نظام متكامل لإدارة المخزن والتوزيع</h1>
+    <p>StockFlow هو نظام إدارة مخازن وتوزيع للمحلات والسوبر ماركت — فواتير، مخزون، ديون العملاء، تقارير، وتعاون الفريق. كل ده من جوالك و بالعربي.</p>
+    <div class="hero-actions">
+      <button class="btn btn-primary">ابدأ مجاناً</button>
+      <button class="btn btn-secondary">شوف طريقة الشغل</button>
+    </div>
+    <p class="hero-footnote">خطة مجانية · من غير ما تحط كارت · التجهيز في دقيقتين</p>
+  </div>
+</section>
+
+<!-- Trust strip -->
+<section class="trust-strip">
+  <div class="container">
+    <div class="label">ثقة المديرين والتجار في</div>
+    <div class="trust-grid">
+      <div class="trust-item">
+        <span class="ar">مخازن الجملة</span>
+        <span class="en">Wholesale warehouses</span>
+      </div>
+      <div class="trust-item">
+        <span class="ar">سلاسل السوبر ماركت</span>
+        <span class="en">Supermarket chains</span>
+      </div>
+      <div class="trust-item">
+        <span class="ar">موزعين مواد غذائية</span>
+        <span class="en">Food distributors</span>
+      </div>
+      <div class="trust-item">
+        <span class="ar">محلات التجزئة</span>
+        <span class="en">Retail stores</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+<section id="features" style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div class="section container">
+    <div class="section-head">
+      <span class="section-kicker">المميزات</span>
+      <h2>كل اللي تحتاجه عشان تدير مخزنك</h2>
+      <p>مخزون، فواتير، ديون، تقارير — كل حاجة في تطبيق واحد مصمم للسوق المصري.</p>
+    </div>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg>
+        </div>
+        <h3>إدارة المخزون</h3>
+        <p>تتبع المنتجات والكميات في كل المخازن. أدخل صنف جديد، عدّل الكمية، واعرف المنتجات اللي خلصت قبل ما تطلب من المورد.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        </div>
+        <h3>الفواتير</h3>
+        <p>إنشاء فواتير البيع والشراء بسرعة. اختر العميل، ضيف المنتجات، واطبع أو اتسحاب الفاتورة بصيغة Excel بضغطة واحدة.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        </div>
+        <h3>تتبع الديون</h3>
+        <p>سجل ديون العملاء والموردين. اعرف مين عليه فلوس ومين ليه فلوس عندك. ألوان واضحة: أخضر مدفوع، برتقالي part payments، أحمر متأخر.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h3>فريق العمل</h3>
+        <p>حدد صلاحيات كل فرد — مالك، مدير، موظف. كل واحد يشوف اللي يخصه ويسجل دخوله بشكل منفصل وكل التغييرات متسجلة.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-6.219-8.56"/><path d="M21 3v6h-6"/><path d="M3 12h4"/><path d="M17 12h4"/><path d="M12 3v4"/><path d="M12 17v4"/></svg>
+        </div>
+        <h3>التقارير والتحليلات</h3>
+        <p>كشف يومي وشهري بالمبيعات والمخزون والأرباح. تقارير واضحة تساعدك تتخذ قرارات أسرع — تصدير Excel متاح لكل التقارير.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/></svg>
+        </div>
+        <h3>عربية أولاً</h3>
+        <p>التطبيق بالعربي الفصحى من البداية مش ترجمة. واجهة RTL تدعم الكتابة من اليمين لليسار، أزرار، قوائم، وتنقل سهل مصمم للسوق المصري.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- App mockup -->
+<section class="mockup-section">
+  <div class="container">
+    <div class="mockup-content">
+      <h2>شوف بنفسك — لوحة التحكم الرئيسية</h2>
+      <p>من أول ما تفتح التطبيق، كل الأرقام المهمة قدامك: مبيعات النهارده، عدد المنتجات، إجمالي الديون، وعدد العملاء. ضغطة واحدة توصل لكل حاجة.</p>
+      <button class="btn">ابدأ مجاناً</button>
+    </div>
+    <div class="mockup-phone">
+      <div class="phone-frame">
+        <div class="phone-screen">
+          <div class="phone-status">
+            <span>9:41</span>
+            <span>
+              <svg width="14" height="10" viewBox="0 0 14 10" fill="none" stroke="var(--fg)" stroke-width="1.2"><rect x="0.5" y="0.5" width="13" height="9" rx="2"/><path d="M2 2h10M2 5h10M2 8h5"/></svg>
+            </span>
+          </div>
+          <div class="phone-header">
+            <svg viewBox="0 0 24 24" fill="var(--accent)"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+            <span>StockFlow</span>
+          </div>
+          <div class="phone-cards">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+              <div style="background:var(--surface);border-radius:12px;padding:10px;border:1px solid var(--border);text-align:center;">
+                <div style="font-size:10px;color:var(--muted);margin-bottom:2px;">مبيعات النهارده</div>
+                <div style="font-family:var(--font-mono);font-weight:700;font-size:16px;color:var(--fg);direction:ltr;">12,480 ج.م</div>
+              </div>
+              <div style="background:var(--surface);border-radius:12px;padding:10px;border:1px solid var(--border);text-align:center;">
+                <div style="font-size:10px;color:var(--muted);margin-bottom:2px;">المنتجات</div>
+                <div style="font-family:var(--font-mono);font-weight:700;font-size:16px;color:var(--fg);direction:ltr;">346</div>
+              </div>
+              <div style="background:var(--surface);border-radius:12px;padding:10px;border:1px solid var(--border);text-align:center;">
+                <div style="font-size:10px;color:var(--muted);margin-bottom:2px;">إجمالي الديون</div>
+                <div style="font-family:var(--font-mono);font-weight:700;font-size:16px;color:var(--status-partial);direction:ltr;">8,240 <span style="font-size:12px;color:var(--muted);font-weight:400;">ج.م</span></div>
+              </div>
+              <div style="background:var(--surface);border-radius:12px;padding:10px;border:1px solid var(--border);text-align:center;">
+                <div style="font-size:10px;color:var(--muted);margin-bottom:2px;">العملاء</div>
+                <div style="font-family:var(--font-mono);font-weight:700;font-size:16px;color:var(--fg);direction:ltr;">28</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:4px 0;">
+              <span style="font-size:13px;font-weight:600;color:var(--fg);">آخر الفواتير</span>
+              <span style="font-size:12px;color:var(--accent);font-weight:600;">عرض الكل</span>
+            </div>
+            <div class="phone-card">
+              <div class="phone-card-dot" style="background:var(--status-paid);">ف</div>
+              <div class="phone-card-content">
+                <div class="phone-card-title">فاتورة #1024 — أحمد السيد</div>
+                <div class="phone-card-sub">منذ 15 دقيقة · 14 صنف</div>
+              </div>
+              <div class="phone-card-amount" style="color:var(--status-paid);">2,450 ج.م</div>
+            </div>
+            <div class="phone-card">
+              <div class="phone-card-dot" style="background:var(--status-partial);">د</div>
+              <div class="phone-card-content">
+                <div class="phone-card-title">فاتورة #1023 — محمود علي</div>
+                <div class="phone-card-sub">منذ ساعة · 8 أصناف</div>
+              </div>
+              <div class="phone-card-amount" style="color:var(--status-partial);">1,200 ج.م</div>
+            </div>
+          </div>
+          <div class="phone-nav">
+            <div class="phone-nav-item active">
+              <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+              <span>الرئيسية</span>
+            </div>
+            <div class="phone-nav-item">
+              <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg>
+              <span>المخزون</span>
+            </div>
+            <div class="phone-nav-item">
+              <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              <span>الفواتير</span>
+            </div>
+            <div class="phone-nav-item">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+              <span>العملاء</span>
+            </div>
+            <div class="phone-nav-item">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+              <span>الإعدادات</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Stats -->
+<section class="stats-band">
+  <div class="container">
+    <div class="stats-grid">
+      <div>
+        <div class="stat-value">مخزون</div>
+        <div class="stat-label">تتبع المنتجات والكميات في كل المخازن — عرف كل حاجة فين</div>
+      </div>
+      <div>
+        <div class="stat-value">فواتير</div>
+        <div class="stat-label">إنشاء فواتير البيع والشراء بسرعة — تصدير Excel متاح</div>
+      </div>
+      <div>
+        <div class="stat-value">ديون</div>
+        <div class="stat-label">تتبع ديون العملاء والموردين — ألوان واضحة للحالة</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- How it works -->
+<section id="how" style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div class="section container">
+    <div class="section-head">
+      <span class="section-kicker">طريقة العمل</span>
+      <h2>جهز نفسك في ٣ خطوات</h2>
+      <p>مفيش مشروع ترحيل ولا أسبوعين setup. من دقيقة لدقيقة.</p>
+    </div>
+    <div class="process-grid">
+      <div class="process-step">
+        <div class="process-num">1</div>
+        <div class="process-icon">
+          <svg viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+        </div>
+        <h3>سجل و ضيف بياناتك</h3>
+        <p>حمل التطبيق، اعمل حساب، وضيف الشركة بتاعتك — اسم، عنوان، بيانات الضرائب.</p>
+      </div>
+      <div class="process-step">
+        <div class="process-num">2</div>
+        <div class="process-icon">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg>
+        </div>
+        <h3>ضيف المنتجات والعملاء</h3>
+        <p>ضيف أصناف المخزن والأسعار والكميات. استورد العملاء من Excel أو ضيفهم واحدة واحدة.</p>
+      </div>
+      <div class="process-step">
+        <div class="process-num">3</div>
+        <div class="process-icon">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <h3>ابدأ الشغل</h3>
+        <p>اعمل فواتير، تابع المخزون، وسجل الديون — وخلاص. كل حاجة شغالة معاك في الحال.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-band">
+  <div class="container">
+    <h2>استعد تتحكم في مخزنك من جوالك</h2>
+    <p>خطة مجانية مفيش أحسن منها. جرب النهارده.</p>
+    <button class="btn">ابدأ مجاناً — مجاناً</button>
+    <p class="hero-footnote" style="color:rgba(255,255,255,0.7);">2-minute setup · إلغاء في أي وقت</p>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <img src="logos/stockflow-logo.png" alt="StockFlow" style="height:24px;width:auto;" />
+        </div>
+        <p>نظام إدارة المخازن والتوزيع للمحلات وسلاسل السوبر ماركت — فواتير، مخزون، ديون، تقارير. عربي أولاً، مصمم للسوق المصري.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">المنتج</div>
+        <div class="footer-links">
+          <a href="#">المميزات</a>
+          <a href="#">الباقات</a>
+          <a href="#">تحديثات</a>
+          <a href="#">API</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">الشركة</div>
+        <div class="footer-links">
+          <a href="#">عن StockFlow</a>
+          <a href="#">المدونة</a>
+          <a href="#">وظائف</a>
+          <a href="#">اتصل بنا</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">مراجع</div>
+        <div class="footer-links">
+          <a href="#">التوثيق</a>
+          <a href="#">الدعم الفني</a>
+          <a href="#">سياسة الخصوصية</a>
+          <a href="#">الشروط</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2025 StockFlow · <a href="https://github.com/hazzemSaid/stockflow-app" target="_blank" style="text-decoration:underline;color:var(--muted);">GitHub</a></span>
+      <span>مهني · موثوق · واضح</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

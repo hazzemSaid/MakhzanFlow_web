@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "kind": "html",
+  "title": "stockflow-privacy.html",
+  "entry": "stockflow-privacy.html",
+  "renderer": "html",
+  "status": "complete",
+  "exports": [
+    "html",
+    "pdf",
+    "zip"
+  ],
+  "createdAt": "2026-07-10T14:41:56.440Z",
+  "updatedAt": "2026-07-10T14:41:56.440Z",
+  "metadata": {
+    "inferred": true,
+    "reconciled": true
+  }
+}

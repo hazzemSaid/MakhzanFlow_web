@@ -1,0 +1,1791 @@
+
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>StockFlow - نظام إدارة المخازن والتوزيع للمحلات والسوبر ماركت</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" />
+<style>
+:root {
+  --bg: #f7f8f7;
+  --surface: #f7f8f7;
+  --fg: #0a0a0a;
+  --muted: #737373;
+  --border: #e9eae9;
+  --accent: #0f5132;
+  --accent-bg: color-mix(in srgb, var(--accent) 12%, transparent);
+  --accent-border: #507861;
+  --accent-secondary: #f97316;
+  --success: #52c41a;
+  --success-bg: #f6ffed;
+  --warning: #faad14;
+  --warning-bg: #fffbe6;
+  --error: #ff4d4f;
+  --error-bg: #fff2f0;
+  --font-display: 'Cairo', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'Cairo', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: ui-monospace, 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+  --radius-sm: 9px;
+  --radius: 14px;
+  --radius-lg: 24px;
+  --radius-xl: 28px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--fg);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+.container { max-width: 1120px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 40px); }
+
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+}
+nav .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  gap: var(--space-5);
+}
+.nav-links {
+  display: flex;
+  gap: var(--space-5);
+  align-items: center;
+}
+.nav-links a {
+  color: var(--muted);
+  font-weight: 500;
+  transition: color .15s;
+  font-size: 15px;
+}
+.nav-links a:hover { color: var(--fg); }
+@media (max-width: 700px) { .nav-links { display: none; } }
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 20px;
+  color: var(--fg);
+  letter-spacing: -0.01em;
+}
+.logo img { height: 32px; width: auto; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  padding: 0 var(--space-5);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all .15s ease;
+  white-space: nowrap;
+}
+.btn-primary {
+  height: 56px;
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+  box-shadow: 0 2px 0 color-mix(in srgb, var(--accent) 85%, transparent);
+}
+.btn-primary:hover { filter: brightness(1.12); }
+.btn-secondary {
+  background: transparent;
+  color: var(--fg);
+  border-color: var(--border);
+}
+.btn-secondary:hover { border-color: var(--muted); background: color-mix(in srgb, var(--bg) 50%, transparent); }
+.btn-sm {
+  height: 36px;
+  padding: 0 var(--space-4);
+  font-size: 14px;
+  border-radius: var(--radius-sm);
+}
+.btn-primary-sm {
+  background: var(--accent);
+  color: #fff;
+  border: 1px solid var(--accent);
+  height: 36px;
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all .15s ease;
+  white-space: nowrap;
+}
+.btn-primary-sm:hover { filter: brightness(1.12); }
+.btn-outline-sm {
+  background: transparent;
+  border: 1px solid var(--border);
+  height: 36px;
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all .15s ease;
+  white-space: nowrap;
+  color: var(--muted);
+}
+.btn-outline-sm:hover { border-color: var(--muted); color: var(--fg); }
+
+.hero {
+  text-align: center;
+  padding: clamp(64px, 10vw, 120px) 0 clamp(24px, 4vw, 48px);
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+  padding: 0 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+  border-radius: 20px;
+  margin-bottom: var(--space-5);
+}
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 5.2vw, 58px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin: 0 auto var(--space-4);
+  max-width: 16ch;
+}
+.hero p {
+  font-size: clamp(17px, 2vw, 20px);
+  color: var(--muted);
+  max-width: 60ch;
+  margin: 0 auto var(--space-6);
+  line-height: 1.6;
+}
+.hero-actions {
+  display: flex;
+  gap: var(--space-3);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.trust-strip {
+  padding: var(--space-7) 0 var(--space-5);
+  text-align: center;
+}
+.trust-strip .label {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  margin-bottom: var(--space-5);
+}
+.trust-grid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(20px, 4vw, 48px);
+  flex-wrap: wrap;
+}
+.trust-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.trust-item .ar {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--fg);
+}
+.trust-item .en {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.section {
+  padding: clamp(56px, 8vw, 96px) 0;
+}
+.section-head {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto var(--space-7);
+}
+.section-kicker {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  margin-bottom: var(--space-3);
+}
+.section-head h2 {
+  font-family: var(--font-display);
+  font-size: clamp(26px, 3.4vw, 38px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  margin: 0 0 var(--space-3);
+}
+.section-head p {
+  font-size: 17px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+}
+@media (min-width: 760px) {
+  .feature-grid { grid-template-columns: repeat(2, 1fr); }
+}
+.feature-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  transition: box-shadow .2s;
+}
+.feature-card:hover { box-shadow: 0 8px 28px -12px rgba(0,0,0,0.08); }
+.feature-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  flex-shrink: 0;
+}
+.feature-icon svg { width: 24px; height: 24px; stroke: currentColor; stroke-width: 1.8; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.feature-card h3 {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.3;
+  margin: 0;
+}
+.feature-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.mockup-section {
+  background: var(--accent);
+  color: #fff;
+  overflow: hidden;
+  position: relative;
+}
+.mockup-section .container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-7);
+  align-items: center;
+  padding-top: clamp(48px, 7vw, 80px);
+  padding-bottom: clamp(48px, 7vw, 80px);
+}
+@media (max-width: 840px) {
+  .mockup-section .container { grid-template-columns: 1fr; text-align: center; }
+}
+.mockup-content h2 {
+  font-family: var(--font-display);
+  font-size: clamp(26px, 3.4vw, 36px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  margin: 0 0 var(--space-4);
+}
+.mockup-content p {
+  font-size: 17px;
+  line-height: 1.6;
+  opacity: 0.88;
+  margin: 0 0 var(--space-5);
+  max-width: 48ch;
+}
+.mockup-content .btn {
+  background: #fff;
+  color: var(--accent);
+  border: none;
+  box-shadow: none;
+}
+.mockup-content .btn:hover { background: color-mix(in srgb, #fff 92%, transparent); }
+.mockup-phone {
+  display: flex;
+  justify-content: center;
+}
+.phone-frame {
+  width: 280px;
+  height: 588px;
+  background: #000;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.25);
+  position: relative;
+  overflow: hidden;
+  border-radius: 48px;
+}
+.phone-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+/* Diff cards */
+.diff-grid .reveal-child:nth-child(1) { animation-delay: .05s; }
+.diff-grid .reveal-child:nth-child(2) { animation-delay: .12s; }
+.diff-grid .reveal-child:nth-child(3) { animation-delay: .19s; }
+.diff-grid .reveal-child:nth-child(4) { animation-delay: .26s; }
+
+/* Process steps */
+.process-step.reveal-child:nth-child(1) { animation-delay: .05s; }
+.process-step.reveal-child:nth-child(2) { animation-delay: .15s; }
+.process-step.reveal-child:nth-child(3) { animation-delay: .25s; }
+
+/* Testimonials */
+.testimonial-grid .reveal-child:nth-child(1) { animation-delay: .05s; }
+.testimonial-grid .reveal-child:nth-child(2) { animation-delay: .14s; }
+.testimonial-grid .reveal-child:nth-child(3) { animation-delay: .23s; }
+
+/* Pricing */
+.pricing-grid .reveal-child:nth-child(1) { animation-delay: .05s; }
+.pricing-grid .reveal-child:nth-child(2) { animation-delay: .14s; }
+.pricing-grid .reveal-child:nth-child(3) { animation-delay: .23s; }
+
+/* Mockup + CTA */
+.mockup-section  .reveal-child { animation-delay: .08s; }
+.cta-band        .reveal-child { animation-delay: .08s; }
+
+/* FAQ — simple fade-up for the whole container */
+.faq-list.reveal-child { animation-delay: .08s; }
+
+/* Float animation for phone mockup */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-10px); }
+}
+.phone-frame { animation: float 6s ease-in-out infinite; }
+
+/* ---- Motion system (per-section orchestrated) ---- */
+
+/* 1. Hero entrance — cascading from top to bottom */
+@keyframes hero-badge-enter {
+  from { opacity: 0; transform: translateY(-14px) scale(.94); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes hero-title-enter {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes hero-body-enter {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes hero-actions-enter {
+  from { opacity: 0; transform: translateY(12px) scale(.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.hero-badge {
+  animation: hero-badge-enter  .55s cubic-bezier(.20, 1, .36, 1) .10s both;
+}
+.hero-title {
+  animation: hero-title-enter   .65s cubic-bezier(.20, 1, .36, 1) .28s both;
+}
+.hero-body {
+  animation: hero-body-enter    .55s cubic-bezier(.20, 1, .36, 1) .46s both;
+}
+.hero-actions {
+  animation: hero-actions-enter .55s cubic-bezier(.20, 1, .36, 1) .60s both;
+}
+
+/* 2. Section reveals — per-section staggered keyframes */
+@keyframes reveal-trust {
+  from { opacity: 0; transform: translateY(16px) scale(.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.trust-item {
+  opacity: 0;
+  animation: reveal-trust .50s cubic-bezier(.20, 1, .36, 1) forwards;
+}
+/* Stagger by nth-child instead of JS */
+.trust-item:nth-child(1) { animation-delay: .05s; }
+.trust-item:nth-child(2) { animation-delay: .10s; }
+.trust-item:nth-child(3) { animation-delay: .15s; }
+.trust-item:nth-child(4) { animation-delay: .20s; }
+.trust-item:nth-child(5) { animation-delay: .25s; }
+.trust-item:nth-child(6) { animation-delay: .30s; }
+
+@keyframes reveal-card-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.reveal-group { --reveal-dur: .55s; --reveal-ease: cubic-bezier(.20, 1, .36, 1); }
+.reveal-group .reveal-child {
+  opacity: 0;
+  animation: reveal-card-up var(--reveal-dur) var(--reveal-ease) forwards;
+}
+/* Feature cards: diagonal wave feel */
+.feature-grid .reveal-child:nth-child(1) { animation-delay: .05s; }
+.feature-grid .reveal-child:nth-child(2) { animation-delay: .12s; }
+.feature-grid .reveal-child:nth-child(3) { animation-delay: .19s; }
+.feature-grid .reveal-child:nth-child(4) { animation-delay: .26s; }
+.feature-grid .reveal-child:nth-child(5) { animation-delay: .33s; }
+.feature-grid .reveal-child:nth-child(6) { animation-delay: .40s; }
+
+/* Diff cards */
+
+@media print {
+  .reveal-child,
+  .reveal-child.in-view { opacity: 1 !important; transform: none !important; }
+  .anim-fade-up, .anim-fade-down, .anim-scale-in { animation: none; opacity: 1; }
+  .phone-frame { animation: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-child,
+  .reveal-child.in-view { opacity: 1; transform: none; transition: none !important; }
+  .anim-fade-up, .anim-fade-down, .anim-scale-in { animation: none; opacity: 1; }
+  .phone-frame { animation: none; }
+}
+.section-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  margin-bottom: var(--space-3);
+  text-align: center;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(26px, 3.4vw, 38px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  margin: 0 auto var(--space-3);
+  text-align: center;
+}
+.section-subtitle {
+  font-size: 17px;
+  color: var(--muted);
+  line-height: 1.6;
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto var(--space-7);
+}
+/* Phone-frame uses the iPhone 16 Pro SVG for all chrome */
+
+.diff-band {
+  padding: clamp(48px, 6vw, 80px) 0;
+}
+.diff-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+}
+@media (min-width: 760px) {
+  .diff-grid { grid-template-columns: repeat(2, 1fr); }
+}
+.diff-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-5);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+.diff-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+.diff-icon svg { width: 20px; height: 20px; stroke: currentColor; stroke-width: 1.8; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.diff-card h3 {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.3;
+  margin: 0;
+}
+.diff-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.process-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+  position: relative;
+}
+@media (min-width: 700px) {
+  .process-grid {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: var(--space-5);
+  }
+}
+.process-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+}
+@media (min-width: 700px) {
+  .process-step + .process-step::before {
+    content: '';
+    position: absolute;
+    top: 36px;
+    right: calc(100% + 8px);
+    width: calc(100% - 80px);
+    height: 1px;
+    background: var(--border);
+  }
+}
+.process-step h3 {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 0 var(--space-2);
+}
+.process-step p {
+  font-size: 15px;
+  color: var(--muted);
+  max-width: 32ch;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+.process-icon {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto var(--space-4);
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.process-icon svg { width: 32px; height: 32px; stroke: var(--accent); stroke-width: 1.6; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+
+.testimonial-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+}
+@media (min-width: 760px) {
+  .testimonial-grid { grid-template-columns: repeat(3, 1fr); }
+}
+.testimonial-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+.testimonial-text {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--fg);
+  quotes: none;
+}
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  border-top: 1px solid var(--border);
+  padding-top: var(--space-4);
+}
+.testimonial-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.testimonial-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--fg);
+  line-height: 1.3;
+}
+.testimonial-role {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+#pricing { scroll-margin-top: 72px; }
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+  align-items: start;
+}
+@media (min-width: 700px) {
+  .pricing-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* Pricing toggle */
+.pricing-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+  padding: var(--space-3) var(--space-5);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  max-width: 360px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.pricing-toggle-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.pricing-toggle-label.active {
+  color: var(--fg);
+}
+.pricing-toggle-switch {
+  position: relative;
+  width: 56px;
+  height: 30px;
+  background: var(--border);
+  border-radius: 9999px;
+  border: none;
+  cursor: pointer;
+  transition: background .2s;
+}
+.pricing-toggle-switch.active {
+  background: var(--accent);
+}
+.pricing-toggle-switch::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 26px;
+  height: 26px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+  transition: transform .2s cubic-bezier(.2, 1, .36, 1);
+}
+.pricing-toggle-switch.active::after {
+  transform: translateX(-26px);
+}
+.pricing-toggle-save {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  padding: 2px 8px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+/* Pricing cards enhanced */
+  .pricing-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    transition: box-shadow .2s, border-color .2s, transform .2s;
+  }
+  .pricing-card:hover { 
+    box-shadow: 0 8px 28px -12px rgba(0,0,0,0.08);
+    transform: translateY(-2px);
+  }
+  .pricing-card.popular {
+    border-width: 2px;
+    border-color: var(--accent);
+    box-shadow: 0 12px 32px var(--accent-bg);
+  }
+  .pricing-card.popular:hover {
+    box-shadow: 0 16px 40px var(--accent-bg);
+    transform: translateY(-2px);
+  }
+  .pricing-name {
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+  }
+  .pricing-price {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+  }
+  .pricing-amount {
+    font-family: var(--font-display);
+    font-size: 44px;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--fg);
+    letter-spacing: -0.03em;
+  }
+  .pricing-currency {
+    font-family: var(--font-body);
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--muted);
+  }
+  .pricing-period {
+    font-size: 14px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .pricing-annual-save {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
+    padding: 2px 8px;
+    border-radius: 20px;
+    margin-top: 4px;
+  }
+  .pricing-desc {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin: 0;
+  }
+  .pricing-divider {
+    height: 1px;
+    background: var(--border);
+    border: none;
+    margin: 0;
+  }
+
+  /* Feature categories */
+  .pricing-features {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex: 1;
+  }
+  .pricing-feature-category {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .pricing-feature-category-title {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    padding-right: 22px;
+  }
+  .pricing-features li {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-2);
+    font-size: 14px;
+    color: var(--fg);
+    line-height: 1.5;
+  }
+  .pricing-features li svg {
+    width: 18px;
+    height: 18px;
+    stroke: var(--success);
+    stroke-width: 2.5;
+    fill: none;
+    flex-shrink: 0;
+    margin-top: 1.5px;
+  }
+  .pricing-features li.muted {
+    color: color-mix(in srgb, var(--muted) 55%, transparent);
+  }
+  .pricing-features li.muted svg {
+    stroke: var(--border);
+  }
+  .pricing-features li.accent-secondary svg {
+    stroke: var(--accent-secondary);
+  }
+  .pricing-card .btn {
+    margin-top: auto;
+    width: 100%;
+  }
+
+  /* Trust badges under pricing */
+  .pricing-trust {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-3);
+    margin-top: var(--space-7);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--border);
+  }
+  .pricing-trust-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--muted);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 8px 14px;
+    border-radius: var(--radius-sm);
+  }
+  .pricing-trust-item svg {
+    width: 16px;
+    height: 16px;
+    stroke: var(--accent);
+    stroke-width: 2;
+    fill: none;
+  }
+
+  /* Comparison table (desktop only) */
+  .pricing-comparison {
+    display: none;
+    overflow-x: auto;
+    margin-top: var(--space-7);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+  }
+@media (min-width: 1024px) {
+  .pricing-comparison { display: block; }
+}
+.comparison-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.comparison-table th,
+.comparison-table td {
+  padding: var(--space-4) var(--space-5);
+  text-align: right;
+  border-bottom: 1px solid var(--border);
+}
+.comparison-table th:first-child,
+.comparison-table td:first-child {
+  position: sticky;
+  right: 0;
+  background: var(--surface);
+  z-index: 1;
+  font-weight: 500;
+  color: var(--fg);
+  width: 220px;
+}
+.comparison-table th {
+  background: color-mix(in srgb, var(--bg) 60%, transparent);
+  font-weight: 600;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+}
+.comparison-table tr:last-child td { border-bottom: none; }
+.comparison-table td {
+  color: var(--muted);
+}
+.comparison-table td.included {
+  color: var(--success);
+}
+.comparison-table td.included::before {
+  content: '';
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  margin-left: 6px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2352c41a' stroke-width='2.5'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E") center/contain no-repeat;
+  flex-shrink: 0;
+}
+.comparison-table td.excluded::before {
+  content: '';
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  margin-left: 6px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e9eae9' stroke-width='2'%3E%3Cpath d='M18 6L6 18M6 6l12 12'/%3E%3C/svg%3E") center/contain no-repeat;
+  flex-shrink: 0;
+}
+.comparison-table .plan-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding-top: var(--space-5) !important;
+  padding-bottom: var(--space-5) !important;
+}
+.comparison-table .plan-name {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.comparison-table .plan-price {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--fg);
+}
+.comparison-table .plan-period {
+  font-size: 12px;
+  color: var(--muted);
+}
+.comparison-table .plan-popular {
+  background: var(--accent) !important;
+  color: #fff !important;
+}
+.comparison-table .plan-popular .plan-name,
+.comparison-table .plan-popular .plan-price,
+.comparison-table .plan-popular .plan-period {
+  color: #fff !important;
+}
+.comparison-table .category-row td {
+  background: color-mix(in srgb, var(--bg) 50%, transparent);
+  font-weight: 700;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  padding: var(--space-3) var(--space-5);
+}
+.comparison-table .category-row:first-child td { border-top: none; }
+/* FAQ */
+.faq-list { display:flex; flex-direction:column; gap:var(--space-3); max-width:760px; margin:0 auto; }
+.faq-item { border:1px solid var(--border); border-radius:var(--radius-lg); overflow:hidden; background:var(--surface); transition:box-shadow .2s; }
+.faq-item:hover { box-shadow:0 4px 12px -8px rgba(0,0,0,0.06); }
+.faq-q { width:100%; display:flex; align-items:center; justify-content:space-between; gap:var(--space-3); padding:var(--space-5) var(--space-6); background:none; border:none; cursor:pointer; font:inherit; font-size:1rem; line-height:1.5; color:var(--fg); text-align:right; direction:rtl; }
+.faq-q::after { content:''; width:20px; height:20px; flex-shrink:0; background:var(--accent); mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") center/contain no-repeat; -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") center/contain no-repeat; transition:transform .25s; }
+.faq-item.open .faq-q::after { transform:rotate(180deg); }
+/* FAQ accordion — grid-template-rows (no layout thrash) */
+.faq-a {
+  display: grid;
+  grid-template-rows: 0fr;
+  overflow: hidden;
+  transition: grid-template-rows .30s cubic-bezier(.20, 1, .36, 1);
+  padding: 0 var(--space-6);
+  direction: rtl;
+  text-align: right;
+  color: var(--muted);
+  line-height: 1.7;
+  font-size: .925rem;
+}
+.faq-a > div { min-height: 0; }
+.faq-item.open .faq-a { grid-template-rows: 1fr; padding: 0 var(--space-6) var(--space-5); }
+.faq-a p { margin: 0; }
+
+  .cta-band {
+  background: var(--accent);
+  color: #fff;
+  text-align: center;
+  padding: clamp(56px, 8vw, 88px) 0;
+  position: relative;
+  overflow: hidden;
+}
+.cta-band::before {
+  content: '';
+  position: absolute;
+  top: -120px;
+  right: -80px;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: color-mix(in srgb, #fff 6%, transparent);
+}
+.cta-band::after {
+  content: '';
+  position: absolute;
+  bottom: -100px;
+  left: -60px;
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  background: color-mix(in srgb, #000 8%, transparent);
+}
+.cta-band .container { position: relative; }
+.cta-band h2 {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin: 0 auto var(--space-4);
+  max-width: 18ch;
+}
+.cta-band p {
+  font-size: 17px;
+  opacity: 0.88;
+  max-width: 520px;
+  margin: 0 auto var(--space-6);
+  line-height: 1.6;
+}
+.cta-band .btn {
+  background: #fff;
+  color: var(--accent);
+  border: none;
+  box-shadow: none;
+}
+.cta-band .btn:hover { background: color-mix(in srgb, #fff 92%, transparent); }
+
+footer {
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  padding: clamp(40px, 6vw, 64px) 0 32px;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: var(--space-6);
+}
+@media (max-width: 760px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+.footer-brand p {
+  font-size: 14px;
+  color: var(--muted);
+  max-width: 36ch;
+  margin: var(--space-3) 0 0;
+  line-height: 1.6;
+}
+.footer-col-title {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-bottom: var(--space-4);
+}
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.footer-links a {
+  font-size: 14px;
+  color: var(--muted);
+  transition: color .15s;
+}
+.footer-links a:hover { color: var(--fg); }
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  margin-top: var(--space-7);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--muted);
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="container">
+    <a href="/" class="logo">
+      <img src="logos/stockflow-logo.png" alt="StockFlow" />
+    </a>
+    <div class="nav-links">
+      <a href="#features">المميزات</a>
+      <a href="#how">طريقة العمل</a>
+      <a href="#pricing">الباقات</a>
+      <a href="#faq">الأسئلة</a>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <button class="btn-outline-sm">تسجيل الدخول</button>
+      <button class="btn-primary-sm">ابدأ مجاناً</button>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-badge anim-fade-down delay-1">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 6 7 .9-5 4.7 1.3 6.9L12 18l-6.3 3.5L7 14.6 2 9.9 9 9z"/></svg>
+      إدارة المخازن والتوزيع بالكامل من جوالك
+    </div>
+    <h1 class="anim-fade-up delay-2">حوّل جوالك إلى نظام متكامل لإدارة المخزن والتوزيع</h1>
+    <p class="anim-fade-up delay-3">StockFlow هو نظام إدارة مخازن وتوزيع للمحلات والسوبر ماركت - فواتير، مخزون، ديون العملاء، تقارير، وتعاون الفريق. كل ده من جوالك وبالعربي - خطة مجانية، التجهيز في دقيقتين.</p>
+    <div class="hero-actions anim-fade-up delay-4">
+      <button class="btn btn-primary">ابدأ مجاناً</button>
+      <button class="btn btn-secondary">شوف طريقة الشغل</button>
+    </div>
+  </div>
+</section>
+
+<section class="trust-strip">
+  <div class="container">
+    <div class="label">ثقة المديرين والتجار في</div>
+    <div class="trust-grid" data-reveal-group>
+      <div class="trust-item reveal-child">
+        <span class="ar">مخازن الجملة</span>
+        <span class="en">Wholesale warehouses</span>
+      </div>
+      <div class="trust-item reveal-child">
+        <span class="ar">سلاسل السوبر ماركت</span>
+        <span class="en">Supermarket chains</span>
+      </div>
+      <div class="trust-item reveal-child">
+        <span class="ar">موزعين مواد غذائية</span>
+        <span class="en">Food distributors</span>
+      </div>
+      <div class="trust-item reveal-child">
+        <span class="ar">محلات التجزئة</span>
+        <span class="en">Retail stores</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="features" style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div class="section container">
+    <div class="section-head">
+      <h2>كل اللي تحتاجه عشان تدير مخزنك</h2>
+      <p>مخزون، فواتير، ديون، تقارير - كل حاجة في تطبيق واحد مصمم للسوق المصري.</p>
+    </div>
+    <div class="feature-grid" data-reveal-group>
+      <div class="feature-card reveal-child">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg>
+        </div>
+        <h3>إدارة المخزون</h3>
+        <p>تتبع المنتجات والكميات في كل المخازن. أدخل صنف جديد، عدّل الكمية، واعرف المنتجات اللي خلصت قبل ما تطلب من المورد.</p>
+      </div>
+      <div class="feature-card reveal-child">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        </div>
+        <h3>الفواتير</h3>
+        <p>إنشاء فواتير البيع والشراء بسرعة. اختر العميل، ضيف المنتجات، واطبع أو اتسحاب الفاتورة بصيغة Excel بضغطة واحدة.</p>
+      </div>
+      <div class="feature-card reveal-child">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        </div>
+        <h3>تتبع الديون</h3>
+        <p>سجل ديون العملاء والموردين. اعرف مين عليه فلوس ومين ليه فلوس عندك. ألوان واضحة: أخضر مدفوع، برتقالي part payments، أحمر متأخر.</p>
+      </div>
+      <div class="feature-card reveal-child">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h3>فريق العمل</h3>
+        <p>حدد صلاحيات كل فرد - مالك، مدير، موظف. كل واحد يشوف اللي يخصه ويسجل دخوله بشكل منفصل وكل التغييرات متسجلة.</p>
+      </div>
+      <div class="feature-card reveal-child">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-6.219-8.56"/><path d="M21 3v6h-6"/><path d="M3 12h4"/><path d="M17 12h4"/><path d="M12 3v4"/><path d="M12 17v4"/></svg>
+        </div>
+        <h3>التقارير والتحليلات</h3>
+        <p>كشف يومي وشهري بالمبيعات والمخزون والأرباح. تقارير واضحة تساعدك تتخذ قرارات أسرع - تصدير Excel متاح لكل التقارير.</p>
+      </div>
+      <div class="feature-card reveal-child">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/></svg>
+        </div>
+        <h3>عربية أولاً</h3>
+        <p>التطبيق بالعربي الفصحى من البداية مش ترجمة. واجهة RTL تدعم الكتابة من اليمين لليسار، أزرار، قوائم، وتنقل سهل مصمم للسوق المصري.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="mockup-section">
+  <div class="container">
+    <div class="mockup-content" data-reveal-group>
+      <h2 class="reveal-child">شوف بنفسك - لوحة التحكم الرئيسية</h2>
+      <p class="reveal-child">من أول ما تفتح التطبيق، كل الأرقام المهمة قدامك: مبيعات النهارده، عدد المنتجات، إجمالي الديون، وعدد العملاء. ضغطة واحدة توصل لكل حاجة.</p>
+      <button class="btn reveal-child">ابدأ مجاناً</button>
+    </div>
+    <div class="mockup-phone">
+      <div class="phone-frame">
+        <img src="assets/iphone-frame.svg" alt="StockFlow Dashboard on iPhone 16 Pro" loading="lazy" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="diff-band">
+  <div class="section container">
+    <div class="section-head">
+      <h2>مش مجرد تطبيق مخازن - نظام متكامل</h2>
+      <p>فروق حقيقية هتحسها من أول يوم شغل</p>
+    </div>
+    <div class="diff-grid" data-reveal-group>
+      <div class="diff-card reveal-child">
+        <div class="diff-icon">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg>
+        </div>
+        <h3>نظام صلاحيات مرن</h3>
+        <p>مش fixed roles - صلاحيات JSON. المالك يتحكم في كل حاجة، الموظف يشوف اللي يتسندوله بس.</p>
+      </div>
+      <div class="diff-card reveal-child">
+        <div class="diff-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </div>
+        <h3>شركات متعددة - من حساب واحد</h3>
+        <p>ادير أكتر من شركة من نفس الحساب. حول بينهم بضغطة - وكل شركة بياناتها منفصلة تماماً.</p>
+      </div>
+      <div class="diff-card reveal-child">
+        <div class="diff-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        </div>
+        <h3>شغل من غير نت</h3>
+        <p>التطبيق شغال بدون إنترنت. كل الفواتير والمخزون متاحين - وأي تغيير يتزامن تلقائي أول ما ترجع.</p>
+      </div>
+      <div class="diff-card reveal-child">
+        <div class="diff-icon">
+          <svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-6.219-8.56"/><path d="M21 3v6h-6"/><path d="M3 12h4"/><path d="M17 12h4"/><path d="M12 3v4"/><path d="M12 17v4"/></svg>
+        </div>
+        <h3>تقارير وتصدير Excel</h3>
+        <p>تقارير يومية وشهرية - مبيعات، مخزون، ديون، أرباح - وتصديرها بصيغة Excel بضغطة واحدة.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="how" style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div class="section container">
+    <div class="section-head">
+      <span class="section-kicker">طريقة العمل</span>
+      <h2>جهز نفسك في ٣ خطوات</h2>
+      <p>مفيش مشروع ترحيل ولا أسبوعين setup. من دقيقة لدقيقة.</p>
+    </div>
+    <div class="process-grid" data-reveal-group>
+      <div class="process-step reveal-child">
+        <div class="process-icon">
+          <svg viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+        </div>
+        <h3>سجل وضيف بياناتك</h3>
+        <p>حمل التطبيق، اعمل حساب، وضيف الشركة - اسم، عنوان، بيانات الضرائب.</p>
+      </div>
+      <div class="process-step reveal-child">
+        <div class="process-icon">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg>
+        </div>
+        <h3>ضيف المنتجات والعملاء</h3>
+        <p>ضيف أصناف المخزن والأسعار والكميات. استورد العملاء من Excel أو ضيفهم واحدا واحدا.</p>
+      </div>
+      <div class="process-step reveal-child">
+        <div class="process-icon">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <h3>ابدأ الشغل</h3>
+        <p>اعمل فواتير، تابع المخزون، وسجل الديون. كل حاجة شغالة معاك في الحال.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--surface);border-top:1px solid var(--border);">
+  <div class="section container">
+    <div class="section-head">
+      <span class="section-kicker">كلام الناس</span>
+      <h2>اللي جربوا قالوا</h2>
+    </div>
+    <div class="testimonial-grid" data-reveal-group>
+      <div class="testimonial-card reveal-child">
+        <div class="testimonial-text">"كنت بضيع ديون كتير قبل StockFlow. دلوقتي عارف مين دافع ومين لسه - والديون قلت ٤٠٪ في ٣ شهور."</div>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar" style="background:color-mix(in srgb, var(--accent) 12%, transparent);color:var(--accent);">أ</div>
+          <div>
+            <div class="testimonial-name">أحمد السيد</div>
+            <div class="testimonial-role">صاحب سوبر ماركت - المنصورة</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal-child">
+        <div class="testimonial-text">"نظام الصلاحيات والشركات المتعددة خلاني أدير ٣ مخازن من جوال واحد. كل مدير عنده صلاحياته وكل مخزن له تقاريره."</div>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar" style="background:color-mix(in srgb, var(--accent-secondary) 15%, transparent);color:var(--accent-secondary);">م</div>
+          <div>
+            <div class="testimonial-name">محمود عبدالله</div>
+            <div class="testimonial-role">موزع مواد غذائية - القاهرة</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal-child">
+        <div class="testimonial-text">"تقارير Excel كانت اللي خلصتني مع مراجعة نهاية السنة. ضغطة وطلعت تقرير المخزون والأرباح - بدل يومين شغل في Excel."</div>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar" style="background:color-mix(in srgb, var(--accent) 12%, transparent);color:var(--accent);">ن</div>
+          <div>
+            <div class="testimonial-name">ناصر علي</div>
+            <div class="testimonial-role">صيدلي - الإسكندرية</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing" style="background:var(--bg);">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-kicker">الأسعار والباقات</span>
+      <h2>باقات تناسب كل مرحلة</h2>
+      <p>ابدأ مجاناً وارتقِ مع نمو تجارتك. لا بطاقات ائتمان، لا التزامات، إلغاء في أي وقت.</p>
+    </div>
+
+    <!-- Billing toggle -->
+    <div class="pricing-toggle" role="group" aria-label="اختر دورة الفوترة">
+      <span class="pricing-toggle-label active" id="label-monthly" data-period="monthly">شهرياً</span>
+      <button class="pricing-toggle-switch" id="billing-toggle" aria-pressed="false" aria-label="تبديل بين الشهري والسنوي">
+        <span class="pricing-toggle-save" id="save-badge" style="display:none;">وفر 20%</span>
+      </button>
+      <span class="pricing-toggle-label" id="label-annual" data-period="annual">سنوياً</span>
+    </div>
+
+    <!-- Pricing cards -->
+    <div class="pricing-grid reveal-group" data-reveal-group>
+      
+      <!-- Starter Plan -->
+      <article class="pricing-card reveal-child" data-plan="starter">
+        <div class="pricing-name">مجاني</div>
+        <div class="pricing-price">
+          <span class="pricing-currency">ج.م</span>
+          <span class="pricing-amount" data-monthly="0" data-annual="0">0</span>
+        </div>
+        <p class="pricing-period">/ شهر</p>
+        <p class="pricing-desc">مثالي للتجار الجدد والمخازن الصغيرة</p>
+        <hr class="pricing-divider" />
+        
+        <ul class="pricing-features">
+          <li class="pricing-feature-category-title">المخزون والمنتجات</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> إدارة منتجات غير محدودة</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> فئات وتصنيفات مخصصة</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> تنبيهات المخزون المنخفض</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> باركود و QR Scanner</li>
+          <li class="muted"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> تعديلات مخزون متقدمة</li>
+          
+          <li class="pricing-feature-category-title">الفواتير والمبيعات</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> إنشاء فواتير بيع وشراء</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> خصومات ومرونة في الدفع</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> سجل الفواتير الكامل</li>
+          <li class="muted"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> فواتير متكررة / مجدولة</li>
+          <li class="muted"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> نقاط بيع (POS) متقدمة</li>
+          
+          <li class="pricing-feature-category-title">العملاء والديون</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> ملفات العملاء والموردين</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> تتبع الديون والمدفوعات</li>
+          <li class="muted"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> تقارير أرصدة العملاء</li>
+          <li class="muted"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> تذكيرات ديون آلية</li>
+          
+          <li class="pricing-feature-category-title">التقارير والفريق</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> تقارير مبيعات يومية/شهرية</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> تصدير Excel للتقارير</li>
+          <li class="muted"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> تحليلات متقدمة وربحية</li>
+          <li class="muted"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> صلاحيات فريق مرنة</li>
+          <li class="muted"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> شركات متعددة (Multi-company)</li>
+        </ul>
+        <button class="btn btn-secondary" type="button">ابدأ مجاناً</button>
+      </article>
+
+      <!-- Business Plan - Popular -->
+      <article class="pricing-card popular reveal-child" data-plan="business">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:var(--space-3);margin-bottom:var(--space-2);">
+          <div class="pricing-name">الأعمال</div>
+          <span style="display:inline-flex;align-items:center;height:var(--space-5);padding:0 var(--space-3);font-family:var(--font-body);font-size:var(--font-size-sm);line-height:1;color:var(--accent);background:var(--accent-bg);border:1px solid var(--accent-border);border-radius:var(--radius-sm);font-weight:600;">الأكثر شيوعاً</span>
+        </div>
+        <div class="pricing-price">
+          <span class="pricing-currency">ج.م</span>
+          <span class="pricing-amount" data-monthly="599" data-annual="5750">599</span>
+        </div>
+        <p class="pricing-period">/ شهر</p>
+        <p class="pricing-annual-save" id="business-save" style="display:none;">وفر 1,198 ج.م سنوياً</p>
+        <p class="pricing-desc">للمحلات النامية والفرق الصغيرة</p>
+        <hr class="pricing-divider" />
+        
+        <ul class="pricing-features">
+          <li class="pricing-feature-category-title">المخزون والمنتجات</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> إدارة منتجات غير محدودة</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> فئات وتصنيفات مخصصة</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> تنبيهات المخزون المنخفض</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> باركود و QR Scanner</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> تعديلات مخزون متقدمة</li>
+          
+          <li class="pricing-feature-category-title">الفواتير والمبيعات</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> إنشاء فواتير بيع وشراء</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> خصومات ومرونة في الدفع</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> سجل الفواتير الكامل</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> فواتير متكررة / مجدولة</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> نقاط بيع (POS) متقدمة</li>
+          
+          <li class="pricing-feature-category-title">العملاء والديون</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> ملفات العملاء والموردين</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> تتبع الديون والمدفوعات</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> تقارير أرصدة العملاء</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> تذكيرات ديون آلية</li>
+          
+          <li class="pricing-feature-category-title">التقارير والفريق</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> تقارير مبيعات يومية/شهرية</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> تصدير Excel للتقارير</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> تحليلات متقدمة وربحية</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> صلاحيات فريق مرنة (JSON)</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> شركات متعددة (Multi-company)</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> API وصول</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> دعم فني أولوية</li>
+        </ul>
+        <button class="btn btn-primary" type="button">جرب 14 يوم مجاناً</button>
+      </article>
+
+      <!-- Enterprise Plan -->
+      <article class="pricing-card reveal-child" data-plan="enterprise">
+        <div class="pricing-name">المؤسسات</div>
+        <div class="pricing-price">
+          <span class="pricing-currency">ج.م</span>
+          <span class="pricing-amount" data-monthly="1499" data-annual="14390">1,499</span>
+        </div>
+        <p class="pricing-period">/ شهر</p>
+        <p class="pricing-annual-save" id="enterprise-save" style="display:none;">وفر 2,998 ج.م سنوياً</p>
+        <p class="pricing-desc">للموزعين والسلاسل الكبيرة</p>
+        <hr class="pricing-divider" />
+        
+        <ul class="pricing-features">
+          <li class="pricing-feature-category-title">المخزون والمنتجات</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> إدارة منتجات غير محدودة</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> فئات وتصنيفات مخصصة</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> تنبيهات المخزون المنخفض</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> باركود و QR Scanner</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> تعديلات مخزون متقدمة</li>
+          
+          <li class="pricing-feature-category-title">الفواتير والمبيعات</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> إنشاء فواتير بيع وشراء</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> خصومات ومرونة في الدفع</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> سجل الفواتير الكامل</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> فواتير متكررة / مجدولة</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> نقاط بيع (POS) متقدمة</li>
+          
+          <li class="pricing-feature-category-title">العملاء والديون</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> ملفات العملاء والموردين</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> تتبع الديون والمدفوعات</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> تقارير أرصدة العملاء</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> تذكيرات ديون آلية</li>
+          
+          <li class="pricing-feature-category-title">التقارير والفريق</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> تقارير مبيعات يومية/شهرية</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> تصدير Excel للتقارير</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> تحليلات متقدمة وربحية</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> صلاحيات فريق مرنة (JSON)</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> شركات غير محدودة</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> API وصول كامل</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> دعم فني مخصص</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> مدير حساب شخصي</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> SLA مضمون</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> تدريب الفريق</li>
+        </ul>
+        <button class="btn btn-secondary" type="button">تواصل مع المبيعات</button>
+      </article>
+    </div>
+
+    <!-- Trust badges -->
+    <div class="pricing-trust">
+      <div class="pricing-trust-item">
+        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+        لا بطاقة ائتمان مطلوبة
+      </div>
+      <div class="pricing-trust-item">
+        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+        إلغاء في أي وقت
+      </div>
+      <div class="pricing-trust-item">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        تجربة مجانية 14 يوم
+      </div>
+      <div class="pricing-trust-item">
+        <svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        ضمان استعادة المال 30 يوم
+      </div>
+    </div>
+
+    <!-- Comparison table (desktop only) -->
+    <div class="pricing-comparison" aria-label="جدول مقارنة تفصيلي للباقات">
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th scope="col">الميزة</th>
+            <th scope="col" class="plan-header">
+              <span class="plan-name">مجاني</span>
+              <span class="plan-price"><span class="plan-currency">ج.م</span><span data-monthly="0" data-annual="0">0</span></span>
+              <span class="plan-period">/ شهر</span>
+            </th>
+            <th scope="col" class="plan-header plan-popular">
+              <span class="plan-name">الأعمال</span>
+              <span class="plan-price"><span class="plan-currency">ج.م</span><span data-monthly="599" data-annual="5750">599</span></span>
+              <span class="plan-period">/ شهر</span>
+            </th>
+            <th scope="col" class="plan-header">
+              <span class="plan-name">المؤسسات</span>
+              <span class="plan-price"><span class="plan-currency">ج.م</span><span data-monthly="1499" data-annual="14390">1,499</span></span>
+              <span class="plan-period">/ شهر</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="category-row"><td colspan="4">المخزون والمنتجات</td></tr>
+          <tr><th>إدارة منتجات غير محدودة</th><td class="included"></td><td class="included"></td><td class="included"></td></tr>
+          <tr><th>فئات وتصنيفات مخصصة</th><td class="included"></td><td class="included"></td><td class="included"></td></tr>
+          <tr><th>تنبيهات المخزون المنخفض</th><td class="included"></td><td class="included"></td><td class="included"></td></tr>
+          <tr><th>باركود و QR Scanner</th><td class="included"></td><td class="included"></td><td class="included"></td></tr>
+          <tr><th>تعديلات مخزون متقدمة</th><td class="excluded"></td><td class="included"></td><td class="included"></td></tr>
+          
+          <tr class="category-row"><td colspan="4">الفواتير والمبيعات</td></tr>
+          <tr><th>إنشاء فواتير بيع وشراء</th><td class="included"></td><td class="included"></td><td class="included"></td></tr>
+          <tr><th>خصومات ومرونة في الدفع</th><td class="included"></td><td class="included"></td><td class="included"></td></tr>
+          <tr><th>سجل الفواتير الكامل</th><td class="included"></td><td class="included"></td><td class="included"></td></tr>
+          <tr><th>فواتير متكررة / مجدولة</th><td class="excluded"></td><td class="included"></td><td class="included"></td></tr>
+          <tr><th>نقاط بيع (POS) متقدمة</th><td class="excluded"></td><td class="included"></td><td class="included"></td></tr>
+          
+          <tr class="category-row"><td colspan="4">العملاء والديون</td></tr>
+          <tr><th>ملفات العملاء والموردين</th><td class="included"></td><td class="included"></td><td class="included"></td></tr>
+          <tr><th>تتبع الديون والمدفوعات</th><td class="included"></td><td class="included"></td><td class="included"></td></tr>
+          <tr><th>تقارير أرصدة العملاء</th><td class="excluded"></td><td class="included"></td><td class="included"></td></tr>
+          <tr><th>تذكيرات ديون آلية</th><td class="excluded"></td><td class="included"></td><td class="included"></td></tr>
+          
+          <tr class="category-row"><td colspan="4">التقارير والفريق</td></tr>
+          <tr><th>تقارير مبيعات يومية/شهرية</th><td class="included"></td><td class="included"></td><td class="included"></td></tr>
+          <tr><th>تصدير Excel للتقارير</th><td class="included"></td><td class="included"></td><td class="included"></td></tr>
+          <tr><th>تحليلات متقدمة وربحية</th><td class="excluded"></td><td class="included"></td><td class="included"></td></tr>
+          <tr><th>صلاحيات فريق مرنة (JSON)</th><td class="excluded"></td><td class="included"></td><td class="included"></td></tr>
+          <tr><th>شركات متعددة</th><td class="excluded"></td><td class="included"></td><td class="included"></td></tr>
+          <tr><th>شركات غير محدودة</th><td class="excluded"></td><td class="excluded"></td><td class="included"></td></tr>
+          <tr><th>API وصول</th><td class="excluded"></td><td class="included"></td><td class="included"></td></tr>
+          <tr><th>دعم فني أولوية</th><td class="excluded"></td><td class="included"></td><td class="excluded"></td></tr>
+          <tr><th>دعم فني مخصص / مدير حساب</th><td class="excluded"></td><td class="excluded"></td><td class="included"></td></tr>
+          <tr><th>SLA مضمون / تدريب الفريق</th><td class="excluded"></td><td class="excluded"></td><td class="included"></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="container" data-reveal-group>
+    <h2 class="reveal-child">استعد تتحكم في مخزنك من جوالك</h2>
+    <p class="reveal-child">خطة مجانية، التجهيز في دقيقتين.</p>
+    <button class="btn reveal-child">ابدأ مجاناً</button>
+    <div class="reveal-child" style="margin-top:var(--space-5)">
+      <a href="https://play.google.com/store/apps/details?id=com.example.stockflow" target="_blank" rel="noopener" style="display:inline-flex;text-decoration:none" aria-label="تحميل من Google Play">
+        <svg xmlns="http://www.w3.org/2000/svg" width="180" height="69" viewBox="0 0 180 69" aria-label="Google Play"><rect width="180" height="69" rx="10" fill="#1a1a1a"/><g transform="translate(14,12)"><path d="M7.48 7.86c-.32.32-.5.78-.5 1.36v42.56c0 .58.18 1.04.5 1.36l.07.07L29.8 36.02v-.04L7.48 7.86z" fill="#fbbb05"/><path d="M33.54 32.42 22.3 21.18l-.07.07-14.83 28.8c.13.24.34.38.64.38.2 0 .42-.07.64-.2l25.5-14.55.22-.16-.4-.1z" fill="#ea4335"/><path d="M33.54 35.58 22.3 46.82l-.07-.07L7.55 18.09c.13-.24.34-.38.64-.38.21 0 .43.07.64.2l25.5 14.55.2.11.01.01z" fill="#34a853"/><path d="M37.3 32.42 33.54 29.9v.13l-3.97 3.97 3.97 3.97 3.76-2.15c.73-.42.73-1.4 0-1.82l.01-.1z" fill="#4285f4"/><path d="M33.54 29.9l-7.34-7.34L22.3 26.2l3.97 3.97-3.97 3.97 3.9 3.63 7.34-7.33v-1.14l.01-.1z" fill="#fbbb05"/><path d="M33.54 35.58l-7.34-7.34L22.3 32.2l3.97 3.97-3.97 3.97 3.9 3.63 7.34-7.33v-.26z" fill="#ea4335"/></g><text font-family="Arial,sans-serif" font-weight="700" font-size="7" fill="#b3b3b3" x="62" y="24" letter-spacing="1">GET IT ON</text><text font-family="Arial,sans-serif" font-weight="600" font-size="15" fill="#fff" x="62" y="42">Google Play</text></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section id="faq" style="background:var(--bg);padding:clamp(56px, 8vw, 96px) 0;border-top:1px solid var(--border);">
+  <div class="container" data-reveal-group>
+    <div class="section-label reveal-child">الأسئلة الشائعة</div>
+    <h2 class="section-title reveal-child">إجابات سريعة لأسئلتك</h2>
+    <p class="section-subtitle reveal-child">كل اللي محتاج تعرفه قبل ما تبدا مع StockFlow</p>
+    <div class="faq-list reveal-child">
+      <div class="faq-item open">
+        <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">هل فيه نسخة مجانية؟</button>
+        <div class="faq-a"><p>أيوه، في خطة Starter مجانية بالكامل — شركة واحدة، 3 موظفين، التقارير الأساسية. تقدر تبدا من غير ما تدفع حاجة.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">هل StockFlow شغال من غير نت؟</button>
+        <div class="faq-a"><p>أيوه، في دعم غير متصل (offline support) — تقدر تسجل فواتير وتضيف منتجات من غير اتصال بالنت، و automatic sync لما ترجع تتصل.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">أقدر أدير أكتر من شركة من حساب واحد؟</button>
+        <div class="faq-a"><p>أكيد. ميزة Multi-company — تقدر تنشئ شركات غير محدودة، تتنقل بينهم فوراً، وكل شركة ليها بيانات وفريق وصلاحيات مستقلة.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">هل أقدر أحدد صلاحيات كل موظف؟</button>
+        <div class="faq-a"><p>أيوه، نظام صلاحيات مرن — owner كل حاجة، admin يقدّر يفعّل/يعطّل صلاحيات، employee ليه بس الصلاحيات اللي تنداله. تقدر تتحكم في كل حاجة: المنتجات، الفواتير، التقارير، الدفع...</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">هل أقدر أستورد المنتجات من Excel؟</button>
+        <div class="faq-a"><p>أيوه، تقدر تستورد المنتجات والعملاء من Excel، وتصدر التقارير إلى Excel برضه. ولو عايز دمج مع POS أو باركود Scanner، البرنامج بيدعمه.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">بياناتي آمنة؟</button>
+        <div class="faq-a"><p>أكيد. تشفير كامل، نسخ احتياطي تلقائي، صلاحيات الأدوار، وعزل بيانات كل شركة. ولو احتجت مساعدة، الدعم الفني موجود.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <img src="logos/stockflow-logo.png" alt="StockFlow" style="height:24px;width:auto;" />
+        </div>
+        <p>نظام إدارة المخازن والتوزيع للمحلات وسلاسل السوبر ماركت - فواتير، مخزون، ديون، تقارير. عربي أولاً، مصمم للسوق المصري.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">المنتج</div>
+        <div class="footer-links">
+          <a href="#">المميزات</a>
+          <a href="#">الباقات</a>
+          <a href="#">تحديثات</a>
+          <a href="#">API</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">الشركة</div>
+        <div class="footer-links">
+          <a href="#">عن StockFlow</a>
+          <a href="#">المدونة</a>
+          <a href="#">وظائف</a>
+          <a href="#">اتصل بنا</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">مراجع</div>
+        <div class="footer-links">
+          <a href="#">التوثيق</a>
+          <a href="#">الدعم الفني</a>
+          <a href="/privacy">سياسة الخصوصية</a>
+          <a href="#">الشروط</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2025 StockFlow · <a href="https://github.com/hazzemSaid/stockflow-app" target="_blank" style="text-decoration:underline;color:var(--muted);">GitHub</a></span>
+      <span>مهني · موثوق · واضح</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function() {
+  const toggle = document.getElementById('billing-toggle');
+  const labelMonthly = document.getElementById('label-monthly');
+  const labelAnnual = document.getElementById('label-annual');
+  const saveBadge = document.getElementById('save-badge');
+  const businessSave = document.getElementById('business-save');
+  const enterpriseSave = document.getElementById('enterprise-save');
+  const amounts = document.querySelectorAll('.pricing-amount[data-monthly]');
+  const planPrices = document.querySelectorAll('.comparison-table .plan-price [data-monthly]');
+  const periods = document.querySelectorAll('.pricing-period');
+  const planPeriods = document.querySelectorAll('.comparison-table .plan-period');
+
+  let isAnnual = false;
+
+  function updatePricing(annual) {
+    isAnnual = annual;
+    
+    toggle.setAttribute('aria-pressed', annual);
+    toggle.classList.toggle('active', annual);
+    
+    labelMonthly.classList.toggle('active', !annual);
+    labelAnnual.classList.toggle('active', annual);
+    saveBadge.style.display = annual ? 'inline-flex' : 'none';
+    
+    amounts.forEach(el => {
+      el.textContent = annual ? el.dataset.annual : el.dataset.monthly;
+    });
+    
+    planPrices.forEach(el => {
+      el.textContent = annual ? el.dataset.annual : el.dataset.monthly;
+    });
+
+    if (businessSave) businessSave.style.display = annual ? 'inline-flex' : 'none';
+    if (enterpriseSave) enterpriseSave.style.display = annual ? 'inline-flex' : 'none';
+
+    const periodText = annual ? '/ سنة (تُفوتر سنوياً)' : '/ شهر';
+    periods.forEach(el => { el.textContent = periodText; });
+    planPeriods.forEach(el => { el.textContent = periodText; });
+  }
+
+  toggle.addEventListener('click', () => updatePricing(!isAnnual));
+  toggle.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      updatePricing(!isAnnual);
+    }
+  });
+
+  // Smooth scroll for nav links
+  document.querySelectorAll('nav a[href^="#"]').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(link.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      btn.parentElement.classList.toggle('open');
+    });
+  });
+})();
+</script>
+</body>
+</html>
+
+

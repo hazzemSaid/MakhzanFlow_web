@@ -1,0 +1,1483 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title data-i18n="siteTitle">سياسة الخصوصية - StockFlow</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" />
+<style>
+:root {
+  --bg: #f7f8f7;
+  --surface: #ffffff;
+  --fg: #0a0a0a;
+  --muted: #737373;
+  --border: #e5e5e5;
+  --accent: #0f5132;
+  --accent-bg: color-mix(in srgb, var(--accent) 10%, transparent);
+  --accent-border: var(--accent);
+  --accent-secondary: #f97316;
+  --success: #16a34a;
+  --success-bg: color-mix(in srgb, var(--success) 15%, transparent);
+  --warning: #f97316;
+  --warning-bg: color-mix(in srgb, var(--warning) 15%, transparent);
+  --error: #b91c1c;
+  --font-display: 'Cairo', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'Cairo', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: ui-monospace, 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+  --radius-sm: 9px;
+  --radius: 14px;
+  --radius-lg: 24px;
+  --radius-xl: 28px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --content-max: 720px;
+  --nav-h: 64px;
+  --card-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  --footer-bg: #0a0a0a;
+  --toggle-bg: var(--border);
+  --toggle-hover: var(--bg);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: color-mix(in srgb, #ffffff 15%, #0a0a0a);
+    --surface: color-mix(in srgb, #ffffff 22%, #0a0a0a);
+    --fg: color-mix(in srgb, #ffffff 94%, #0a0a0a);
+    --muted: color-mix(in srgb, #737373 40%, color-mix(in srgb, #ffffff 94%, #0a0a0a));
+    --border: color-mix(in srgb, #e5e5e5 35%, #0a0a0a);
+    --accent-bg: color-mix(in srgb, var(--accent) 22%, transparent);
+    --accent-border: color-mix(in srgb, var(--accent) 70%, #ffffff);
+    --success-bg: color-mix(in srgb, var(--success) 20%, transparent);
+    --warning-bg: color-mix(in srgb, var(--warning) 20%, transparent);
+    --card-shadow: 0 2px 12px rgba(0,0,0,0.22);
+    --toggle-hover: rgba(255,255,255,0.08);
+  }
+}
+html.dark {
+  --bg: color-mix(in srgb, #ffffff 15%, #0a0a0a);
+  --surface: color-mix(in srgb, #ffffff 22%, #0a0a0a);
+  --fg: color-mix(in srgb, #ffffff 94%, #0a0a0a);
+  --muted: color-mix(in srgb, #737373 40%, color-mix(in srgb, #ffffff 94%, #0a0a0a));
+  --border: color-mix(in srgb, #e5e5e5 35%, #0a0a0a);
+  --accent-bg: color-mix(in srgb, var(--accent) 22%, transparent);
+  --accent-border: color-mix(in srgb, var(--accent) 70%, #ffffff);
+  --success-bg: color-mix(in srgb, var(--success) 20%, transparent);
+  --warning-bg: color-mix(in srgb, var(--warning) 20%, transparent);
+  --card-shadow: 0 2px 12px rgba(0,0,0,0.22);
+  --toggle-hover: rgba(255,255,255,0.08);
+}
+html.light {
+  --bg: #f7f8f7;
+  --surface: #ffffff;
+  --fg: #0a0a0a;
+  --muted: #737373;
+  --border: #e5e5e5;
+  --accent-bg: color-mix(in srgb, var(--accent) 10%, transparent);
+  --accent-border: var(--accent);
+  --success-bg: color-mix(in srgb, var(--success) 15%, transparent);
+  --warning-bg: color-mix(in srgb, var(--warning) 15%, transparent);
+  --card-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  --toggle-hover: var(--bg);
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--fg);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  min-height: 100vh;
+}
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+/* Top nav */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  height: var(--nav-h);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  transition: box-shadow 0.2s;
+}
+.site-header.scrolled { box-shadow: var(--card-shadow); }
+.site-header-inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 var(--space-5);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+.site-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 20px;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+.site-logo svg { width: 32px; height: 32px; }
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+.site-nav a {
+  padding: var(--space-2) var(--space-3);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--muted);
+  border-radius: var(--radius);
+  transition: color 0.15s, background 0.15s;
+  white-space: nowrap;
+}
+.site-nav a:hover { color: var(--fg); background: var(--toggle-hover); }
+.site-nav a.active { color: var(--accent); background: var(--accent-bg); }
+
+/* Header controls */
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  flex-shrink: 0;
+}
+.ctrl-btn {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: var(--radius);
+  color: var(--muted);
+  display: grid;
+  place-items: center;
+  transition: color 0.15s, background 0.15s;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: var(--font-body);
+  position: relative;
+}
+.ctrl-btn:hover { color: var(--fg); background: var(--toggle-hover); }
+.ctrl-btn svg { width: 20px; height: 20px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.ctrl-btn .icon-system { display: none; }
+.ctrl-btn.lang-btn { width: auto; padding: 0 10px; letter-spacing: 0.04em; }
+
+.site-nav-mobile-toggle {
+  display: none;
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: var(--radius);
+  color: var(--muted);
+  align-items: center;
+  justify-content: center;
+}
+.site-nav-mobile-toggle:hover { color: var(--fg); background: var(--toggle-hover); }
+.site-nav-mobile-toggle svg { width: 22px; height: 22px; stroke: currentColor; stroke-width: 2.5; fill: none; stroke-linecap: round; }
+
+/* Hero */
+.hero {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: var(--space-9) var(--space-5) var(--space-8);
+}
+.hero-inner {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  text-align: center;
+}
+.hero-kicker {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  margin-bottom: var(--space-3);
+}
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 4.5vw, 44px);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  margin: 0 0 var(--space-3);
+}
+html[dir="ltr"] .hero-title { letter-spacing: -0.03em; }
+.hero-meta {
+  font-size: 14px;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+.hero-meta-item { display: flex; align-items: center; gap: 6px; }
+.hero-meta-item svg { width: 16px; height: 16px; stroke: var(--muted); stroke-width: 2; fill: none; }
+
+/* Content */
+.content {
+  padding: var(--space-7) var(--space-5) var(--space-9);
+}
+.content-inner {
+  max-width: var(--content-max);
+  margin: 0 auto;
+}
+
+/* Sections */
+.policy-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-5);
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+}
+.policy-section:hover { box-shadow: var(--card-shadow); transform: translateY(-2px); }
+.policy-section-header {
+  padding: var(--space-6) var(--space-6) var(--space-4);
+  border-bottom: 1px solid var(--border);
+}
+.policy-section-title {
+  font-family: var(--font-display);
+  font-size: clamp(17px, 2vw, 19px);
+  font-weight: 700;
+  color: var(--fg);
+  margin: 0;
+  line-height: 1.3;
+}
+.policy-section-subtitle {
+  font-size: 14px;
+  color: var(--muted);
+  margin: var(--space-1) 0 0;
+  line-height: 1.5;
+}
+.policy-section-content {
+  padding: var(--space-5) var(--space-6) var(--space-6);
+}
+.policy-section-content h3 {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--fg);
+  margin: 0 0 var(--space-3);
+  line-height: 1.4;
+}
+.policy-section-content h4 {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--fg);
+  margin: var(--space-5) 0 var(--space-3);
+  line-height: 1.4;
+}
+.policy-section-content p {
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--fg);
+  margin: 0 0 var(--space-3);
+}
+.policy-section-content p:last-child { margin-bottom: 0; }
+.policy-section-content .muted-text {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* Tables */
+.policy-table-wrapper {
+  overflow-x: auto;
+  margin: var(--space-4) calc(var(--space-6) * -1) var(--space-4);
+  padding: 0 var(--space-6);
+}
+.policy-table {
+  width: 100%;
+  min-width: 480px;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.policy-table th,
+.policy-table td {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--border);
+  line-height: 1.6;
+}
+html[dir="rtl"] .policy-table th,
+html[dir="rtl"] .policy-table td { text-align: right; }
+html[dir="ltr"] .policy-table th,
+html[dir="ltr"] .policy-table td { text-align: left; }
+.policy-table th {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  background: var(--bg);
+  white-space: nowrap;
+}
+.policy-table td { color: var(--fg); vertical-align: top; }
+.policy-table tr:last-child th,
+.policy-table tr:last-child td { border-bottom: none; }
+.policy-table td strong { font-weight: 600; }
+
+.policy-list { margin: 0 0 var(--space-3); }
+html[dir="rtl"] .policy-list { padding-right: var(--space-5); }
+html[dir="ltr"] .policy-list { padding-left: var(--space-5); }
+.policy-list li {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--fg);
+  margin-bottom: var(--space-2);
+}
+.policy-list li::marker { color: var(--accent); font-weight: 700; }
+.policy-list li:last-child { margin-bottom: 0; }
+
+/* Notice box */
+.notice-box {
+  background: var(--warning-bg);
+  border: 1px solid var(--warning);
+  border-radius: var(--radius);
+  padding: var(--space-4) var(--space-5);
+  margin: var(--space-5) 0;
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+}
+.notice-box svg { width: 22px; height: 22px; stroke: var(--warning); stroke-width: 2; fill: none; flex-shrink: 0; margin-top: 2px; }
+.notice-box-content { flex: 1; }
+.notice-box-title { font-weight: 700; color: var(--fg); margin: 0 0 var(--space-1); font-size: 15px; }
+.notice-box-text { font-size: 14px; color: var(--muted); margin: 0; line-height: 1.7; }
+
+/* Contact card */
+.contact-card {
+  background: var(--accent-bg);
+  border: 1px solid var(--accent-border);
+  border-radius: var(--radius);
+  padding: var(--space-6);
+  margin-top: var(--space-5);
+}
+.contact-card-title {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--accent);
+  margin: 0 0 var(--space-4);
+}
+.contact-card-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: 15px;
+  color: var(--fg);
+  margin-bottom: var(--space-3);
+}
+.contact-card-item:last-child { margin-bottom: 0; }
+.contact-card-item svg { width: 22px; height: 22px; stroke: var(--accent); stroke-width: 2; fill: none; flex-shrink: 0; }
+.contact-card-item a { color: var(--accent); font-weight: 600; transition: color 0.15s; }
+.contact-card-item a:hover { color: var(--fg); text-decoration: underline; }
+
+/* Footer */
+.site-footer {
+  background: var(--footer-bg);
+  color: #fff;
+  padding: var(--space-8) var(--space-5) var(--space-6);
+}
+.site-footer-inner {
+  max-width: 1120px;
+  margin: 0 auto;
+}
+.site-footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: var(--space-7);
+  margin-bottom: var(--space-7);
+  padding-bottom: var(--space-7);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.site-footer-brand h4 {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 var(--space-3);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.site-footer-brand h4 svg { width: 28px; height: 28px; }
+.site-footer-brand p {
+  font-size: 14px;
+  color: rgba(255,255,255,0.6);
+  margin: 0;
+  line-height: 1.7;
+  max-width: 320px;
+}
+.site-footer-col h5 {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255,255,255,0.4);
+  margin: 0 0 var(--space-4);
+}
+.site-footer-col a {
+  display: block;
+  font-size: 14px;
+  color: rgba(255,255,255,0.7);
+  padding: var(--space-1) 0;
+  transition: color 0.15s;
+}
+.site-footer-col a:hover { color: #fff; }
+.site-footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+.site-footer-bottom p {
+  font-size: 13px;
+  color: rgba(255,255,255,0.5);
+  margin: 0;
+}
+.site-footer-bottom-links {
+  display: flex;
+  gap: var(--space-5);
+}
+.site-footer-bottom-links a {
+  font-size: 13px;
+  color: rgba(255,255,255,0.5);
+  transition: color 0.15s;
+}
+.site-footer-bottom-links a:hover { color: #fff; }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .site-header-inner { padding: 0 var(--space-4); }
+  .site-nav { display: none; }
+  .site-nav.open { display: flex; position: absolute; top: var(--nav-h); left: 0; right: 0; flex-direction: column; background: var(--surface); border-bottom: 1px solid var(--border); padding: var(--space-2); gap: var(--space-1); }
+  .site-nav a { width: 100%; padding: var(--space-3) var(--space-4); }
+  .site-nav-mobile-toggle { display: flex; }
+  .header-controls { margin-right: auto; }
+  .hero { padding: var(--space-7) var(--space-4) var(--space-6); }
+  .content { padding: var(--space-5) var(--space-4) var(--space-7); }
+  .toc-wrap { padding: 0 var(--space-4) var(--space-4); }
+  .policy-section-header { padding: var(--space-4) var(--space-4) var(--space-3); }
+  .policy-section-content { padding: var(--space-4); }
+  .policy-table-wrapper { margin: var(--space-3) calc(var(--space-4) * -1); padding: 0 var(--space-4); }
+  .contact-card { padding: var(--space-4); }
+  .site-footer-grid { grid-template-columns: 1fr 1fr; gap: var(--space-5); }
+  .site-footer-brand { grid-column: 1 / -1; }
+  .site-footer-bottom { flex-direction: column; text-align: center; }
+}
+
+@media (max-width: 480px) {
+  .site-footer-grid { grid-template-columns: 1fr; }
+  .hero-title { font-size: 24px; }
+}
+
+@media (min-width: 769px) {
+  .site-nav .nav-cta {
+    background: var(--accent);
+    color: #fff;
+    padding: var(--space-2) var(--space-5);
+    border-radius: var(--radius);
+    font-weight: 600;
+    margin-left: var(--space-2);
+  }
+  html[dir="rtl"] .site-nav .nav-cta { margin-left: 0; margin-right: var(--space-2); }
+  .site-nav .nav-cta:hover { background: color-mix(in srgb, var(--accent) 80%, #0a0a0a); color: #fff; }
+}
+
+/* ---- Motion ---- */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.hero-animate { animation: fadeInUp 0.4s ease-out both; }
+.hero-animate .hero-kicker { animation: fadeInUp 0.35s ease-out 0.05s both; }
+.hero-animate .hero-title  { animation: fadeInUp 0.4s  ease-out 0.1s  both; }
+.hero-animate .hero-meta   { animation: fadeInUp 0.35s ease-out 0.18s both; }
+
+.policy-section {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.35s ease, transform 0.4s ease, box-shadow 0.25s ease;
+}
+.policy-section.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+.policy-section.in-view:hover { transform: translateY(-2px); }
+.policy-section:nth-child(2) { transition-delay: 0.03s; }
+.policy-section:nth-child(3) { transition-delay: 0.06s; }
+.policy-section:nth-child(4) { transition-delay: 0.09s; }
+.policy-section:nth-child(5) { transition-delay: 0.12s; }
+.policy-section:nth-child(6) { transition-delay: 0.15s; }
+.policy-section:nth-child(7) { transition-delay: 0.18s; }
+.policy-section:nth-child(8) { transition-delay: 0.21s; }
+.policy-section:nth-child(9) { transition-delay: 0.24s; }
+.policy-section:nth-child(10) { transition-delay: 0.27s; }
+.policy-section:nth-child(11) { transition-delay: 0.3s; }
+.policy-section:nth-child(12) { transition-delay: 0.33s; }
+
+/* ---- TOC ---- */
+.toc-wrap {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: 0 0 var(--space-6);
+}
+.toc-title {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin: 0 0 var(--space-3);
+}
+.toc-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.toc-link {
+  font-size: 13px;
+  color: var(--fg);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  transition: border-color 0.15s, background 0.15s;
+  white-space: nowrap;
+}
+.toc-link:hover {
+  border-color: var(--accent);
+  background: var(--accent-bg);
+}
+
+/* ---- Section badges ---- */
+.section-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: var(--accent-bg);
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 700;
+  margin-left: var(--space-2);
+  flex-shrink: 0;
+}
+html[dir="ltr"] .section-num { margin-left: 0; margin-right: var(--space-2); }
+
+/* ---- Compact section ---- */
+.policy-section--compact .policy-section-header {
+  padding: var(--space-4) var(--space-5);
+  border-bottom: none;
+}
+.policy-section--compact .policy-section-content {
+  padding: 0 var(--space-5) var(--space-5);
+}
+
+/* ---- Section highlight (contact) ---- */
+.policy-section--highlight {
+  border-color: var(--accent-border);
+  background: var(--accent-bg);
+}
+.policy-section--highlight .policy-section-header {
+  border-bottom-color: color-mix(in srgb, var(--accent) 25%, transparent);
+}
+
+/* ---- Table stripes ---- */
+.policy-table tbody tr:nth-child(even) td {
+  background: color-mix(in srgb, var(--bg) 50%, var(--surface));
+}
+
+/* ---- Print ---- */
+@media print {
+  .site-header, .site-footer, .toc-wrap, .ctrl-btn, .site-nav-mobile-toggle,
+  .policy-section:hover { transform: none !important; box-shadow: none !important; }
+  .policy-section { break-inside: avoid; opacity: 1 !important; transform: none !important; }
+  body { background: #fff; color: #000; }
+  .hero { padding: 24px 0; border-bottom: 1px solid #ccc; }
+  .content { padding: 16px 0; }
+  @page { margin: 1.5cm; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header" role="banner">
+  <div class="site-header-inner">
+    <a href="stockflow-landing.html" class="site-logo" aria-label="StockFlow">
+      <svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0f5132"/><path d="M8 16h16M16 8v16" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/><circle cx="16" cy="16" r="4" stroke="#fff" stroke-width="2"/></svg>
+      StockFlow
+    </a>
+    <nav class="site-nav" role="navigation" aria-label="التنقل الرئيسي">
+      <a href="stockflow-landing.html" data-i18n="navHome">الرئيسية</a>
+      <a href="stockflow-landing.html#features" data-i18n="navFeatures">المميزات</a>
+      <a href="stockflow-landing.html#pricing" data-i18n="navPricing">الباقات</a>
+      <a href="stockflow-privacy.html" class="active" aria-current="page" data-i18n="navPrivacy">الخصوصية</a>
+      <a href="stockflow-landing.html#cta" class="nav-cta" data-i18n="navCTA">ابدأ الآن</a>
+    </nav>
+    <div class="header-controls">
+      <button class="ctrl-btn lang-btn" id="langToggle" data-i18n="langBtn" aria-label="Switch to English">EN</button>
+      <button class="ctrl-btn" id="themeToggle" aria-label="Toggle dark mode">
+        <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="icon-system" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      </button>
+      <button class="site-nav-mobile-toggle" aria-label="فتح القائمة">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<section class="hero hero-animate">
+  <div class="hero-inner">
+    <span class="hero-kicker" data-i18n="heroKicker">قانوني</span>
+    <h1 class="hero-title" data-i18n="heroTitle">سياسة الخصوصية</h1>
+    <div class="hero-meta">
+      <span class="hero-meta-item">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        <span data-i18n="heroUpdated">آخر تحديث: 10 يوليو 2026</span>
+      </span>
+      <span class="hero-meta-item">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        <span data-i18n="heroVersion">الإصدار 1.0</span>
+      </span>
+      <span class="hero-meta-item">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        <span data-i18n="heroLaw">القانون المصري</span>
+      </span>
+    </div>
+  </div>
+</section>
+
+<!-- TOC -->
+<div class="content" style="padding-bottom:0">
+  <div class="toc-wrap">
+    <h2 class="toc-title" data-i18n="tocTitle">الانتقال السريع</h2>
+    <nav class="toc-grid" aria-label="Table of contents">
+      <a href="#sec1" class="toc-link" data-i18n="sec1TitleShort">المقدمة</a>
+      <a href="#sec2" class="toc-link" data-i18n="sec2TitleShort">البيانات</a>
+      <a href="#sec3" class="toc-link" data-i18n="sec3TitleShort">الاستخدام</a>
+      <a href="#sec4" class="toc-link" data-i18n="sec4TitleShort">الجهات الخارجية</a>
+      <a href="#sec5" class="toc-link" data-i18n="sec5TitleShort">التخزين والأمان</a>
+      <a href="#sec6" class="toc-link" data-i18n="sec6TitleShort">الاحتفاظ</a>
+      <a href="#sec7" class="toc-link" data-i18n="sec7TitleShort">المشاركة</a>
+      <a href="#sec8" class="toc-link" data-i18n="sec8TitleShort">حقوقك</a>
+      <a href="#sec9" class="toc-link" data-i18n="sec9TitleShort">الأطفال</a>
+      <a href="#sec10" class="toc-link" data-i18n="sec10TitleShort">التغييرات</a>
+      <a href="#sec11" class="toc-link" data-i18n="sec11TitleShort">القانون</a>
+      <a href="#sec12" class="toc-link" data-i18n="sec12TitleShort">التواصل</a>
+    </nav>
+  </div>
+</div>
+
+<main class="content" role="main">
+  <div class="content-inner">
+
+    <!-- 1: Introduction -->
+    <section class="policy-section" id="sec1" aria-labelledby="sec1-title">
+      <div class="policy-section-header">
+        <h2 id="sec1-title" class="policy-section-title"><span class="section-num" aria-hidden="true">١</span><span data-i18n="sec1Title">مقدمة</span></h2>
+        <p class="policy-section-subtitle" data-i18n="sec1Subtitle">نظرة عامة على سياسة الخصوصية ونطاق التطبيق</p>
+      </div>
+      <div class="policy-section-content" data-i18n-html="sec1Content">
+        <p>مرحباً بكم في سياسة خصوصية <strong>StockFlow</strong> («نحن»، «تطبيقنا»، «الخدمة»). توضح هذه السياسة كيفية جمعنا واستخدامنا وحمايتنا لمعلوماتك عند استخدامك لتطبيق إدارة المخازن والتوزيع الخاص بنا.</p>
+        <p>باستخدامك للتطبيق، فإنك توافق على الممارسات الموضحة في هذه السياسة. نحن ملتزمون بحماية خصوصيتك وبياناتك وفقاً للقوانين المصرية المعمول بها، بما في ذلك قانون حماية البيانات الشخصية رقم ١٥١ لسنة ٢٠٢٠.</p>
+        <p class="muted-text" data-i18n="sec1Date">تاريخ السريان: ١٠ يوليو ٢٠٢٦</p>
+      </div>
+    </section>
+
+    <!-- 2: Information We Collect -->
+    <section class="policy-section" id="sec2" aria-labelledby="sec2-title">
+      <div class="policy-section-header">
+        <h2 id="sec2-title" class="policy-section-title"><span class="section-num" aria-hidden="true">٢</span><span data-i18n="sec2Title">البيانات التي نجمعها</span></h2>
+        <p class="policy-section-subtitle" data-i18n="sec2Subtitle">معلومات الحساب، بيانات العمل، والمعلومات المجمعة تلقائياً</p>
+      </div>
+      <div class="policy-section-content" data-i18n-html="sec2Content">
+        <h3>٢.١ المعلومات التي تقدمها طوعياً</h3>
+        <p>عند إنشاء حساب أو استخدام ميزات التطبيق، نقوم بجمع المعلومات التالية:</p>
+        <div class="policy-table-wrapper">
+          <table class="policy-table">
+            <thead>
+              <tr>
+                <th data-i18n="tbl2aH1">فئة البيانات</th>
+                <th data-i18n="tbl2aH2">التفاصيل</th>
+                <th data-i18n="tbl2aH3">الغرض</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><strong data-i18n="tbl2aR1">الحساب</strong></td><td data-i18n="tbl2aR1d">الاسم، البريد الإلكتروني، رقم الهاتف، كلمة المرور (مشفرة)</td><td data-i18n="tbl2aR1p">المصادقة، الأمان، التواصل</td></tr>
+              <tr><td><strong data-i18n="tbl2aR2">ملف الشركة</strong></td><td data-i18n="tbl2aR2d">الاسم، العنوان، بيانات الضرائب، الشعار، العملة</td><td data-i18n="tbl2aR2p">إدارة ملف الأعمال، الفواتير، التقارير</td></tr>
+              <tr><td><strong data-i18n="tbl2aR3">المنتجات</strong></td><td data-i18n="tbl2aR3d">الأسماء، الأسعار، الكميات، الصور، تواريخ الانتهاء، الباركود</td><td data-i18n="tbl2aR3p">إدارة المخزون، المبيعات، التنبيهات</td></tr>
+              <tr><td><strong data-i18n="tbl2aR4">العملاء والموردين</strong></td><td data-i18n="tbl2aR4d">الأسماء، الهواتف، العناوين، الصور، السجلات المالية</td><td data-i18n="tbl2aR4p">إدارة العلاقات، الفواتير، تتبع الديون</td></tr>
+              <tr><td><strong data-i18n="tbl2aR5">الفواتير</strong></td><td data-i18n="tbl2aR5d">معرف العميل، تفاصيل المنتجات، الكميات، الأسعار، الخصومات</td><td data-i18n="tbl2aR5p">إنشاء وإدارة الفواتير والمدفوعات</td></tr>
+              <tr><td><strong data-i18n="tbl2aR6">الفريق</strong></td><td data-i18n="tbl2aR6d">أسماء أعضاء الفريق، الإيميلات، الصلاحيات، تواريخ الانضمام</td><td data-i18n="tbl2aR6p">إدارة الفريق والتعاون</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3 data-i18n="sec2h2">٢.٢ المعلومات المجمعة تلقائياً</h3>
+        <div class="policy-table-wrapper">
+          <table class="policy-table">
+            <thead>
+              <tr>
+                <th data-i18n="tbl2bH1">البيانات</th>
+                <th data-i18n="tbl2bH2">التفاصيل</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><strong data-i18n="tbl2bR1">أذونات الجهاز</strong></td><td data-i18n="tbl2bR1d">الكاميرا (بموافقتك فقط) لالتقاط صور المنتجات، العملاء، والشعارات</td></tr>
+              <tr><td><strong data-i18n="tbl2bR2">بيانات الاستخدام</strong></td><td data-i18n="tbl2bR2d">بيانات تفاعل أساسية ضرورية لوظائف التطبيق</td></tr>
+              <tr><td><strong data-i18n="tbl2bR3">التخزين المحلي</strong></td><td data-i18n="tbl2bR3d">معرف الشركة الأخير المحدد مخزن بأمان على جهازك للراحة</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3 data-i18n="sec2h3">٢.٣ المعلومات التي لا نجمعها</h3>
+        <p data-i18n="sec2h3p">نحن <strong>لا</strong> نجمع:</p>
+        <ul class="policy-list">
+          <li data-i18n="sec2nolist1">بيانات GPS أو الموقع الدقيق</li>
+          <li data-i18n="sec2nolist2">معرّفات الجهاز (IMEI، IDFA، MAC address)</li>
+          <li data-i18n="sec2nolist3">جهات الاتصال أو دفتر العناوين</li>
+          <li data-i18n="sec2nolist4">سجلات الرسائل أو المكالمات</li>
+          <li data-i18n="sec2nolist5">بيانات التقويم</li>
+          <li data-i18n="sec2nolist6">حسابات وسائل التواصل الاجتماعي</li>
+          <li data-i18n="sec2nolist7">البيانات البيومترية</li>
+          <li data-i18n="sec2nolist8">سجل التصفح أو نشاط الويب</li>
+          <li data-i18n="sec2nolist9">بيانات صحية أو لياقة</li>
+          <li data-i18n="sec2nolist10">تسجيلات صوتية</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 3: How We Use Your Information -->
+    <section class="policy-section" id="sec3" aria-labelledby="sec3-title">
+      <div class="policy-section-header">
+        <h2 id="sec3-title" class="policy-section-title"><span class="section-num" aria-hidden="true">٣</span><span data-i18n="sec3Title">كيف نستخدم معلوماتك</span></h2>
+        <p class="policy-section-subtitle" data-i18n="sec3Subtitle">أغراض المعالجة والأساس القانوني</p>
+      </div>
+      <div class="policy-section-content" data-i18n-html="sec3Content">
+        <p>نستخدم المعلومات المجمعة فقط للأغراض التالية:</p>
+        <ul class="policy-list">
+          <li><strong data-i18n="sec3li1t">تقديم الخدمة وصيانتها:</strong> <span data-i18n="sec3li1d">إدارة المخزون، الفواتير، العملاء، والتقارير</span></li>
+          <li><strong data-i18n="sec3li2t">المصادقة والأمان:</strong> <span data-i18n="sec3li2d">حماية حسابك وبياناتك</span></li>
+          <li><strong data-i18n="sec3li3t">تمكين التعاون:</strong> <span data-i18n="sec3li3d">عمل الفريق ضمن شركتك مع صلاحيات محددة</span></li>
+          <li><strong data-i18n="sec3li4t">إنشاء الفواتير والتقارير:</strong> <span data-i18n="sec3li4d">لعملياتك التجارية</span></li>
+          <li><strong data-i18n="sec3li5t">التواصل معك:</strong> <span data-i18n="sec3li5d">حول حسابك، طلبات الدعم، أو التحديثات الهامة</span></li>
+          <li><strong data-i18n="sec3li6t">تحسين الخدمة:</strong> <span data-i18n="sec3li6d">تطوير الوظائف وتجربة المستخدم</span></li>
+        </ul>
+        <div class="notice-box" role="note">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <div class="notice-box-content">
+            <p class="notice-box-title" data-i18n="sec3noticeTitle">لا نستخدم بياناتك لـ:</p>
+            <p class="notice-box-text" data-i18n="sec3noticeText">الإعلان أو التسويق لأطراف ثالثة • بيع المعلومات الشخصية • تدريب نماذج الذكاء الاصطناعي • اتخاذ قرارات آلية تؤثر عليك بشكل جوهري</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4: Third-Party Services -->
+    <section class="policy-section" id="sec4" aria-labelledby="sec4-title">
+      <div class="policy-section-header">
+        <h2 id="sec4-title" class="policy-section-title"><span class="section-num" aria-hidden="true">٤</span><span data-i18n="sec4Title">خدمات الجهات الخارجية</span></h2>
+        <p class="policy-section-subtitle" data-i18n="sec4Subtitle">مقدمو الخدمة الذين نتعامل معهم لتشغيل التطبيق</p>
+      </div>
+      <div class="policy-section-content" data-i18n-html="sec4Content">
+        <p>نستخدم الخدمات التالية لتشغيل تطبيقنا:</p>
+        <div class="policy-table-wrapper">
+          <table class="policy-table">
+            <thead>
+              <tr>
+                <th data-i18n="tbl4H1">الخدمة</th>
+                <th data-i18n="tbl4H2">الغرض</th>
+                <th data-i18n="tbl4H3">البيانات المشتركة</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Supabase</strong></td><td data-i18n="tbl4R1p">الخلفية الأساسية — المصادقة، قاعدة البيانات، تخزين الملفات، الدوال الخدمية</td><td data-i18n="tbl4R1d">جميع بيانات الحساب، الشركات، المنتجات، العملاء، والفواتير</td></tr>
+              <tr><td><strong>image_picker</strong></td><td data-i18n="tbl4R2p">الوصول للكاميرا ومعرض الصور لرفع الصور</td><td data-i18n="tbl4R2d">فقط عند اختيارك صريحاً التقاط أو تحديد صورة</td></tr>
+              <tr><td><strong>flutter_secure_storage</strong></td><td data-i18n="tbl4R3p">تخزين محلي آمن على جهازك</td><td data-i18n="tbl4R3d">معرف الشركة الأخير المحدد (مخزن محلياً، لا يُرسل)</td></tr>
+              <tr><td><strong>cached_network_image</strong></td><td data-i18n="tbl4R4p">تخزين مؤقت للصور لتحميل أسرع</td><td data-i18n="tbl4R4d">صور من تخزين Supabase (مخزنة محلياً)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="muted-text" data-i18n="sec4Note">نحن <strong>لا</strong> نستخدم أي SDKs للتحليلات، خدمات تقارير الأعطال، شبكات إعلانية، أو SDKs لوسائل التواصل الاجتماعي.</p>
+      </div>
+    </section>
+
+    <!-- 5: Data Storage and Security -->
+    <section class="policy-section" id="sec5" aria-labelledby="sec5-title">
+      <div class="policy-section-header">
+        <h2 id="sec5-title" class="policy-section-title"><span class="section-num" aria-hidden="true">٥</span><span data-i18n="sec5Title">تخزين البيانات وأمانها</span></h2>
+        <p class="policy-section-subtitle" data-i18n="sec5Subtitle">التشفير، المصادقة، والحماية</p>
+      </div>
+      <div class="policy-section-content" data-i18n-html="sec5Content">
+        <ul class="policy-list">
+          <li><strong data-i18n="sec5li1t">البيانات في السكون:</strong> <span data-i18n="sec5li1d">جميع البيانات مخزنة بأمان على خوادم Supabase مع تشفير في حالة السكون.</span></li>
+          <li><strong data-i18n="sec5li2t">البيانات في النقل:</strong> <span data-i18n="sec5li2d">جميع الاتصالات بين التطبيق والخوادم مشفرة عبر HTTPS.</span></li>
+          <li><strong data-i18n="sec5li3t">المصادقة:</strong> <span data-i18n="sec5li3d">كلمات المرور مشفرة وتدار بأمان بواسطة Supabase Auth.</span></li>
+          <li><strong data-i18n="sec5li4t">التخزين المحلي:</strong> <span data-i18n="sec5li4d">البيانات الحساسة على جهازك مخزنة باستخدام flutter_secure_storage، والذي يستخدم مخزن المفاتيح الأصلي للمنصة.</span></li>
+          <li><strong data-i18n="sec5li5t">تخزين الصور:</strong> <span data-i18n="sec5li5d">جميع الصور المرفوعة مخزنة في Supabase Storage بمعرفات فريدة.</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 6: Data Retention -->
+    <section class="policy-section" id="sec6" aria-labelledby="sec6-title">
+      <div class="policy-section-header">
+        <h2 id="sec6-title" class="policy-section-title"><span class="section-num" aria-hidden="true">٦</span><span data-i18n="sec6Title">الاحتفاظ بالبيانات</span></h2>
+        <p class="policy-section-subtitle" data-i18n="sec6Subtitle">مدة الاحتفاظ وحذف البيانات</p>
+      </div>
+      <div class="policy-section-content" data-i18n-html="sec6Content">
+        <p>نحتفظ ببياناتك طالما كان حسابك نشطاً أو كما هو مطلوب لتقديم خدماتنا. يمكنك طلب حذف بياناتك في أي وقت (انظر القسم ٨).</p>
+        <div class="policy-table-wrapper">
+          <table class="policy-table">
+            <thead>
+              <tr>
+                <th data-i18n="tbl6H1">نوع البيانات</th>
+                <th data-i18n="tbl6H2">مدة الاحتفاظ</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td data-i18n="tbl6R1">بيانات الحساب</td><td data-i18n="tbl6R1d">حتى حذف الحساب</td></tr>
+              <tr><td data-i18n="tbl6R2">بيانات الشركة</td><td data-i18n="tbl6R2d">حتى حذف الشركة أو الحساب</td></tr>
+              <tr><td data-i18n="tbl6R3">السجلات والنسخ الاحتياطية</td><td data-i18n="tbl6R3d">لفترة معقولة وفقاً للوائح حماية البيانات المصرية</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7: Data Sharing -->
+    <section class="policy-section" id="sec7" aria-labelledby="sec7-title">
+      <div class="policy-section-header">
+        <h2 id="sec7-title" class="policy-section-title"><span class="section-num" aria-hidden="true">٧</span><span data-i18n="sec7Title">مشاركة البيانات والإفصاح</span></h2>
+        <p class="policy-section-subtitle" data-i18n="sec7Subtitle">متى وكيف نشارك معلوماتك</p>
+      </div>
+      <div class="policy-section-content" data-i18n-html="sec7Content">
+        <p>نحن <strong>لا</strong> نبيع أو نؤجر أو نتاجر بمعلوماتك الشخصية لأطراف ثالثة.</p>
+        <p>قد نفصح عن معلوماتك فقط في الحالات التالية:</p>
+        <ul class="policy-list">
+          <li><strong data-i18n="sec7li1t">بموافقتك:</strong> <span data-i18n="sec7li1d">عند موافقتك الصريحة على مشاركة بيانات معينة</span></li>
+          <li><strong data-i18n="sec7li2t">الالتزام القانوني:</strong> <span data-i18n="sec7li2d">للامتثال للالتزامات القانونية أو الطلبات من السلطات المصرية</span></li>
+          <li><strong data-i18n="sec7li3t">حماية الحقوق:</strong> <span data-i18n="sec7li3d">لحماية حقوقنا، خصوصيتنا، أماننا، وممتلكاتنا</span></li>
+          <li><strong data-i18n="sec7li4t">نقل الأعمال:</strong> <span data-i18n="sec7li4d">في سياق اندماج، استحواذ، أو بيع أصول</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 8: Your Rights -->
+    <section class="policy-section" id="sec8" aria-labelledby="sec8-title">
+      <div class="policy-section-header">
+        <h2 id="sec8-title" class="policy-section-title"><span class="section-num" aria-hidden="true">٨</span><span data-i18n="sec8Title">حقوقك واختياراتك</span></h2>
+        <p class="policy-section-subtitle" data-i18n="sec8Subtitle">حقوقك بموجب القانون المصري ولوائح حماية البيانات</p>
+      </div>
+      <div class="policy-section-content" data-i18n-html="sec8Content">
+        <p>بموجب القانون المصري ولوائح حماية البيانات المعمول بها، لديك الحقوق التالية:</p>
+        <div class="policy-table-wrapper">
+          <table class="policy-table">
+            <thead>
+              <tr>
+                <th data-i18n="tbl8H1">الحق</th>
+                <th data-i18n="tbl8H2">الوصف</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><strong data-i18n="tbl8R1">الوصول</strong></td><td data-i18n="tbl8R1d">طلب نسخة من البيانات الشخصية التي نحتفظ بها عنك</td></tr>
+              <tr><td><strong data-i18n="tbl8R2">التصحيح</strong></td><td data-i18n="tbl8R2d">طلب تصحيح البيانات غير الدقيقة أو غير المكتملة</td></tr>
+              <tr><td><strong data-i18n="tbl8R3">الحذف</strong></td><td data-i18n="tbl8R3d">طلب حذف بياناتك الشخصية وحسابك</td></tr>
+              <tr><td><strong data-i18n="tbl8R4">التقييد</strong></td><td data-i18n="tbl8R4d">طلب تقييد معالجة بياناتك</td></tr>
+              <tr><td><strong data-i18n="tbl8R5">النقل</strong></td><td data-i18n="tbl8R5d">طلب نقل بياناتك إلى مزود خدمة آخر</td></tr>
+              <tr><td><strong data-i18n="tbl8R6">الاعتراض</strong></td><td data-i18n="tbl8R6d">الاعتراض على معالجة بياناتك الشخصية</td></tr>
+              <tr><td><strong data-i18n="tbl8R7">سحب الموافقة</strong></td><td data-i18n="tbl8R7d">سحب الموافقة في أي وقت حيث نعتمد على الموافقة في المعالجة</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p data-i18n="sec8Contact">لممارسة أي من هذه الحقوق، يرجى التواصل معنا على <strong>haazemsaidd@gmail.com</strong>. سنرد على طلبك خلال ٣٠ يوماً كما يقتضي القانون المصري.</p>
+      </div>
+    </section>
+
+    <!-- 9: Children's Privacy -->
+    <section class="policy-section policy-section--compact" id="sec9" aria-labelledby="sec9-title">
+      <div class="policy-section-header">
+        <h2 id="sec9-title" class="policy-section-title"><span class="section-num" aria-hidden="true">٩</span><span data-i18n="sec9Title">خصوصية الأطفال</span></h2>
+        <p class="policy-section-subtitle" data-i18n="sec9Subtitle">حماية القُصّر</p>
+      </div>
+      <div class="policy-section-content" data-i18n-html="sec9Content">
+        <p>تطبيقنا غير مخصص للأطفال دون سن ١٣ عاماً. نحن لا نجمع عن قصد معلومات شخصية من الأطفال. إذا علمنا أن طفلاً دون ١٣ عاماً قدم لنا بيانات شخصية، سنتخذ خطوات لحذف هذه المعلومات فوراً.</p>
+      </div>
+    </section>
+
+    <!-- 10: Changes -->
+    <section class="policy-section policy-section--compact" id="sec10" aria-labelledby="sec10-title">
+      <div class="policy-section-header">
+        <h2 id="sec10-title" class="policy-section-title"><span class="section-num" aria-hidden="true">١٠</span><span data-i18n="sec10Title">تغييرات على سياسة الخصوصية</span></h2>
+        <p class="policy-section-subtitle" data-i18n="sec10Subtitle">التحديثات والإشعارات</p>
+      </div>
+      <div class="policy-section-content" data-i18n-html="sec10Content">
+        <p>قد نحدّث سياسة الخصوصية هذه من وقت لآخر. سنخطرك بأي تغييرات عن طريق تحديث تاريخ «آخر تحديث» في أعلى هذه السياسة. في حالة التغييرات الجوهرية، قد نقدم إشعاراً إضافياً عبر التطبيق أو عبر البريد الإلكتروني.</p>
+      </div>
+    </section>
+
+    <!-- 11: Governing Law -->
+    <section class="policy-section policy-section--compact" id="sec11" aria-labelledby="sec11-title">
+      <div class="policy-section-header">
+        <h2 id="sec11-title" class="policy-section-title"><span class="section-num" aria-hidden="true">١١</span><span data-i18n="sec11Title">القانون الحاكم</span></h2>
+        <p class="policy-section-subtitle" data-i18n="sec11Subtitle">الاختصاص القانوني</p>
+      </div>
+      <div class="policy-section-content" data-i18n-html="sec11Content">
+        <p>تخضع سياسة الخصوصية هذه وتفسر وفقاً لقوانين جمهورية مصر العربية، بما في ذلك قانون حماية البيانات الشخصية (القانون رقم ١٥١ لسنة ٢٠٢٠) واللوائح التنفيذية الخاصة به.</p>
+      </div>
+    </section>
+
+    <!-- 12: Contact Us -->
+    <section class="policy-section policy-section--highlight" id="sec12" aria-labelledby="sec12-title">
+      <div class="policy-section-header">
+        <h2 id="sec12-title" class="policy-section-title"><span class="section-num" aria-hidden="true">١٢</span><span data-i18n="sec12Title">تواصل معنا</span></h2>
+        <p class="policy-section-subtitle" data-i18n="sec12Subtitle">للأسئلة، المخاوف، أو طلبات حقوق البيانات</p>
+      </div>
+      <div class="policy-section-content" data-i18n-html="sec12Content">
+        <p>إذا كان لديك أي أسئلة أو مخاوف أو طلبات بخصوص سياسة الخصوصية هذه أو ممارساتنا في التعامل مع البيانات، يرجى التواصل معنا:</p>
+        <div class="contact-card">
+          <h3 class="contact-card-title" data-i18n="sec12CardTitle">معلومات التواصل</h3>
+          <div class="contact-card-item">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6L12 13L2 6"/></svg>
+            <span data-i18n="sec12Email">البريد الإلكتروني: <a href="mailto:haazemsaidd@gmail.com">haazemsaidd@gmail.com</a></span>
+          </div>
+          <div class="contact-card-item">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <span data-i18n="sec12Phone">الهاتف: <a href="tel:+201224661310">01224661310</a></span>
+          </div>
+          <div class="contact-card-item">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            <span data-i18n="sec12Web">الموقع: <a href="https://stockflow.app" target="_blank" rel="noopener">stockflow.app</a></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="site-footer" role="contentinfo">
+  <div class="site-footer-inner">
+    <div class="site-footer-grid">
+      <div class="site-footer-brand">
+        <h4>
+          <svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0f5132"/><path d="M8 16h16M16 8v16" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/><circle cx="16" cy="16" r="4" stroke="#fff" stroke-width="2"/></svg>
+          StockFlow
+        </h4>
+        <p data-i18n="footerTagline">نظام إدارة المخازن والتوزيع الذكي - إدارة المخزون، الفواتير، العملاء، والديون من منصة واحدة.</p>
+      </div>
+      <div class="site-footer-col">
+        <h5 data-i18n="footerProductTitle">المنتج</h5>
+        <a href="stockflow-landing.html" data-i18n="navHome">الرئيسية</a>
+        <a href="stockflow-landing.html#features" data-i18n="navFeatures">المميزات</a>
+        <a href="stockflow-landing.html#pricing" data-i18n="navPricing">الباقات</a>
+        <a href="stockflow-landing.html#cta" data-i18n="navCTA">ابدأ الآن</a>
+      </div>
+      <div class="site-footer-col">
+        <h5 data-i18n="footerSupportTitle">الدعم</h5>
+        <a href="mailto:haazemsaidd@gmail.com" data-i18n="footerContact">اتصل بنا</a>
+        <a href="stockflow-privacy.html" data-i18n="navPrivacy">الخصوصية</a>
+      </div>
+      <div class="site-footer-col">
+        <h5 data-i18n="footerAppTitle">التطبيق</h5>
+        <a href="#" data-i18n="footerAndroid">Android</a>
+        <a href="#" data-i18n="footerIos">iOS</a>
+      </div>
+    </div>
+    <div class="site-footer-bottom">
+      <p data-i18n="footerCopyright">© ٢٠٢٦ StockFlow. جميع الحقوق محفوظة.</p>
+      <div class="site-footer-bottom-links">
+        <a href="stockflow-privacy.html" data-i18n="navPrivacy">سياسة الخصوصية</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ---- i18n content ---- */
+const I18N = {
+  ar: {
+    siteTitle: 'سياسة الخصوصية - StockFlow',
+    navHome: 'الرئيسية',
+    navFeatures: 'المميزات',
+    navPricing: 'الباقات',
+    navPrivacy: 'الخصوصية',
+    navCTA: 'ابدأ الآن',
+    langBtn: 'EN',
+    heroKicker: 'قانوني',
+    heroTitle: 'سياسة الخصوصية',
+    heroUpdated: 'آخر تحديث: 10 يوليو 2026',
+    heroVersion: 'الإصدار 1.0',
+    heroLaw: 'القانون المصري',
+    sec1Title: 'مقدمة',
+    sec1TitleShort: 'المقدمة',
+    sec2TitleShort: 'البيانات',
+    sec3TitleShort: 'الاستخدام',
+    sec4TitleShort: 'الجهات الخارجية',
+    sec5TitleShort: 'التخزين والأمان',
+    sec6TitleShort: 'الاحتفاظ',
+    sec7TitleShort: 'المشاركة',
+    sec8TitleShort: 'حقوقك',
+    sec9TitleShort: 'الأطفال',
+    sec10TitleShort: 'التغييرات',
+    sec11TitleShort: 'القانون',
+    sec12TitleShort: 'التواصل',
+    tocTitle: 'الانتقال السريع',
+    sec1Subtitle: 'نظرة عامة على سياسة الخصوصية ونطاق التطبيق',
+    sec1Date: 'تاريخ السريان: ١٠ يوليو ٢٠٢٦',
+    sec2Title: 'البيانات التي نجمعها',
+    sec2Subtitle: 'معلومات الحساب، بيانات العمل، والمعلومات المجمعة تلقائياً',
+    sec2h2: '٢.٢ المعلومات المجمعة تلقائياً',
+    sec2h3: '٢.٣ المعلومات التي لا نجمعها',
+    sec2h3p: 'نحن لا نجمع:',
+    sec3Title: 'كيف نستخدم معلوماتك',
+    sec3Subtitle: 'أغراض المعالجة والأساس القانوني',
+    sec4Title: 'خدمات الجهات الخارجية',
+    sec4Subtitle: 'مقدمو الخدمة الذين نتعامل معهم لتشغيل التطبيق',
+    sec5Title: 'تخزين البيانات وأمانها',
+    sec5Subtitle: 'التشفير، المصادقة، والحماية',
+    sec6Title: 'الاحتفاظ بالبيانات',
+    sec6Subtitle: 'مدة الاحتفاظ وحذف البيانات',
+    sec7Title: 'مشاركة البيانات والإفصاح',
+    sec7Subtitle: 'متى وكيف نشارك معلوماتك',
+    sec8Title: 'حقوقك واختياراتك',
+    sec8Subtitle: 'حقوقك بموجب القانون المصري ولوائح حماية البيانات',
+    sec9Title: 'خصوصية الأطفال',
+    sec9Subtitle: 'حماية القُصّر',
+    sec10Title: 'تغييرات على سياسة الخصوصية',
+    sec10Subtitle: 'التحديثات والإشعارات',
+    sec11Title: 'القانون الحاكم',
+    sec11Subtitle: 'الاختصاص القانوني',
+    sec12Title: 'تواصل معنا',
+    sec12Subtitle: 'للأسئلة، المخاوف، أو طلبات حقوق البيانات',
+    footerTagline: 'نظام إدارة المخازن والتوزيع الذكي - إدارة المخزون، الفواتير، العملاء، والديون من منصة واحدة.',
+    footerProductTitle: 'المنتج',
+    footerSupportTitle: 'الدعم',
+    footerAppTitle: 'التطبيق',
+    footerContact: 'اتصل بنا',
+    footerAndroid: 'Android',
+    footerIos: 'iOS',
+    footerCopyright: '© ٢٠٢٦ StockFlow. جميع الحقوق محفوظة.',
+    sec1Content: '<p>مرحباً بكم في سياسة خصوصية <strong>StockFlow</strong> (&laquo;نحن&raquo;، &laquo;تطبيقنا&raquo;، &laquo;الخدمة&raquo;). توضح هذه السياسة كيفية جمعنا واستخدامنا وحمايتنا لمعلوماتك عند استخدامك لتطبيق إدارة المخازن والتوزيع الخاص بنا.</p><p>باستخدامك للتطبيق، فإنك توافق على الممارسات الموضحة في هذه السياسة. نحن ملتزمون بحماية خصوصيتك وبياناتك وفقاً للقوانين المصرية المعمول بها، بما في ذلك قانون حماية البيانات الشخصية رقم ١٥١ لسنة ٢٠٢٠.</p>',
+    sec2nolist1: 'بيانات GPS أو الموقع الدقيق',
+    sec2nolist2: 'معرّفات الجهاز (IMEI، IDFA، MAC address)',
+    sec2nolist3: 'جهات الاتصال أو دفتر العناوين',
+    sec2nolist4: 'سجلات الرسائل أو المكالمات',
+    sec2nolist5: 'بيانات التقويم',
+    sec2nolist6: 'حسابات وسائل التواصل الاجتماعي',
+    sec2nolist7: 'البيانات البيومترية',
+    sec2nolist8: 'سجل التصفح أو نشاط الويب',
+    sec2nolist9: 'بيانات صحية أو لياقة',
+    sec2nolist10: 'تسجيلات صوتية',
+    sec5li1t: 'البيانات في السكون:',
+    sec5li1d: 'جميع البيانات مخزنة بأمان على خوادم Supabase مع تشفير في حالة السكون.',
+    sec5li2t: 'البيانات في النقل:',
+    sec5li2d: 'جميع الاتصالات بين التطبيق والخوادم مشفرة عبر HTTPS.',
+    sec5li3t: 'المصادقة:',
+    sec5li3d: 'كلمات المرور مشفرة وتدار بأمان بواسطة Supabase Auth.',
+    sec5li4t: 'التخزين المحلي:',
+    sec5li4d: 'البيانات الحساسة على جهازك مخزنة باستخدام flutter_secure_storage، والذي يستخدم مخزن المفاتيح الأصلي للمنصة.',
+    sec5li5t: 'تخزين الصور:',
+    sec5li5d: 'جميع الصور المرفوعة مخزنة في Supabase Storage بمعرفات فريدة.',
+    sec7li1t: 'بموافقتك:',
+    sec7li1d: 'عند موافقتك الصريحة على مشاركة بيانات معينة',
+    sec7li2t: 'الالتزام القانوني:',
+    sec7li2d: 'للامتثال للالتزامات القانونية أو الطلبات من السلطات المصرية',
+    sec7li3t: 'حماية الحقوق:',
+    sec7li3d: 'لحماية حقوقنا، خصوصيتنا، أماننا، وممتلكاتنا',
+    sec7li4t: 'نقل الأعمال:',
+    sec7li4d: 'في سياق اندماج، استحواذ، أو بيع أصول',
+    sec3li1t: 'تقديم الخدمة وصيانتها:',
+    sec3li1d: 'إدارة المخزون، الفواتير، العملاء، والتقارير',
+    sec3li2t: 'المصادقة والأمان:',
+    sec3li2d: 'حماية حسابك وبياناتك',
+    sec3li3t: 'تمكين التعاون:',
+    sec3li3d: 'عمل الفريق ضمن شركتك مع صلاحيات محددة',
+    sec3li4t: 'إنشاء الفواتير والتقارير:',
+    sec3li4d: 'لعملياتك التجارية',
+    sec3li5t: 'التواصل معك:',
+    sec3li5d: 'حول حسابك، طلبات الدعم، أو التحديثات الهامة',
+    sec3li6t: 'تحسين الخدمة:',
+    sec3li6d: 'تطوير الوظائف وتجربة المستخدم',
+    sec3noticeTitle: 'لا نستخدم بياناتك لـ:',
+    sec3noticeText: 'الإعلان أو التسويق لأطراف ثالثة • بيع المعلومات الشخصية • تدريب نماذج الذكاء الاصطناعي • اتخاذ قرارات آلية تؤثر عليك بشكل جوهري',
+    sec4Note: 'نحن لا نستخدم أي SDKs للتحليلات، خدمات تقارير الأعطال، شبكات إعلانية، أو SDKs لوسائل التواصل الاجتماعي.',
+    sec8Contact: 'لممارسة أي من هذه الحقوق، يرجى التواصل معنا على <strong>haazemsaidd@gmail.com</strong>. سنرد على طلبك خلال ٣٠ يوماً كما يقتضي القانون المصري.',
+    sec12CardTitle: 'معلومات التواصل',
+    sec12Email: 'البريد الإلكتروني: <a href="mailto:haazemsaidd@gmail.com">haazemsaidd@gmail.com</a>',
+    sec12Phone: 'الهاتف: <a href="tel:+201224661310">01224661310</a>',
+    sec12Web: 'الموقع: <a href="https://stockflow.app" target="_blank" rel="noopener">stockflow.app</a>',
+  },
+  en: {
+    siteTitle: 'Privacy Policy - StockFlow',
+    navHome: 'Home',
+    navFeatures: 'Features',
+    navPricing: 'Pricing',
+    navPrivacy: 'Privacy',
+    navCTA: 'Get Started',
+    langBtn: 'AR',
+    heroKicker: 'Legal',
+    heroTitle: 'Privacy Policy',
+    heroUpdated: 'Last updated: July 10, 2026',
+    heroVersion: 'Version 1.0',
+    heroLaw: 'Egyptian Law',
+    sec1Title: 'Introduction',
+    sec1TitleShort: 'Introduction',
+    sec2TitleShort: 'Data Collected',
+    sec3TitleShort: 'Usage',
+    sec4TitleShort: 'Third Parties',
+    sec5TitleShort: 'Storage & Security',
+    sec6TitleShort: 'Retention',
+    sec7TitleShort: 'Sharing',
+    sec8TitleShort: 'Your Rights',
+    sec9TitleShort: 'Children',
+    sec10TitleShort: 'Changes',
+    sec11TitleShort: 'Governing Law',
+    sec12TitleShort: 'Contact',
+    tocTitle: 'Jump to',
+    sec1Subtitle: 'Overview of the privacy policy and scope of application',
+    sec1Date: 'Effective date: July 10, 2026',
+    sec2Title: 'Information We Collect',
+    sec2Subtitle: 'Account information, business data, and automatically collected information',
+    sec2h2: '2.2 Automatically Collected Information',
+    sec2h3: '2.3 Information We Do NOT Collect',
+    sec2h3p: 'We do <strong>not</strong> collect:',
+    sec3Title: 'How We Use Your Information',
+    sec3Subtitle: 'Processing purposes and legal basis',
+    sec4Title: 'Third-Party Services',
+    sec4Subtitle: 'Service providers we engage to operate the application',
+    sec5Title: 'Data Storage and Security',
+    sec5Subtitle: 'Encryption, authentication, and protection',
+    sec6Title: 'Data Retention',
+    sec6Subtitle: 'Retention periods and data deletion',
+    sec7Title: 'Data Sharing and Disclosure',
+    sec7Subtitle: 'When and how we share your information',
+    sec8Title: 'Your Rights and Choices',
+    sec8Subtitle: 'Your rights under Egyptian law and data protection regulations',
+    sec9Title: 'Children\'s Privacy',
+    sec9Subtitle: 'Protection of minors',
+    sec10Title: 'Changes to This Privacy Policy',
+    sec10Subtitle: 'Updates and notifications',
+    sec11Title: 'Governing Law',
+    sec11Subtitle: 'Legal jurisdiction',
+    sec12Title: 'Contact Us',
+    sec12Subtitle: 'Questions, concerns, or data rights requests',
+    footerTagline: 'Smart warehouse and distribution management system — inventory, invoices, customers, and debts from one platform.',
+    footerProductTitle: 'Product',
+    footerSupportTitle: 'Support',
+    footerAppTitle: 'App',
+    footerContact: 'Contact Us',
+    footerAndroid: 'Android',
+    footerIos: 'iOS',
+    footerCopyright: '\u00a9 2026 StockFlow. All rights reserved.',
+    sec1Content: '<p>Welcome to the <strong>StockFlow</strong> Privacy Policy (&ldquo;we&rdquo;, &ldquo;our app&rdquo;, or &ldquo;the Service&rdquo;). This policy explains how we collect, use, disclose, and safeguard your information when you use our warehouse and distribution management application.</p><p>By using the application, you agree to the practices described in this policy. We are committed to protecting your privacy and data in accordance with applicable Egyptian laws, including the Personal Data Protection Law No. 151 of 2020.</p><p class="muted-text" data-i18n="sec1Date">Effective date: July 10, 2026</p>',
+    sec2nolist1: 'GPS or precise location data',
+    sec2nolist2: 'Device identifiers (IMEI, IDFA, MAC address)',
+    sec2nolist3: 'Contacts or address book data',
+    sec2nolist4: 'SMS or call logs',
+    sec2nolist5: 'Calendar data',
+    sec2nolist6: 'Social media accounts',
+    sec2nolist7: 'Biometric data',
+    sec2nolist8: 'Browsing history or web activity',
+    sec2nolist9: 'Health or fitness data',
+    sec2nolist10: 'Audio recordings',
+    sec5li1t: 'Data at Rest:',
+    sec5li1d: 'All data is stored securely on Supabase servers with encryption at rest.',
+    sec5li2t: 'Data in Transit:',
+    sec5li2d: 'All communications between the app and servers are encrypted via HTTPS.',
+    sec5li3t: 'Authentication:',
+    sec5li3d: 'Passwords are hashed and managed securely by Supabase Auth.',
+    sec5li4t: 'Local Storage:',
+    sec5li4d: 'Sensitive data on your device is stored using flutter_secure_storage, which uses the platform\'s native keystore.',
+    sec5li5t: 'Image Storage:',
+    sec5li5d: 'All uploaded images are stored in Supabase Storage with unique identifiers.',
+    sec7li1t: 'With Your Consent:',
+    sec7li1d: 'When you explicitly agree to share specific data',
+    sec7li2t: 'Legal Compliance:',
+    sec7li2d: 'To comply with legal obligations or requests from Egyptian authorities',
+    sec7li3t: 'Protecting Rights:',
+    sec7li3d: 'To protect our rights, privacy, security, and property',
+    sec7li4t: 'Business Transfer:',
+    sec7li4d: 'In the context of a merger, acquisition, or asset sale',
+    sec3li1t: 'Providing and Maintaining the Service:',
+    sec3li1d: 'Inventory management, invoices, customers, and reports',
+    sec3li2t: 'Authentication and Security:',
+    sec3li2d: 'Protecting your account and data',
+    sec3li3t: 'Enabling Collaboration:',
+    sec3li3d: 'Team work within your company with specific permissions',
+    sec3li4t: 'Generating Invoices and Reports:',
+    sec3li4d: 'For your business operations',
+    sec3li5t: 'Communicating With You:',
+    sec3li5d: 'Regarding your account, support requests, or important updates',
+    sec3li6t: 'Improving the Service:',
+    sec3li6d: 'Developing features and user experience',
+    sec3noticeTitle: 'We do NOT use your data for:',
+    sec3noticeText: 'Advertising or marketing to third parties • Selling personal information • Training AI or machine learning models • Automated decision-making that significantly affects you',
+    sec4Note: 'We do <strong>not</strong> use any analytics SDKs, crash reporting services, advertising networks, or social media SDKs.',
+    sec8Contact: 'To exercise any of these rights, please contact us at <strong>haazemsaidd@gmail.com</strong>. We will respond to your request within 30 days as required by Egyptian law.',
+    sec12CardTitle: 'Contact Information',
+    sec12Email: 'Email: <a href="mailto:haazemsaidd@gmail.com">haazemsaidd@gmail.com</a>',
+    sec12Phone: 'Phone: <a href="tel:+201224661310">01224661310</a>',
+    sec12Web: 'Website: <a href="https://stockflow.app" target="_blank" rel="noopener">stockflow.app</a>',
+  }
+};
+
+/* ---- Table cell i18n ---- */
+const TBL_I18N = {
+  ar: {
+    tbl2aH1: 'فئة البيانات', tbl2aH2: 'التفاصيل', tbl2aH3: 'الغرض',
+    tbl2aR1: 'الحساب', tbl2aR1d: 'الاسم، البريد الإلكتروني، رقم الهاتف، كلمة المرور (مشفرة)', tbl2aR1p: 'المصادقة، الأمان، التواصل',
+    tbl2aR2: 'ملف الشركة', tbl2aR2d: 'الاسم، العنوان، بيانات الضرائب، الشعار، العملة', tbl2aR2p: 'إدارة ملف الأعمال، الفواتير، التقارير',
+    tbl2aR3: 'المنتجات', tbl2aR3d: 'الأسماء، الأسعار، الكميات، الصور، تواريخ الانتهاء، الباركود', tbl2aR3p: 'إدارة المخزون، المبيعات، التنبيهات',
+    tbl2aR4: 'العملاء والموردين', tbl2aR4d: 'الأسماء، الهواتف، العناوين، الصور، السجلات المالية', tbl2aR4p: 'إدارة العلاقات، الفواتير، تتبع الديون',
+    tbl2aR5: 'الفواتير', tbl2aR5d: 'معرف العميل، تفاصيل المنتجات، الكميات، الأسعار، الخصومات', tbl2aR5p: 'إنشاء وإدارة الفواتير والمدفوعات',
+    tbl2aR6: 'الفريق', tbl2aR6d: 'أسماء أعضاء الفريق، الإيميلات، الصلاحيات، تواريخ الانضمام', tbl2aR6p: 'إدارة الفريق والتعاون',
+    tbl2bH1: 'البيانات', tbl2bH2: 'التفاصيل',
+    tbl2bR1: 'أذونات الجهاز', tbl2bR1d: 'الكاميرا (بموافقتك فقط) لالتقاط صور المنتجات، العملاء، والشعارات',
+    tbl2bR2: 'بيانات الاستخدام', tbl2bR2d: 'بيانات تفاعل أساسية ضرورية لوظائف التطبيق',
+    tbl2bR3: 'التخزين المحلي', tbl2bR3d: 'معرف الشركة الأخير المحدد مخزن بأمان على جهازك للراحة',
+    tbl4H1: 'الخدمة', tbl4H2: 'الغرض', tbl4H3: 'البيانات المشتركة',
+    tbl4R1p: 'الخلفية الأساسية — المصادقة، قاعدة البيانات، تخزين الملفات، الدوال الخدمية', tbl4R1d: 'جميع بيانات الحساب، الشركات، المنتجات، العملاء، والفواتير',
+    tbl4R2p: 'الوصول للكاميرا ومعرض الصور لرفع الصور', tbl4R2d: 'فقط عند اختيارك صريحاً التقاط أو تحديد صورة',
+    tbl4R3p: 'تخزين محلي آمن على جهازك', tbl4R3d: 'معرف الشركة الأخير المحدد (مخزن محلياً، لا يُرسل)',
+    tbl4R4p: 'تخزين مؤقت للصور لتحميل أسرع', tbl4R4d: 'صور من تخزين Supabase (مخزنة محلياً)',
+    tbl6H1: 'نوع البيانات', tbl6H2: 'مدة الاحتفاظ',
+    tbl6R1: 'بيانات الحساب', tbl6R1d: 'حتى حذف الحساب',
+    tbl6R2: 'بيانات الشركة', tbl6R2d: 'حتى حذف الشركة أو الحساب',
+    tbl6R3: 'السجلات والنسخ الاحتياطية', tbl6R3d: 'لفترة معقولة وفقاً للوائح حماية البيانات المصرية',
+    tbl8H1: 'الحق', tbl8H2: 'الوصف',
+    tbl8R1: 'الوصول', tbl8R1d: 'طلب نسخة من البيانات الشخصية التي نحتفظ بها عنك',
+    tbl8R2: 'التصحيح', tbl8R2d: 'طلب تصحيح البيانات غير الدقيقة أو غير المكتملة',
+    tbl8R3: 'الحذف', tbl8R3d: 'طلب حذف بياناتك الشخصية وحسابك',
+    tbl8R4: 'التقييد', tbl8R4d: 'طلب تقييد معالجة بياناتك',
+    tbl8R5: 'النقل', tbl8R5d: 'طلب نقل بياناتك إلى مزود خدمة آخر',
+    tbl8R6: 'الاعتراض', tbl8R6d: 'الاعتراض على معالجة بياناتك الشخصية',
+    tbl8R7: 'سحب الموافقة', tbl8R7d: 'سحب الموافقة في أي وقت حيث نعتمد على الموافقة في المعالجة',
+  },
+  en: {
+    tbl2aH1: 'Category', tbl2aH2: 'Data Collected', tbl2aH3: 'Purpose',
+    tbl2aR1: 'Account', tbl2aR1d: 'Name, email, phone number, password (hashed)', tbl2aR1p: 'Authentication, security, communication',
+    tbl2aR2: 'Company Profile', tbl2aR2d: 'Name, address, tax info, logo, currency', tbl2aR2p: 'Business profile, invoices, reports',
+    tbl2aR3: 'Products', tbl2aR3d: 'Names, prices, quantities, images, expiry dates, barcodes', tbl2aR3p: 'Inventory management, sales, alerts',
+    tbl2aR4: 'Customers & Suppliers', tbl2aR4d: 'Names, phones, addresses, images, financial records', tbl2aR4p: 'Relationship management, invoices, debt tracking',
+    tbl2aR5: 'Invoices', tbl2aR5d: 'Customer ID, product details, quantities, prices, discounts', tbl2aR5p: 'Invoice creation and payment management',
+    tbl2aR6: 'Team', tbl2aR6d: 'Team member names, emails, permissions, join dates', tbl2aR6p: 'Team management and collaboration',
+    tbl2bH1: 'Data', tbl2bH2: 'Details',
+    tbl2bR1: 'Device Permissions', tbl2bR1d: 'Camera (with your consent only) for product, customer, and logo photos',
+    tbl2bR2: 'Usage Data', tbl2bR2d: 'Basic interaction data necessary for app functionality',
+    tbl2bR3: 'Local Storage', tbl2bR3d: 'Last selected company ID stored securely on your device for convenience',
+    tbl4H1: 'Service', tbl4H2: 'Purpose', tbl4H3: 'Data Shared',
+    tbl4R1p: 'Primary backend — auth, database, file storage, serverless functions', tbl4R1d: 'All account, company, product, customer, and invoice data',
+    tbl4R2p: 'Camera and gallery access for uploading images', tbl4R2d: 'Only when you explicitly choose to take or select a photo',
+    tbl4R3p: 'Secure local storage on your device', tbl4R3d: 'Last selected company ID (stored locally, not transmitted)',
+    tbl4R4p: 'Image caching for faster loading', tbl4R4d: 'Images from Supabase storage (cached locally)',
+    tbl6H1: 'Data Type', tbl6H2: 'Retention Period',
+    tbl6R1: 'Account Data', tbl6R1d: 'Until account deletion',
+    tbl6R2: 'Company Data', tbl6R2d: 'Until company or account deletion',
+    tbl6R3: 'Logs and Backups', tbl6R3d: 'Reasonable period per Egyptian data protection regulations',
+    tbl8H1: 'Right', tbl8H2: 'Description',
+    tbl8R1: 'Access', tbl8R1d: 'Request a copy of the personal data we hold about you',
+    tbl8R2: 'Correction', tbl8R2d: 'Request correction of inaccurate or incomplete data',
+    tbl8R3: 'Deletion', tbl8R3d: 'Request deletion of your personal data and account',
+    tbl8R4: 'Restriction', tbl8R4d: 'Request restriction of processing your data',
+    tbl8R5: 'Portability', tbl8R5d: 'Request transfer of your data to another provider',
+    tbl8R6: 'Objection', tbl8R6d: 'Object to the processing of your personal data',
+    tbl8R7: 'Withdraw Consent', tbl8R7d: 'Withdraw consent at any time where we rely on it for processing',
+  }
+};
+
+/* Merge table i18n into main */
+Object.keys(TBL_I18N).forEach(function(lang) {
+  Object.keys(TBL_I18N[lang]).forEach(function(k) {
+    if (!I18N[lang][k]) I18N[lang][k] = TBL_I18N[lang][k];
+  });
+});
+
+/* Add remaining English-only section content */
+I18N.en.sec2Content = '<h3>2.1 Information You Provide Directly</h3><p>When you create an account or use app features, we collect the following information:</p><div class="policy-table-wrapper"><table class="policy-table"><thead><tr><th data-i18n="tbl2aH1">Category</th><th data-i18n="tbl2aH2">Data Collected</th><th data-i18n="tbl2aH3">Purpose</th></tr></thead><tbody><tr><td><strong data-i18n="tbl2aR1">Account</strong></td><td data-i18n="tbl2aR1d">Name, email, phone number, password (hashed)</td><td data-i18n="tbl2aR1p">Authentication, security, communication</td></tr><tr><td><strong data-i18n="tbl2aR2">Company Profile</strong></td><td data-i18n="tbl2aR2d">Name, address, tax info, logo, currency</td><td data-i18n="tbl2aR2p">Business profile, invoices, reports</td></tr><tr><td><strong data-i18n="tbl2aR3">Products</strong></td><td data-i18n="tbl2aR3d">Names, prices, quantities, images, expiry dates, barcodes</td><td data-i18n="tbl2aR3p">Inventory management, sales, alerts</td></tr><tr><td><strong data-i18n="tbl2aR4">Customers &amp; Suppliers</strong></td><td data-i18n="tbl2aR4d">Names, phones, addresses, images, financial records</td><td data-i18n="tbl2aR4p">Relationship management, invoices, debt tracking</td></tr><tr><td><strong data-i18n="tbl2aR5">Invoices</strong></td><td data-i18n="tbl2aR5d">Customer ID, product details, quantities, prices, discounts</td><td data-i18n="tbl2aR5p">Invoice creation and payment management</td></tr><tr><td><strong data-i18n="tbl2aR6">Team</strong></td><td data-i18n="tbl2aR6d">Team member names, emails, permissions, join dates</td><td data-i18n="tbl2aR6p">Team management and collaboration</td></tr></tbody></table></div><h3 data-i18n="sec2h2">2.2 Automatically Collected Information</h3><div class="policy-table-wrapper"><table class="policy-table"><thead><tr><th data-i18n="tbl2bH1">Data</th><th data-i18n="tbl2bH2">Details</th></tr></thead><tbody><tr><td><strong data-i18n="tbl2bR1">Device Permissions</strong></td><td data-i18n="tbl2bR1d">Camera (with your consent only) for product, customer, and logo photos</td></tr><tr><td><strong data-i18n="tbl2bR2">Usage Data</strong></td><td data-i18n="tbl2bR2d">Basic interaction data necessary for app functionality</td></tr><tr><td><strong data-i18n="tbl2bR3">Local Storage</strong></td><td data-i18n="tbl2bR3d">Last selected company ID stored securely on your device for convenience</td></tr></tbody></table></div><h3 data-i18n="sec2h3">2.3 Information We Do NOT Collect</h3><p data-i18n="sec2h3p">We do <strong>not</strong> collect:</p><ul class="policy-list"><li data-i18n="sec2nolist1">GPS or precise location data</li><li data-i18n="sec2nolist2">Device identifiers (IMEI, IDFA, MAC address)</li><li data-i18n="sec2nolist3">Contacts or address book data</li><li data-i18n="sec2nolist4">SMS or call logs</li><li data-i18n="sec2nolist5">Calendar data</li><li data-i18n="sec2nolist6">Social media accounts</li><li data-i18n="sec2nolist7">Biometric data</li><li data-i18n="sec2nolist8">Browsing history or web activity</li><li data-i18n="sec2nolist9">Health or fitness data</li><li data-i18n="sec2nolist10">Audio recordings</li></ul>';
+I18N.en.sec3Content = '<p>We use the collected information solely for the following purposes:</p><ul class="policy-list"><li><strong data-i18n="sec3li1t">Providing and Maintaining the Service:</strong> <span data-i18n="sec3li1d">Inventory management, invoices, customers, and reports</span></li><li><strong data-i18n="sec3li2t">Authentication and Security:</strong> <span data-i18n="sec3li2d">Protecting your account and data</span></li><li><strong data-i18n="sec3li3t">Enabling Collaboration:</strong> <span data-i18n="sec3li3d">Team work within your company with specific permissions</span></li><li><strong data-i18n="sec3li4t">Generating Invoices and Reports:</strong> <span data-i18n="sec3li4d">For your business operations</span></li><li><strong data-i18n="sec3li5t">Communicating With You:</strong> <span data-i18n="sec3li5d">Regarding your account, support requests, or important updates</span></li><li><strong data-i18n="sec3li6t">Improving the Service:</strong> <span data-i18n="sec3li6d">Developing features and user experience</span></li></ul><div class="notice-box" role="note"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><div class="notice-box-content"><p class="notice-box-title" data-i18n="sec3noticeTitle">We do NOT use your data for:</p><p class="notice-box-text" data-i18n="sec3noticeText">Advertising or marketing to third parties &bull; Selling personal information &bull; Training AI models &bull; Automated decision-making that significantly affects you</p></div></div>';
+I18N.en.sec4Content = '<p>We use the following services to operate our application:</p><div class="policy-table-wrapper"><table class="policy-table"><thead><tr><th data-i18n="tbl4H1">Service</th><th data-i18n="tbl4H2">Purpose</th><th data-i18n="tbl4H3">Data Shared</th></tr></thead><tbody><tr><td><strong>Supabase</strong></td><td data-i18n="tbl4R1p">Primary backend — auth, database, file storage, serverless functions</td><td data-i18n="tbl4R1d">All account, company, product, customer, and invoice data</td></tr><tr><td><strong>image_picker</strong></td><td data-i18n="tbl4R2p">Camera and gallery access for uploading images</td><td data-i18n="tbl4R2d">Only when you explicitly choose to take or select a photo</td></tr><tr><td><strong>flutter_secure_storage</strong></td><td data-i18n="tbl4R3p">Secure local storage on your device</td><td data-i18n="tbl4R3d">Last selected company ID (stored locally, not transmitted)</td></tr><tr><td><strong>cached_network_image</strong></td><td data-i18n="tbl4R4p">Image caching for faster loading</td><td data-i18n="tbl4R4d">Images from Supabase storage (cached locally)</td></tr></tbody></table></div><p class="muted-text" data-i18n="sec4Note">We do <strong>not</strong> use any analytics SDKs, crash reporting services, advertising networks, or social media SDKs.</p>';
+I18N.en.sec5Content = '<ul class="policy-list"><li><strong data-i18n="sec5li1t">Data at Rest:</strong> <span data-i18n="sec5li1d">All data is stored securely on Supabase servers with encryption at rest.</span></li><li><strong data-i18n="sec5li2t">Data in Transit:</strong> <span data-i18n="sec5li2d">All communications between the app and servers are encrypted via HTTPS.</span></li><li><strong data-i18n="sec5li3t">Authentication:</strong> <span data-i18n="sec5li3d">Passwords are hashed and managed securely by Supabase Auth.</span></li><li><strong data-i18n="sec5li4t">Local Storage:</strong> <span data-i18n="sec5li4d">Sensitive data on your device is stored using flutter_secure_storage, which uses the platform\'s native keystore.</span></li><li><strong data-i18n="sec5li5t">Image Storage:</strong> <span data-i18n="sec5li5d">All uploaded images are stored in Supabase Storage with unique identifiers.</span></li></ul>';
+I18N.en.sec6Content = '<p>We retain your data for as long as your account is active or as needed to provide our services. You may request deletion of your data at any time (see Section 8).</p><div class="policy-table-wrapper"><table class="policy-table"><thead><tr><th data-i18n="tbl6H1">Data Type</th><th data-i18n="tbl6H2">Retention Period</th></tr></thead><tbody><tr><td data-i18n="tbl6R1">Account Data</td><td data-i18n="tbl6R1d">Until account deletion</td></tr><tr><td data-i18n="tbl6R2">Company Data</td><td data-i18n="tbl6R2d">Until company or account deletion</td></tr><tr><td data-i18n="tbl6R3">Logs and Backups</td><td data-i18n="tbl6R3d">Reasonable period per Egyptian data protection regulations</td></tr></tbody></table></div>';
+I18N.en.sec7Content = '<p>We do <strong>not</strong> sell, trade, or rent your personal information to third parties.</p><p>We may disclose your information only in the following cases:</p><ul class="policy-list"><li><strong data-i18n="sec7li1t">With Your Consent:</strong> <span data-i18n="sec7li1d">When you explicitly agree to share specific data</span></li><li><strong data-i18n="sec7li2t">Legal Compliance:</strong> <span data-i18n="sec7li2d">To comply with legal obligations or requests from Egyptian authorities</span></li><li><strong data-i18n="sec7li3t">Protecting Rights:</strong> <span data-i18n="sec7li3d">To protect our rights, privacy, security, and property</span></li><li><strong data-i18n="sec7li4t">Business Transfer:</strong> <span data-i18n="sec7li4d">In the context of a merger, acquisition, or asset sale</span></li></ul>';
+I18N.en.sec8Content = '<p>Under Egyptian law and applicable data protection regulations, you have the following rights:</p><div class="policy-table-wrapper"><table class="policy-table"><thead><tr><th data-i18n="tbl8H1">Right</th><th data-i18n="tbl8H2">Description</th></tr></thead><tbody><tr><td><strong data-i18n="tbl8R1">Access</strong></td><td data-i18n="tbl8R1d">Request a copy of the personal data we hold about you</td></tr><tr><td><strong data-i18n="tbl8R2">Correction</strong></td><td data-i18n="tbl8R2d">Request correction of inaccurate or incomplete data</td></tr><tr><td><strong data-i18n="tbl8R3">Deletion</strong></td><td data-i18n="tbl8R3d">Request deletion of your personal data and account</td></tr><tr><td><strong data-i18n="tbl8R4">Restriction</strong></td><td data-i18n="tbl8R4d">Request restriction of processing your data</td></tr><tr><td><strong data-i18n="tbl8R5">Portability</strong></td><td data-i18n="tbl8R5d">Request transfer of your data to another provider</td></tr><tr><td><strong data-i18n="tbl8R6">Objection</strong></td><td data-i18n="tbl8R6d">Object to the processing of your personal data</td></tr><tr><td><strong data-i18n="tbl8R7">Withdraw Consent</strong></td><td data-i18n="tbl8R7d">Withdraw consent at any time where we rely on it for processing</td></tr></tbody></table></div>';
+I18N.en.sec9Content = '<p>Our app is not intended for children under the age of 13. We do not knowingly collect personal information from children. If we become aware that a child under 13 has provided us with personal data, we will take steps to delete such information promptly.</p>';
+I18N.en.sec10Content = '<p>We may update this Privacy Policy from time to time. We will notify you of any changes by updating the "Last updated" date at the top of this policy. In case of significant changes, we may provide additional notice through the app or via email.</p>';
+I18N.en.sec11Content = '<p>This Privacy Policy is governed by and construed in accordance with the laws of the Arab Republic of Egypt, including the Personal Data Protection Law (Law No. 151 of 2020) and its implementing regulations.</p>';
+I18N.en.sec12Content = '<p>If you have any questions, concerns, or requests regarding this Privacy Policy or our data practices, please contact us:</p><div class="contact-card"><h3 class="contact-card-title" data-i18n="sec12CardTitle">Contact Information</h3><div class="contact-card-item"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6L12 13L2 6"/></svg><span data-i18n="sec12Email">Email: <a href="mailto:haazemsaidd@gmail.com">haazemsaidd@gmail.com</a></span></div><div class="contact-card-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg><span data-i18n="sec12Phone">Phone: <a href="tel:+201224661310">01224661310</a></span></div><div class="contact-card-item"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><span data-i18n="sec12Web">Website: <a href="https://stockflow.app" target="_blank" rel="noopener">stockflow.app</a></span></div></div>';
+
+/* Add remaining Arabic section content */
+I18N.ar.sec2Content = document.querySelector('[data-i18n-html="sec2Content"]') ? document.querySelector('[data-i18n-html="sec2Content"]').innerHTML : '';
+I18N.ar.sec3Content = document.querySelector('[data-i18n-html="sec3Content"]') ? document.querySelector('[data-i18n-html="sec3Content"]').innerHTML : '';
+I18N.ar.sec4Content = document.querySelector('[data-i18n-html="sec4Content"]') ? document.querySelector('[data-i18n-html="sec4Content"]').innerHTML : '';
+I18N.ar.sec5Content = document.querySelector('[data-i18n-html="sec5Content"]') ? document.querySelector('[data-i18n-html="sec5Content"]').innerHTML : '';
+I18N.ar.sec6Content = document.querySelector('[data-i18n-html="sec6Content"]') ? document.querySelector('[data-i18n-html="sec6Content"]').innerHTML : '';
+I18N.ar.sec7Content = document.querySelector('[data-i18n-html="sec7Content"]') ? document.querySelector('[data-i18n-html="sec7Content"]').innerHTML : '';
+I18N.ar.sec8Content = document.querySelector('[data-i18n-html="sec8Content"]') ? document.querySelector('[data-i18n-html="sec8Content"]').innerHTML : '';
+I18N.ar.sec9Content = document.querySelector('[data-i18n-html="sec9Content"]') ? document.querySelector('[data-i18n-html="sec9Content"]').innerHTML : '';
+I18N.ar.sec10Content = document.querySelector('[data-i18n-html="sec10Content"]') ? document.querySelector('[data-i18n-html="sec10Content"]').innerHTML : '';
+I18N.ar.sec11Content = document.querySelector('[data-i18n-html="sec11Content"]') ? document.querySelector('[data-i18n-html="sec11Content"]').innerHTML : '';
+I18N.ar.sec12Content = document.querySelector('[data-i18n-html="sec12Content"]') ? document.querySelector('[data-i18n-html="sec12Content"]').innerHTML : '';
+
+/* ---- Theme ---- */
+function setTheme(mode) {
+  var html = document.documentElement;
+  html.classList.remove('dark', 'light');
+  if (mode === 'dark') html.classList.add('dark');
+  else if (mode === 'light') html.classList.add('light');
+  try { localStorage.setItem('sf-theme', mode || ''); } catch (_) {}
+  updateThemeIcon(mode);
+}
+function getTheme() {
+  try { return localStorage.getItem('sf-theme') || ''; } catch (_) { return ''; }
+}
+function cycleTheme() {
+  var cur = getTheme();
+  if (!cur) setTheme('dark');
+  else if (cur === 'dark') setTheme('light');
+  else setTheme('');
+}
+function updateThemeIcon(mode) {
+  var btn = document.getElementById('themeToggle');
+  if (!btn) return;
+  var sun = btn.querySelector('.icon-sun');
+  var moon = btn.querySelector('.icon-moon');
+  var sys = btn.querySelector('.icon-system');
+  [sun, moon, sys].forEach(function(el) { if (el) el.style.display = 'none'; });
+  if (!mode) { if (sys) sys.style.display = 'block'; }
+  else if (mode === 'dark') { if (moon) moon.style.display = 'block'; }
+  else { if (sun) sun.style.display = 'block'; }
+}
+
+/* ---- Language ---- */
+function setLang(lang) {
+  var html = document.documentElement;
+  var data = I18N[lang];
+  if (!data) return;
+  html.lang = lang;
+  html.dir = lang === 'ar' ? 'rtl' : 'ltr';
+  document.title = data.siteTitle || document.title;
+  document.querySelectorAll('[data-i18n]').forEach(function(el) {
+    var key = el.getAttribute('data-i18n');
+    if (key && data[key] !== undefined) {
+      if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+        el.setAttribute('placeholder', data[key]);
+      } else {
+        el.textContent = data[key];
+      }
+    }
+  });
+  document.querySelectorAll('[data-i18n-html]').forEach(function(el) {
+    var key = el.getAttribute('data-i18n-html');
+    if (key && data[key] !== undefined) {
+      el.innerHTML = data[key];
+    }
+  });
+  document.querySelectorAll('[data-i18n]').forEach(function(el) {
+    var key = el.getAttribute('data-i18n');
+    if (key && data[key] !== undefined) {
+      if (el.tagName !== 'INPUT' && el.tagName !== 'TEXTAREA') {
+        el.textContent = data[key];
+      }
+    }
+  });
+  try { localStorage.setItem('sf-lang', lang); } catch (_) {}
+}
+function getLang() {
+  try { return localStorage.getItem('sf-lang') || 'ar'; } catch (_) { return 'ar'; }
+}
+function toggleLang() {
+  var cur = getLang();
+  setLang(cur === 'ar' ? 'en' : 'ar');
+}
+
+/* ---- Init ---- */
+(function() {
+  var savedTheme = getTheme();
+  if (savedTheme) setTheme(savedTheme);
+  else {
+    // Show system icon by default
+    updateThemeIcon('');
+  }
+  var savedLang = getLang();
+  if (savedLang && savedLang !== 'ar') setLang(savedLang);
+
+  /* Theme toggle */
+  document.getElementById('themeToggle')?.addEventListener('click', cycleTheme);
+
+  /* Lang toggle */
+  document.getElementById('langToggle')?.addEventListener('click', toggleLang);
+
+  /* Mobile nav */
+  var nav = document.querySelector('.site-nav');
+  var toggle = document.querySelector('.site-nav-mobile-toggle');
+  toggle?.addEventListener('click', function() { nav?.classList.toggle('open'); });
+  document.addEventListener('click', function(e) {
+    if (nav?.classList.contains('open') && !e.target.closest('.site-header')) {
+      nav.classList.remove('open');
+    }
+  });
+
+  /* Scroll shadow */
+  var hero = document.querySelector('.hero');
+  var header = document.querySelector('.site-header');
+  if (hero && header) {
+    var obs = new IntersectionObserver(
+      function(entries) { header.classList.toggle('scrolled', entries[0].intersectionRatio < 1); },
+      { threshold: [0, 1] }
+    );
+    obs.observe(hero);
+  }
+
+  /* Scroll-reveal for policy sections */
+  var sections = document.querySelectorAll('.policy-section');
+  if (sections.length && 'IntersectionObserver' in window) {
+    var secObs = new IntersectionObserver(
+      function(entries) {
+        entries.forEach(function(e) {
+          if (e.isIntersecting) { e.target.classList.add('in-view'); secObs.unobserve(e.target); }
+        });
+      },
+      { threshold: 0.06 }
+    );
+    sections.forEach(function(s) { secObs.observe(s); });
+  }
+})();
+</script>
+</body>
+</html>

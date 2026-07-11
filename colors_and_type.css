@@ -1,0 +1,222 @@
+/* ===========================================================
+   StockFlow Design System — Reusable CSS Custom Properties
+   Source: https://github.com/hazzemSaid/stockflow-app
+   Primary: Forest Green (#0F5132) | Accent: Warm Orange (#F97316)
+   Typography: Cairo (Google Font)
+   =========================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap');
+
+:root {
+  /* ----- Color Tokens ----- */
+  --stockflow-bg: #F7F8F7;
+  --stockflow-surface: #FFFFFF;
+  --stockflow-text-primary: #0A0A0A;
+  --stockflow-text-secondary: #737373;
+  --stockflow-border: #E5E5E5;
+  --stockflow-border-light: #E5E5E5;
+  --stockflow-accent: #0F5132;
+  --stockflow-accent-secondary: #F97316;
+  --stockflow-dark-green: #0B3A24;
+  --stockflow-error: #B91C1C;
+
+  /* Status Colors */
+  --stockflow-status-paid: #16A34A;
+  --stockflow-status-partial: #F97316;
+  --stockflow-status-debt: #B91C1C;
+  --stockflow-status-paid-bg: #E8F1EC;
+  --stockflow-status-partial-bg: #FFF1E6;
+  --stockflow-status-debt-bg: #FEE2E2;
+
+  --stockflow-muted-text: #64748B;
+
+  /* Input Colors */
+  --stockflow-input-bg: #FAFAFA;
+  --stockflow-input-border: #E5E5E5;
+
+  /* Welcome Gradient */
+  --stockflow-welcome-start: #1A7A4A;
+  --stockflow-welcome-end: #050F09;
+
+  /* ----- Typography ----- */
+  --stockflow-font: 'Cairo', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --stockflow-font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+
+  /* Type Scale */
+  --stockflow-text-display: 30px;
+  --stockflow-text-title-lg: 24px;
+  --stockflow-text-title-md: 18px;
+  --stockflow-text-body: 14px;
+  --stockflow-text-body-sm: 12px;
+  --stockflow-text-label: 11px;
+
+  /* Line Heights */
+  --stockflow-lh-display: 1.2;
+  --stockflow-lh-title-lg: 1.3;
+  --stockflow-lh-title-md: 1.35;
+  --stockflow-lh-body: 1.6;
+  --stockflow-lh-body-sm: 1.55;
+  --stockflow-lh-label: 1.4;
+
+  /* ----- Spacing ----- */
+  --stockflow-space-xs: 4px;
+  --stockflow-space-sm: 8px;
+  --stockflow-space-md: 16px;
+  --stockflow-space-lg: 24px;
+  --stockflow-space-xl: 32px;
+  --stockflow-space-xxl: 48px;
+
+  /* ----- Border Radius ----- */
+  --stockflow-radius-sm: 8px;
+  --stockflow-radius-md: 14px;
+  --stockflow-radius-lg: 16px;
+  --stockflow-radius-card: 24px;
+  --stockflow-radius-dialog: 28px;
+  --stockflow-radius-xl: 36px;
+
+  /* ----- Border Width ----- */
+  --stockflow-border-thin: 0.83px;
+  --stockflow-border-standard: 1px;
+
+  /* ----- Shadows ----- */
+  --stockflow-shadow-card: 0 2px 8px rgba(15, 81, 50, 0.06);
+  --stockflow-shadow-dialog: 0 8px 32px rgba(0, 0, 0, 0.12);
+
+  /* ----- Controls ----- */
+  --stockflow-control-height: 48px;
+  --stockflow-control-height-lg: 56px;
+  --stockflow-control-padding: 16px;
+  --stockflow-control-radius: 14px;
+}
+
+/* ----- Utility Classes ----- */
+.stockflow-bg { background: var(--stockflow-bg); }
+.stockflow-surface { background: var(--stockflow-surface); }
+.stockflow-text { color: var(--stockflow-text-primary); }
+.stockflow-text-muted { color: var(--stockflow-text-secondary); }
+.stockflow-accent { color: var(--stockflow-accent); }
+.stockflow-accent-bg { background: var(--stockflow-accent); color: white; }
+.stockflow-border { border-color: var(--stockflow-border); }
+
+/* StockFlow Typography */
+.stockflow-display {
+  font-family: var(--stockflow-font);
+  font-size: var(--stockflow-text-display);
+  font-weight: 700;
+  line-height: var(--stockflow-lh-display);
+}
+
+.stockflow-title-lg {
+  font-family: var(--stockflow-font);
+  font-size: var(--stockflow-text-title-lg);
+  font-weight: 500;
+  line-height: var(--stockflow-lh-title-lg);
+}
+
+.stockflow-title-md {
+  font-family: var(--stockflow-font);
+  font-size: var(--stockflow-text-title-md);
+  font-weight: 500;
+  line-height: var(--stockflow-lh-title-md);
+}
+
+.stockflow-body {
+  font-family: var(--stockflow-font);
+  font-size: var(--stockflow-text-body);
+  font-weight: 400;
+  line-height: var(--stockflow-lh-body);
+}
+
+.stockflow-body-sm {
+  font-family: var(--stockflow-font);
+  font-size: var(--stockflow-text-body-sm);
+  font-weight: 400;
+  line-height: var(--stockflow-lh-body-sm);
+}
+
+.stockflow-label {
+  font-family: var(--stockflow-font);
+  font-size: var(--stockflow-text-label);
+  font-weight: 400;
+  line-height: var(--stockflow-lh-label);
+}
+
+/* ----- Component Styles ----- */
+.stockflow-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: var(--stockflow-control-height-lg);
+  padding: 0 var(--stockflow-control-padding);
+  border-radius: var(--stockflow-control-radius);
+  font-family: var(--stockflow-font);
+  font-size: 18px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  width: 100%;
+}
+
+.stockflow-btn-primary {
+  background: var(--stockflow-accent);
+  color: white;
+}
+
+.stockflow-btn-outlined {
+  background: transparent;
+  color: var(--stockflow-accent);
+  border: var(--stockflow-border-standard) solid var(--stockflow-accent);
+}
+
+.stockflow-card {
+  background: var(--stockflow-surface);
+  border-radius: var(--stockflow-radius-card);
+  box-shadow: var(--stockflow-shadow-card);
+  padding: var(--stockflow-space-md);
+}
+
+.stockflow-input {
+  background: var(--stockflow-surface);
+  border: var(--stockflow-border-thin) solid var(--stockflow-input-border);
+  border-radius: var(--stockflow-control-radius);
+  padding: var(--stockflow-control-padding);
+  font-family: var(--stockflow-font);
+  font-size: var(--stockflow-text-body);
+  color: var(--stockflow-text-primary);
+  width: 100%;
+  min-height: var(--stockflow-control-height);
+}
+
+.stockflow-input:focus {
+  border-color: var(--stockflow-accent);
+  border-width: var(--stockflow-border-standard);
+  outline: none;
+}
+
+.stockflow-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-family: var(--stockflow-font);
+  font-size: var(--stockflow-text-label);
+  font-weight: 400;
+  line-height: 1;
+}
+
+.stockflow-badge-paid {
+  background: var(--stockflow-status-paid-bg);
+  color: var(--stockflow-accent);
+}
+
+.stockflow-badge-partial {
+  background: var(--stockflow-status-partial-bg);
+  color: var(--stockflow-status-partial);
+}
+
+.stockflow-badge-debt {
+  background: var(--stockflow-status-debt-bg);
+  color: var(--stockflow-status-debt);
+}

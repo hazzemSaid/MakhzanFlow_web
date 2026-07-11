@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "kind": "html",
+  "title": "preview/spacing-tokens.html",
+  "entry": "preview/spacing-tokens.html",
+  "renderer": "html",
+  "status": "complete",
+  "exports": [
+    "html",
+    "pdf",
+    "zip"
+  ],
+  "createdAt": "2026-06-29T11:55:13.111Z",
+  "updatedAt": "2026-06-29T11:55:13.111Z",
+  "metadata": {
+    "inferred": true,
+    "reconciled": true
+  }
+}

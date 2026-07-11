@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "kind": "html",
+  "title": "StockFlow — Arabic-first warehouse management landing page",
+  "entry": "stockflow-landing.html",
+  "renderer": "html",
+  "status": "complete",
+  "exports": [
+    "html",
+    "pdf",
+    "zip"
+  ],
+  "primary": true,
+  "createdAt": "2026-06-29T12:03:09.977Z",
+  "updatedAt": "2026-06-29T12:03:09.985Z",
+  "designSystemId": "user:design-system-inspired-by-clickhouse",
+  "metadata": {
+    "identifier": "stockflow-landing",
+    "artifactType": "text/html",
+    "inferred": false
+  }
+}

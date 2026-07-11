@@ -1,0 +1,7 @@
+{
+  "rewrites": [
+    { "source": "/", "destination": "/stockflow-landing.html" },
+    { "source": "/privacy", "destination": "/stockflow-privacy.html" }
+  ],
+  "cleanUrls": true
+}
