@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>طلب حذف الحساب | StockFlow</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Cairo', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+          },
+          colors: {
+            stockflow: {
+              bg: '#f7f8f7',
+              surface: '#ffffff',
+              fg: '#0a0a0a',
+              muted: '#737373',
+              border: '#e5e5e5',
+              green: '#0f5132',
+              'green-hover': '#0f5132',
+              orange: '#f97316',
+              error: '#b91c1c',
+              success: '#16a34a',
+            }
+          },
+          borderRadius: {
+            'control': '14px',
+            'card': '24px',
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: #f7f8f7;
+      font-family: 'Cairo', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      color: #0a0a0a;
+      line-height: 1.6;
+    }
+    .page-wrap { flex: 1; display: flex; flex-direction: column; }
+
+    /* header */
+    .site-header {
+      background: #ffffff;
+      border-bottom: 1px solid #e5e5e5;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .site-header .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: #0a0a0a;
+      font-weight: 700;
+      font-size: 20px;
+    }
+    .site-header .logo svg { flex-shrink: 0; }
+    .site-header .back-link {
+      font-size: 14px;
+      font-weight: 500;
+      color: #737373;
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .site-header .back-link:hover { color: #0f5132; }
+
+    /* main card */
+    .delete-card {
+      max-width: 520px;
+      width: 100%;
+      margin: 48px auto;
+      padding: 0 16px;
+    }
+    .delete-card__inner {
+      background: #ffffff;
+      border: 1px solid #e5e5e5;
+      border-radius: 24px;
+      padding: 40px 32px;
+    }
+
+    /* warning banner */
+    .warning-banner {
+      background: color-mix(in srgb, #ffffff, #b91c1c 5%);
+      border: 1px solid color-mix(in srgb, #ffffff, #b91c1c 25%);
+      border-inline-start: 4px solid #b91c1c;
+      border-radius: 14px;
+      padding: 16px 20px;
+      margin-bottom: 32px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .warning-banner svg { flex-shrink: 0; margin-top: 2px; }
+    .warning-banner h2 {
+      font-size: 15px;
+      font-weight: 700;
+      color: #b91c1c;
+      margin-bottom: 4px;
+    }
+    .warning-banner p {
+      font-size: 13px;
+      color: color-mix(in srgb, #b91c1c, #0a0a0a 15%);
+      line-height: 1.6;
+    }
+
+    /* form */
+    .form-group { margin-bottom: 24px; }
+    .form-group label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: #0a0a0a;
+      margin-bottom: 6px;
+    }
+    .form-group label .required { color: #b91c1c; }
+    .form-group .hint {
+      font-size: 12px;
+      color: #737373;
+      margin-top: 4px;
+    }
+
+    .form-input,
+    .form-select,
+    .form-textarea {
+      width: 100%;
+      padding: 12px 16px;
+      font-family: inherit;
+      font-size: 14px;
+      color: #0a0a0a;
+      background: #ffffff;
+      border: 1px solid #e5e5e5;
+      border-radius: 14px;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+      appearance: none;
+    }
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus {
+      border-color: #0f5132;
+      box-shadow: 0 0 0 3px rgba(15,81,50,.12);
+    }
+    .form-input::placeholder,
+    .form-textarea::placeholder { color: color-mix(in srgb, #737373, #ffffff 40%); }
+    .form-input.error,
+    .form-select.error,
+    .form-textarea.error { border-color: #b91c1c; }
+    .form-error-msg {
+      font-size: 12px;
+      color: #b91c1c;
+      margin-top: 4px;
+      display: none;
+    }
+    .form-error-msg.visible { display: block; }
+
+    .form-select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23737373' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: left 16px center;
+      padding-inline-start: 40px;
+      padding-inline-end: 16px;
+    }
+    .form-textarea { min-height: 100px; resize: vertical; }
+
+    /* checkbox */
+    .checkbox-group {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      margin-bottom: 28px;
+    }
+    .checkbox-group input[type="checkbox"] {
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      min-width: 20px;
+      border: 2px solid #e5e5e5;
+      border-radius: 6px;
+      background: #ffffff;
+      cursor: pointer;
+      transition: all .2s;
+      margin-top: 2px;
+      position: relative;
+    }
+    .checkbox-group input[type="checkbox"]:checked {
+      background: #b91c1c;
+      border-color: #b91c1c;
+    }
+    .checkbox-group input[type="checkbox"]:checked::after {
+      content: '';
+      position: absolute;
+      inset: 3px;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E") center/contain no-repeat;
+    }
+    .checkbox-group input[type="checkbox"]:focus-visible {
+      outline: 2px solid #0f5132;
+      outline-offset: 2px;
+    }
+    .checkbox-group label {
+      font-size: 14px;
+      color: #0a0a0a;
+      cursor: pointer;
+      user-select: none;
+      font-weight: 500;
+    }
+    .checkbox-group label .highlight { font-weight: 700; color: #b91c1c; }
+
+    /* submit button */
+    .btn-submit {
+      width: auto;
+      padding: 10px 20px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 600;
+      color: #ffffff;
+      background: #b91c1c;
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: background .2s, transform .15s, box-shadow .2s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      min-height: 40px;
+    }
+    .btn-submit:hover {       background: color-mix(in srgb, #b91c1c, #0a0a0a 15%); }
+    .btn-submit:active { transform: scale(.98); }
+    .btn-submit:focus-visible {
+      outline: 2px solid #0f5132;
+      outline-offset: 2px;
+    }
+    .btn-submit:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* spinner */
+    .spinner {
+      width: 20px;
+      height: 20px;
+      border: 2.5px solid rgba(255,255,255,.3);
+      border-top-color: #ffffff;
+      border-radius: 50%;
+      animation: spin .6s linear infinite;
+      display: none;
+    }
+    .btn-submit.loading .spinner { display: block; }
+    .btn-submit.loading .btn-text { display: none; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* success state */
+    .success-state {
+      display: none;
+      text-align: center;
+      padding: 16px 0 8px;
+    }
+    .success-state.visible { display: block; }
+    .success-state .icon-wrap {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 20px;
+      background: color-mix(in srgb, #ffffff, #16a34a 10%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .success-state h2 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #0a0a0a;
+      margin-bottom: 8px;
+    }
+    .success-state p {
+      font-size: 14px;
+      color: #737373;
+      line-height: 1.7;
+      max-width: 380px;
+      margin: 0 auto;
+    }
+    .success-state .email-ref {
+      display: inline-block;
+      margin-top: 16px;
+      padding: 8px 20px;
+      background: #f7f8f7;
+      border-radius: 14px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #0f5132;
+      direction: ltr;
+      unicode-bidi: plaintext;
+    }
+    .success-state .btn-done {
+      display: inline-block;
+      margin-top: 24px;
+      padding: 12px 32px;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 600;
+      color: #ffffff;
+      background: #0f5132;
+      border: none;
+      border-radius: 14px;
+      text-decoration: none;
+      transition: background .2s;
+    }
+    .success-state .btn-done:hover { background: color-mix(in srgb, #0f5132, #0a0a0a 20%); }
+
+    /* form + success wrapper */
+    .form-wrap.hidden { display: none; }
+
+    /* footer */
+    .site-footer {
+      margin-top: auto;
+      background: #ffffff;
+      border-top: 1px solid #e5e5e5;
+      padding: 24px;
+      text-align: center;
+      font-size: 13px;
+      color: #737373;
+    }
+    .site-footer a {
+      color: #0f5132;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .site-footer a:hover { text-decoration: underline; }
+
+    /* responsive */
+    @media (max-width: 560px) {
+      .delete-card { margin: 24px auto; }
+      .delete-card__inner { padding: 28px 20px; }
+      .site-header { padding: 12px 16px; }
+      .site-header .logo { font-size: 17px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrap">
+    <!-- Header -->
+    <header class="site-header">
+      <a href="/" class="logo">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="32" height="32" rx="8" fill="#0f5132"/>
+          <path d="M8 16h16M16 8v16" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M11 11l10 10M21 11l-10 10" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".6"/>
+        </svg>
+        StockFlow
+      </a>
+      <a href="/" class="back-link">→ العودة إلى الرئيسية</a>
+    </header>
+
+    <!-- Main -->
+    <main class="delete-card">
+      <div class="delete-card__inner">
+        <!-- Warning banner -->
+        <div class="warning-banner" role="alert">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#b91c1c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+            <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+          </svg>
+          <div>
+            <h2>هذا الإجراء نهائي ولا يمكن التراجع عنه</h2>
+            <p>عند حذف حسابك، سيتم حذف جميع بياناتك بشكل دائم بما في ذلك: بيانات الشركة، المنتجات، العملاء، الفواتير، التقارير، وصلاحيات الفريق. لا يمكن استرجاع أي من هذه البيانات بعد الحذف.</p>
+          </div>
+        </div>
+
+        <!-- Form -->
+        <div class="form-wrap" id="formWrap">
+          <form id="deleteForm" action="https://formsubmit.co/haazemsaidd@gmail.com" method="POST" novalidate>
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_template" value="table">
+            <div class="form-group">
+              <label for="email">البريد الإلكتروني <span class="required">*</span></label>
+              <input type="email" id="email" name="email" class="form-input" placeholder="example@domain.com" required autocomplete="email" dir="ltr">
+              <div class="form-error-msg" id="emailError">يرجى إدخال بريد إلكتروني صالح</div>
+            </div>
+
+            <div class="form-group">
+              <label for="reason">سبب الحذف <span style="color:#737373;font-weight:400;">(اختياري)</span></label>
+              <select id="reason" name="reason" class="form-select">
+                <option value="">— اختر سبباً —</option>
+                <option value="no-longer-need">لم أعد أحتاج التطبيق</option>
+                <option value="too-expensive">الأسعار مرتفعة</option>
+                <option value="missing-features">ينقصني ميزات مهمة</option>
+                <option value="switching">انتقلت إلى تطبيق آخر</option>
+                <option value="privacy">مخاوف تتعلق بالخصوصية</option>
+                <option value="other">سبب آخر</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="details">تفاصيل إضافية <span style="color:#737373;font-weight:400;">(اختياري)</span></label>
+              <textarea id="details" name="details" class="form-textarea" placeholder="أخبرنا بالمزيد لنحسن تجربتك…"></textarea>
+            </div>
+
+            <div class="checkbox-group">
+              <input type="checkbox" id="confirm" name="confirm" value="confirmed">
+              <label for="confirm">أؤكد أنني أفهم أن <span class="highlight">هذا الإجراء نهائي ولا يمكن التراجع عنه</span>، وأن جميع بياناتي وحساباتي المرتبطة سيتم حذفها بشكل دائم.</label>
+            </div>
+
+            <button type="submit" class="btn-submit" id="submitBtn" disabled>
+              <span class="btn-text">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-3px">
+                  <path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
+                </svg>
+                إرسال طلب الحذف
+              </span>
+              <div class="spinner"></div>
+            </button>
+          </form>
+        </div>
+
+        <!-- Success -->
+        <div class="success-state" id="successState">
+          <div class="icon-wrap">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+          </div>
+          <h2>تم استلام طلبك</h2>
+          <p>سنقوم بمعالجة طلب حذف الحساب وإعلامك عبر البريد الإلكتروني خلال 48 ساعة. إذا كان لديك أي استفسار، يمكنك التواصل معنا على</p>
+          <span class="email-ref">haazemsaidd@gmail.com</span>
+          <br>
+          <a href="/" class="btn-done">العودة إلى الرئيسية</a>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <p>StockFlow © 2026 · <a href="mailto:haazemsaidd@gmail.com">haazemsaidd@gmail.com</a> · 01224661310</p>
+    </footer>
+  </div>
+
+  <script>
+    (function() {
+      const form = document.getElementById('deleteForm');
+      const email = document.getElementById('email');
+      const reason = document.getElementById('reason');
+      const details = document.getElementById('details');
+      const confirm = document.getElementById('confirm');
+      const submitBtn = document.getElementById('submitBtn');
+      const emailError = document.getElementById('emailError');
+      const formWrap = document.getElementById('formWrap');
+      const successState = document.getElementById('successState');
+
+      function validate() {
+        const emailValid = email.value.trim() && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim());
+        const checked = confirm.checked;
+        submitBtn.disabled = !(emailValid && checked);
+        if (email.value.trim() && !emailValid) {
+          email.classList.add('error');
+          emailError.classList.add('visible');
+        } else {
+          email.classList.remove('error');
+          emailError.classList.remove('visible');
+        }
+      }
+
+      email.addEventListener('input', validate);
+      confirm.addEventListener('change', validate);
+
+      // Remove error styling on focus
+      email.addEventListener('focus', function() {
+        this.classList.remove('error');
+        emailError.classList.remove('visible');
+      });
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        validate();
+        if (submitBtn.disabled) return;
+
+        submitBtn.classList.add('loading');
+        submitBtn.disabled = true;
+
+        fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form)
+        })
+        .then(function(response) {
+          if (!response.ok) throw new Error('Network response was not ok');
+          formWrap.classList.add('hidden');
+          successState.classList.add('visible');
+        })
+        .catch(function() {
+          alert('حدث خطأ أثناء إرسال الطلب. يرجى المحاولة مرة أخرى أو إرسال بريد إلكتروني مباشر إلى haazemsaidd@gmail.com');
+        })
+        .finally(function() {
+          submitBtn.classList.remove('loading');
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
